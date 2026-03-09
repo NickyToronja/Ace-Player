@@ -20,7 +20,6 @@
             --transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
-        /* FONDO ANIMADO DIAGONAL */
         @keyframes stripe-move { 0% { background-position: 0 0; } 100% { background-position: 100px 100px; } }
 
         body {
@@ -60,13 +59,13 @@
             display: flex; align-items: center; gap: 10px;
         }
 
-        .btn-discord { background: var(--discord-color); color: white; box-shadow: 0 5px 15px rgba(88, 101, 242, 0.3); }
+        .btn-discord { background: var(--discord-color); color: white; }
         .btn-discord:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(88, 101, 242, 0.5); }
 
-        .btn-download { background: var(--f1-red); color: white; box-shadow: 0 5px 15px rgba(225, 6, 0, 0.3); }
+        /* TU LINK DE MEDIAFIRE APLICADO AQUÍ */
+        .btn-download { background: var(--f1-red); color: white; }
         .btn-download:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(225, 6, 0, 0.5); }
 
-        /* GRID DE CANALES */
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
 
         .card {
@@ -81,14 +80,11 @@
             font-size: 3.5rem; position: relative;
         }
 
-        .card-img::after { content: ''; position: absolute; width: 100%; height: 100%; background: radial-gradient(circle, rgba(127,90,240,0.15) 0%, transparent 70%); }
-
         .card-body { padding: 20px; text-align: left; }
         .card-tag { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 5px; display: block; }
         .card-title { font-size: 1.2rem; font-weight: 700; margin: 0; }
         .card-hint { color: #666; font-size: 0.75rem; margin-top: 8px; }
 
-        /* NOTIFICACIÓN */
         #toast {
             visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
             background: #222; color: white; padding: 15px 30px; border-radius: 10px;
