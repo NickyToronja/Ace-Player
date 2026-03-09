@@ -3,54 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SDJ Stream Center</title>
+    <title>SDJ | Stream Center Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Oswald:wght@700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: sans-serif; background-color: #1a1a1a; color: white; text-align: center; padding: 20px; }
-        .container { max-width: 600px; margin: auto; background: #2d2d2d; padding: 20px; border-radius: 15px; }
-        img { max-width: 150px; border-radius: 10px; margin-bottom: 20px; }
-        h1 { color: #7f5af0; }
-        .channel-card { background: #333; padding: 15px; margin: 10px 0; border-radius: 10px; text-align: left; }
-        code { background: #000; padding: 5px; border-radius: 5px; color: #ffeb3b; display: block; margin-top: 5px; word-break: break-all; }
-        .btn { display: inline-block; background: #3498db; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-top: 10px; }
+        :root {
+            --bg-deep: #0a0a0c;
+            --bg-stripe: #121216;
+            --card-bg: #1a1a20;
+            --accent-neon: #7f5af0; 
+            --discord-color: #5865F2;
+            --f1-red: #e10600;
+            --dazn-blue: #3498db;
+            --nba-orange: #ff9800;
+            --foot-green: #2ecc71;
+            --text-main: #ffffff;
+            --transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        /* FONDO ANIMADO DIAGONAL */
+        @keyframes stripe-move { 0% { background-position: 0 0; } 100% { background-position: 100px 100px; } }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            margin: 0; padding: 0;
+            display: flex; flex-direction: column; align-items: center;
+            background-image: linear-gradient(135deg, var(--bg-stripe) 25%, transparent 25%, transparent 50%, var(--bg-stripe) 50%, var(--bg-stripe) 75%, transparent 75%, transparent);
+            background-size: 80px 80px;
+            animation: stripe-move 12s linear infinite;
+        }
+
+        header {
+            width: 100%;
+            background: rgba(10, 10, 12, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            text-align: center;
+            border-bottom: 2px solid var(--accent-neon);
+            position: sticky; top: 0; z-index: 100;
+        }
+
+        .logo-sdj {
+            height: 60px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(127, 90, 240, 0.5);
+        }
+
+        .hero { width: 100%; max-width: 1000px; padding: 40px 20px; text-align: center; }
+
+        .btn-group { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 50px; }
+
+        .btn {
+            padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: 800;
+            text-transform: uppercase; font-size: 0.9rem; transition: var(--transition);
+            display: flex; align-items: center; gap: 10px;
+        }
+
+        .btn-discord { background: var(--discord-color); color: white; box-shadow: 0 5px 15px rgba(88, 101, 242, 0.3); }
+        .btn-discord:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(88, 101, 242, 0.5); }
+
+        .btn-download { background: var(--f1-red); color: white; box-shadow: 0 5px 15px rgba(225, 6, 0, 0.3); }
+        .btn-download:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(225, 6, 0, 0.5); }
+
+        /* GRID DE CANALES */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+
+        .card {
+            background: var(--card-bg); border-radius: 20px; overflow: hidden;
+            border: 1px solid #222; transition: var(--transition); cursor: pointer;
+        }
+
+        .card:hover { border-color: var(--accent-neon); transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+
+        .card-img {
+            height: 140px; background: #111; display: flex; align-items: center; justify-content: center;
+            font-size: 3.5rem; position: relative;
+        }
+
+        .card-img::after { content: ''; position: absolute; width: 100%; height: 100%; background: radial-gradient(circle, rgba(127,90,240,0.15) 0%, transparent 70%); }
+
+        .card-body { padding: 20px; text-align: left; }
+        .card-tag { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 5px; display: block; }
+        .card-title { font-size: 1.2rem; font-weight: 700; margin: 0; }
+        .card-hint { color: #666; font-size: 0.75rem; margin-top: 8px; }
+
+        /* NOTIFICACIÓN */
+        #toast {
+            visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: #222; color: white; padding: 15px 30px; border-radius: 10px;
+            border-bottom: 3px solid var(--accent-neon); font-weight: 600; z-index: 1000;
+        }
+        #toast.show { visibility: visible; animation: pop 0.4s ease-out; }
+        @keyframes pop { from { bottom: 0; opacity: 0; } to { bottom: 30px; opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <img src="SDJ.jpg" alt="SDJ Logo">
-        
-        <h1>⚡ SDJ STREAM CENTER</h1>
-        <p>Copia la ID y pégala en Ace Player (Ctrl + T)</p>
+    <header>
+        <img src="SDJ.jpg" alt="SDJ Logo" class="logo-sdj">
+    </header>
 
-        <div class="channel-card" style="border-left: 5px solid #e10600;">
-            <strong>🏎️ F1 DAZN</strong>
-            <code>d65257bb934b73647374224fd62d836815804be2</code>
+    <div class="hero">
+        <h1 style="font-family: 'Oswald'; font-size: 3rem; margin-bottom: 10px;">CENTRO DE MANDO SDJ</h1>
+        <p style="color: #888; margin-bottom: 35px;">Copia la ID y pégala en Ace Player (Ctrl + T).</p>
+
+        <div class="btn-group">
+            <a href="https://discord.com/invite/zCS9ZBUXAt" target="_blank" class="btn btn-discord">Únete al Discord 💬</a>
+            <a href="https://www.mediafire.com/file/s0kkul8d9cbpkty/Ace_Stream_Media_3.2.8.exe/file" target="_blank" class="btn btn-download">Descargar Ace Player 📦</a>
         </div>
 
-        <div class="channel-card" style="border-left: 5px solid #3498db;">
-            <strong>📺 DAZN 1</strong>
-            <code>4141892f5df7d6474bf0279895ce02b7336c9928</code>
-        </div>
+        <div class="grid">
+            <div class="card" onclick="copyId('d65257bb934b73647374224fd62d836815804be2', 'F1')">
+                <div class="card-img">🏎️</div>
+                <div class="card-body">
+                    <span class="card-tag" style="color: var(--f1-red);">Motor</span>
+                    <h3 class="card-title">Fórmula 1 - DAZN</h3>
+                    <p class="card-hint">Haz clic para copiar ID</p>
+                </div>
+            </div>
 
-        <div class="channel-card" style="border-left: 5px solid #3498db;">
-            <strong>📺 DAZN 2</strong>
-            <code>b0eabe0fdd02fdd165896236765a9b753a2ff516</code>
-        </div>
+            <div class="card" onclick="copyId('4141892f5df7d6474bf0279895ce02b7336c9928', 'DAZN 1')">
+                <div class="card-img">📺</div>
+                <div class="card-body">
+                    <span class="card-tag" style="color: var(--dazn-blue);">Multideporte</span>
+                    <h3 class="card-title">DAZN 1</h3>
+                    <p class="card-hint">Haz clic para copiar ID</p>
+                </div>
+            </div>
 
-        <div class="channel-card" style="border-left: 5px solid #ff9800;">
-            <strong>🏀 NBA TV</strong>
-            <code>e72d03fb9694164317260f684470be9ab781ed95</code>
-        </div>
+            <div class="card" onclick="copyId('b0eabe0fdd02fdd165896236765a9b753a2ff516', 'DAZN 2')">
+                <div class="card-img">📺</div>
+                <div class="card-body">
+                    <span class="card-tag" style="color: var(--dazn-blue);">Multideporte</span>
+                    <h3 class="card-title">DAZN 2</h3>
+                    <p class="card-hint">Haz clic para copiar ID</p>
+                </div>
+            </div>
 
-        <div class="channel-card" style="border-left: 5px solid #2ecc71;">
-            <strong>⚽ FÚTBOL</strong>
-            <code>31c19ffb3472c289c5bbbbc174449c8ed0d19e38</code>
-        </div>
+            <div class="card" onclick="copyId('e72d03fb9694164317260f684470be9ab781ed95', 'NBA TV')">
+                <div class="card-img">🏀</div>
+                <div class="card-body">
+                    <span class="card-tag" style="color: var(--nba-orange);">Baloncesto</span>
+                    <h3 class="card-title">NBA TV</h3>
+                    <p class="card-hint">Haz clic para copiar ID</p>
+                </div>
+            </div>
 
-        <hr>
-        <p>¿No tienes Ace Stream?</p>
-        <a href="https://ace-stream.es.uptodown.com/windows" class="btn">Descargar Ace Player</a>
+            <div class="card" onclick="copyId('31c19ffb3472c289c5bbbbc174449c8ed0d19e38', 'Fútbol')">
+                <div class="card-img">⚽</div>
+                <div class="card-body">
+                    <span class="card-tag" style="color: var(--foot-green);">Deporte Rey</span>
+                    <h3 class="card-title">Fútbol Premium</h3>
+                    <p class="card-hint">Haz clic para copiar ID</p>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <div id="toast">ID Copiada: ¡A disfrutar!</div>
+
+    <script>
+        function copyId(id, name) {
+            navigator.clipboard.writeText(id);
+            var t = document.getElementById("toast");
+            t.innerText = "⚡ ID de " + name + " copiada";
+            t.className = "show";
+            setTimeout(function(){ t.className = ""; }, 3000);
+        }
+    </script>
 </body>
 </html>
