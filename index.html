@@ -46,7 +46,7 @@
         .btn-download { background: var(--f1-red); }
         .btn-download:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--f1-red); }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; width: 100%; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; width: 100%; }
 
         .card {
             background: var(--card-bg); border-radius: 24px; overflow: hidden;
@@ -56,13 +56,13 @@
         .card:hover { border-color: var(--accent-neon); transform: translateY(-12px); box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
 
         .card-img {
-            height: 140px; background: #111; display: flex; align-items: center; justify-content: center;
-            font-size: 4rem; border-bottom: 1px solid #222;
+            height: 130px; background: #111; display: flex; align-items: center; justify-content: center;
+            font-size: 3.5rem; border-bottom: 1px solid #222;
         }
 
         .card-body { padding: 25px; text-align: left; }
         .card-tag { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: block; }
-        .card-title { font-size: 1.4rem; font-weight: 700; margin: 0 0 20px 0; }
+        .card-title { font-size: 1.3rem; font-weight: 700; margin: 0 0 20px 0; height: 1.5em; overflow: hidden; }
 
         .action-box { display: flex; gap: 10px; }
         .a-btn {
@@ -123,6 +123,18 @@
             </div>
 
             <div class="card">
+                <div class="card-img">📺</div>
+                <div class="card-body">
+                    <span class="card-tag" style="color: var(--dazn-blue);">DAZN</span>
+                    <h3 class="card-title">DAZN 2</h3>
+                    <div class="action-box">
+                        <a href="acestream://b0eabe0fdd02fdd165896236765a9b753a2ff516" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copyId('b0eabe0fdd02fdd165896236765a9b753a2ff516', 'DAZN 2')">Copiar ID</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
                 <div class="card-img">🏀</div>
                 <div class="card-body">
                     <span class="card-tag" style="color: var(--nba-orange);">Basketball</span>
@@ -152,7 +164,6 @@
 
     <script>
         function copyId(id, name) {
-            // Intento 1: API Moderna
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(id).then(() => {
                     success(name);
@@ -165,7 +176,6 @@
         }
 
         function fallback(id, name) {
-            // Intento 2: Método invisible para navegadores difíciles
             const area = document.createElement("textarea");
             area.value = id;
             area.style.position = "fixed";
@@ -176,7 +186,7 @@
                 document.execCommand('copy');
                 success(name);
             } catch (err) {
-                alert("ID: " + id);
+                console.error("Error copy", err);
             }
             document.body.removeChild(area);
         }
