@@ -3,118 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SDJ | Stream Center</title>
+    <title>SDJ | Stream Center Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Oswald:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #0a0a0c; --card-bg: #1a1a20; --accent: #7f5af0;
-            --f1: #e10600; --dazn: #3498db; --nba: #ff9800; --foot: #2ecc71;
+            --bg-deep: #0a0a0c; --bg-stripe: #121216; --card-bg: #1a1a20;
+            --accent-neon: #7f5af0; --discord-color: #5865F2; --f1-red: #e10600;
+            --dazn-blue: #3498db; --nba-orange: #ff9800; --foot-green: #2ecc71;
+            --text-main: #ffffff; --transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
+
+        @keyframes stripe-move { 0% { background-position: 0 0; } 100% { background-position: 100px 100px; } }
+
         body {
-            font-family: 'Poppins', sans-serif; background: var(--bg-deep); color: white;
-            margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center;
+            font-family: 'Poppins', sans-serif; background-color: var(--bg-deep); color: var(--text-main);
+            margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+            background-image: linear-gradient(135deg, var(--bg-stripe) 25%, transparent 25%, transparent 50%, var(--bg-stripe) 50%, var(--bg-stripe) 75%, transparent 75%, transparent);
+            background-size: 80px 80px; animation: stripe-move 12s linear infinite;
         }
-        header { margin-bottom: 40px; text-align: center; }
-        .logo { height: 70px; border-radius: 12px; margin-bottom: 10px; border: 2px solid var(--accent); }
-        
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 100%; max-width: 1000px; }
-        
-        .card { 
-            background: var(--card-bg); border-radius: 15px; padding: 20px; 
-            border: 1px solid #333; text-align: left; transition: 0.3s;
-        }
-        .card:hover { border-color: var(--accent); transform: translateY(-5px); }
-        
-        .title { font-size: 1.3rem; font-weight: 700; margin: 10px 0; }
-        .tag { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; padding: 3px 8px; border-radius: 5px; }
 
-        .btn-box { display: flex; gap: 10px; margin-top: 15px; }
-        .btn { 
-            flex: 1; padding: 12px; border-radius: 8px; border: none; 
-            cursor: pointer; font-weight: 700; font-size: 0.8rem;
-            transition: 0.2s; text-transform: uppercase;
+        header {
+            width: 100%; background: rgba(10, 10, 12, 0.95); backdrop-filter: blur(10px);
+            padding: 20px 0; text-align: center; border-bottom: 2px solid var(--accent-neon);
+            position: sticky; top: 0; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .btn-play { background: var(--accent); color: white; }
-        .btn-copy { background: #333; color: #ccc; }
-        .btn:hover { opacity: 0.8; }
 
-        /* Aviso de copiado */
-        #toast { 
-            visibility: hidden; position: fixed; bottom: 30px; left: 50%; 
-            transform: translateX(-50%); background: white; color: black; 
-            padding: 12px 25px; border-radius: 50px; font-weight: 800; z-index: 1000;
+        .logo-sdj { height: 65px; border-radius: 12px; border: 1px solid var(--accent-neon); box-shadow: 0 0 20px rgba(127, 90, 240, 0.4); }
+
+        .hero { width: 100%; max-width: 1100px; padding: 40px 20px; text-align: center; box-sizing: border-box; }
+        
+        h1 { font-family: 'Oswald'; font-size: 3.5rem; margin: 0; letter-spacing: 2px; text-shadow: 0 0 20px rgba(127, 90, 240, 0.6); }
+
+        .btn-group { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin: 40px 0; }
+        
+        .btn-main {
+            padding: 15px 35px; border-radius: 50px; text-decoration: none; font-weight: 800;
+            text-transform: uppercase; font-size: 0.9rem; transition: var(--transition);
+            display: flex; align-items: center; gap: 10px; color: white; border: none; cursor: pointer;
         }
-        #toast.show { visibility: visible; animation: slideUp 0.3s ease; }
-        @keyframes slideUp { from { bottom: 0; } to { bottom: 30px; } }
+        .btn-discord { background: var(--discord-color); }
+        .btn-discord:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--discord-color); }
+        .btn-download { background: var(--f1-red); }
+        .btn-download:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--f1-red); }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; width: 100%; }
+
+        .card {
+            background: var(--card-bg); border-radius: 24px; overflow: hidden;
+            border: 1px solid #222; transition: var(--transition); position: relative;
+            display: flex; flex-direction: column;
+        }
+        .card:hover { border-color: var(--accent-neon); transform: translateY(-12px); box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
+
+        .card-img {
+            height: 140px; background: #111; display: flex; align-items: center; justify-content: center;
+            font-size: 4rem; border-bottom: 1px solid #222;
+        }
+
+        .card-body { padding: 25px; text-align: left; }
+        .card-tag { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: block; }
+        .card-title { font-size: 1.4rem; font-weight: 700; margin: 0 0 20px 0; }
+
+        .action-box { display: flex; gap: 10px; }
+        .a-btn {
+            flex: 1; padding: 12px; border-radius: 12px; border: none; cursor: pointer;
+            font-weight: 800; font-size: 0.75rem; text-transform: uppercase; transition: 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 5px;
+        }
+        .a-play { background: var(--accent-neon); color: white; text-decoration: none; }
+        .a-copy { background: #222; color: #eee; border: 1px solid #333; }
+        .a-btn:hover { opacity: 0.9; transform: scale(1.02); }
+
+        #toast {
+            visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: white; color: black; padding: 15px 35px; border-radius: 50px;
+            font-weight: 800; z-index: 1000; box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+        }
+        #toast.show { visibility: visible; animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes slideIn { from { bottom: -50px; opacity: 0; } to { bottom: 30px; opacity: 1; } }
     </style>
 </head>
 <body>
 
-<header>
-    <img src="SDJ.jpg" alt="Logo SDJ" class="logo">
-    <h1 style="font-family: 'Oswald'; margin: 0;">SDJ STREAM CENTER</h1>
-</header>
+    <header>
+        <img src="SDJ.jpg" alt="SDJ" class="logo-sdj">
+    </header>
 
-<div class="grid">
-    <div class="card">
-        <span class="tag" style="background: var(--f1)">Motor</span>
-        <div class="title">Fórmula 1 (DAZN)</div>
-        <div class="btn-box">
-            <button class="btn btn-play" onclick="launch('d65257bb934b73647374224fd62d836815804be2')">Reproducir</button>
-            <button class="btn btn-copy" onclick="copy('d65257bb934b73647374224fd62d836815804be2', 'F1')">Copiar ID</button>
+    <div class="hero">
+        <h1>SDJ COMMAND CENTER</h1>
+        
+        <div class="btn-group">
+            <a href="https://discord.com/invite/zCS9ZBUXAt" target="_blank" class="btn-main btn-discord">Comunidad Discord 💬</a>
+            <a href="https://www.mediafire.com/file/s0kkul8d9cbpkty/Ace_Stream_Media_3.2.8.exe/file" target="_blank" class="btn-main btn-download">Descargar Ace Player 📦</a>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-img">🏎️</div>
+                <div class="card-body">
+                    <span class="card-tag" style="color: var(--f1-red);">Motor</span>
+                    <h3 class="card-title">Fórmula 1 (DAZN)</h3>
+                    <div class="action-box">
+                        <a href="acestream://d65257bb934b73647374224fd62d836815804be2" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copyId('d65257bb934b73647374224fd62d836815804be2', 'F1')">Copiar ID</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img">📺</div>
+                <div class="card-body">
+                    <span class="card-tag" style="color: var(--dazn-blue);">DAZN</span>
+                    <h3 class="card-title">DAZN 1</h3>
+                    <div class="action-box">
+                        <a href="acestream://4141892f5df7d6474bf0279895ce02b7336c9928" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copyId('4141892f5df7d6474bf0279895ce02b7336c9928', 'DAZN 1')">Copiar ID</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img">🏀</div>
+                <div class="card-body">
+                    <span class="card-tag" style="color: var(--nba-orange);">Basketball</span>
+                    <h3 class="card-title">NBA TV Pro</h3>
+                    <div class="action-box">
+                        <a href="acestream://e72d03fb9694164317260f684470be9ab781ed95" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copyId('e72d03fb9694164317260f684470be9ab781ed95', 'NBA')">Copiar ID</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img">⚽</div>
+                <div class="card-body">
+                    <span class="card-tag" style="color: var(--foot-green);">Fútbol</span>
+                    <h3 class="card-title">Fútbol Premium</h3>
+                    <div class="action-box">
+                        <a href="acestream://31c19ffb3472c289c5bbbbc174449c8ed0d19e38" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copyId('31c19ffb3472c289c5bbbbc174449c8ed0d19e38', 'Fútbol')">Copiar ID</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="card">
-        <span class="tag" style="background: var(--dazn)">Multi</span>
-        <div class="title">DAZN 1</div>
-        <div class="btn-box">
-            <button class="btn btn-play" onclick="launch('4141892f5df7d6474bf0279895ce02b7336c9928')">Reproducir</button>
-            <button class="btn btn-copy" onclick="copy('4141892f5df7d6474bf0279895ce02b7336c9928', 'DAZN 1')">Copiar ID</button>
-        </div>
-    </div>
+    <div id="toast">Copiado con éxito</div>
 
-    <div class="card">
-        <span class="tag" style="background: var(--nba)">Basket</span>
-        <div class="title">NBA TV</div>
-        <div class="btn-box">
-            <button class="btn btn-play" onclick="launch('e72d03fb9694164317260f684470be9ab781ed95')">Reproducir</button>
-            <button class="btn btn-copy" onclick="copy('e72d03fb9694164317260f684470be9ab781ed95', 'NBA')">Copiar ID</button>
-        </div>
-    </div>
+    <script>
+        function copyId(id, name) {
+            // Intento 1: API Moderna
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(id).then(() => {
+                    success(name);
+                }).catch(() => {
+                    fallback(id, name);
+                });
+            } else {
+                fallback(id, name);
+            }
+        }
 
-    <div class="card">
-        <span class="tag" style="background: var(--foot)">Fútbol</span>
-        <div class="title">Fútbol Premium</div>
-        <div class="btn-box">
-            <button class="btn btn-play" onclick="launch('31c19ffb3472c289c5bbbbc174449c8ed0d19e38')">Reproducir</button>
-            <button class="btn btn-copy" onclick="copy('31c19ffb3472c289c5bbbbc174449c8ed0d19e38', 'Fútbol')">Copiar ID</button>
-        </div>
-    </div>
-</div>
+        function fallback(id, name) {
+            // Intento 2: Método invisible para navegadores difíciles
+            const area = document.createElement("textarea");
+            area.value = id;
+            area.style.position = "fixed";
+            area.style.left = "-9999px";
+            document.body.appendChild(area);
+            area.select();
+            try {
+                document.execCommand('copy');
+                success(name);
+            } catch (err) {
+                alert("ID: " + id);
+            }
+            document.body.removeChild(area);
+        }
 
-<div id="toast">Copiado con éxito</div>
-
-<script>
-    function launch(id) {
-        window.location.href = 'acestream://' + id;
-    }
-
-    function copy(id, name) {
-        // Método de copiado infalible
-        const el = document.createElement('textarea');
-        el.value = id;
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
-
-        const toast = document.getElementById('toast');
-        toast.innerText = "📋 ID de " + name + " copiada";
-        toast.className = "show";
-        setTimeout(() => { toast.className = ""; }, 3000);
-    }
-</script>
-
+        function success(name) {
+            const t = document.getElementById("toast");
+            t.innerText = "📋 ID de " + name + " copiada";
+            t.className = "show";
+            setTimeout(() => { t.className = ""; }, 3000);
+        }
+    </script>
 </body>
 </html>
