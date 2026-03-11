@@ -46,9 +46,18 @@
         .logo-sdj { height: 65px; border-radius: 12px; border: 1px solid var(--accent-neon); box-shadow: 0 0 20px rgba(127, 90, 240, 0.4); }
 
         .hero { width: 100%; max-width: 1100px; padding: 40px 20px; text-align: center; box-sizing: border-box; }
-        h1 { font-family: 'Oswald'; font-size: 3.5rem; margin: 0; letter-spacing: 2px; }
+        
+        /* REPRODUCTOR WEB INTEGRADO */
+        #player-section {
+            display: none; width: 100%; max-width: 900px; margin: 0 auto 40px auto; 
+            background: #000; border-radius: 20px; border: 2px solid var(--accent-neon);
+            overflow: hidden; box-shadow: 0 0 40px rgba(127, 90, 240, 0.4);
+        }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .player-header { background: #1a1a20; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; width: 100%; margin-top: 30px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; width: 100%; }
 
         .card {
             background: var(--card-bg); border-radius: 24px; overflow: hidden;
@@ -59,17 +68,15 @@
         .card.live-now .card-tag { color: var(--live-red) !important; font-weight: 900; }
 
         .card:hover { border-color: var(--accent-neon); transform: translateY(-10px); }
-        .card.live-now:hover { border-color: var(--live-red); box-shadow: 0 0 30px rgba(255, 0, 0, 0.3); }
-
-        .card-img { height: 120px; background: #111; display: flex; align-items: center; justify-content: center; font-size: 3rem; border-bottom: 1px solid #222; }
+        .card-img { height: 120px; background: #111; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
         .card-body { padding: 20px; text-align: left; }
         .card-tag { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 5px; display: block; color: #666; }
-        .card-title { font-size: 1.15rem; font-weight: 700; margin: 0 0 15px 0; height: 1.4em; }
+        .card-title { font-size: 1.15rem; font-weight: 700; margin: 0 0 15px 0; }
 
-        .action-box { display: flex; gap: 8px; }
-        .a-btn { flex: 1; padding: 10px; border-radius: 10px; border: none; cursor: pointer; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; transition: 0.2s; text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; }
-        .a-play { background: var(--accent-neon); color: white; }
-        .a-copy { background: #222; color: #eee; border: 1px solid #333; }
+        .action-box { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .a-btn { padding: 10px; border-radius: 10px; border: none; cursor: pointer; font-weight: 800; font-size: 0.65rem; text-transform: uppercase; transition: 0.2s; text-decoration: none; text-align: center; }
+        .a-web { background: var(--accent-neon); color: white; }
+        .a-ace { background: #222; color: #eee; border: 1px solid #333; }
 
         #toast { visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: white; color: black; padding: 12px 30px; border-radius: 50px; font-weight: 800; z-index: 1000; }
         #toast.show { visibility: visible; animation: slideIn 0.3s forwards; }
@@ -85,20 +92,26 @@
 
     <div class="hero">
         <h1>SDJ COMMAND CENTER</h1>
-        
-        <div style="margin: 20px 0;">
-            <a href="https://discord.com/invite/zCS9ZBUXAt" target="_blank" style="color: var(--discord-color); text-decoration: none; font-weight: 800; font-size: 0.9rem;">ENTRAR AL DISCORD 💬</a>
+
+        <div id="player-section">
+            <div class="player-header">
+                <span id="now-playing" style="color: var(--accent-neon); font-weight: 800; font-size: 0.9rem;">MODO WEB ACTIVO</span>
+                <button onclick="closePlayer()" style="background: var(--f1-red); color: white; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-weight: 800;">CERRAR X</button>
+            </div>
+            <div class="video-container">
+                <iframe id="main-iframe" src="" allowfullscreen></iframe>
+            </div>
         </div>
 
         <div class="grid">
             <div class="card live-now">
-                <div class="card-img" style="background: radial-gradient(circle, var(--champions-blue) 0%, #000 100%);">🏆</div>
+                <div class="card-img">🏆</div>
                 <div class="card-body">
-                    <span class="card-tag">LIVE - UEFA</span>
-                    <h3 class="card-title">Liga de Campeones</h3>
+                    <span class="card-tag">UEFA - LIVE</span>
+                    <h3 class="card-title">Champions League</h3>
                     <div class="action-box">
-                        <a href="acestream://e572a5178ff72eed7d1d751a18b4b3419699f370" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('e572a5178ff72eed7d1d751a18b4b3419699f370', 'Champions')">ID</button>
+                        <button class="a-btn a-web" onclick="openWeb('https://itvhd.live/liga-de-campeones/', 'Champions')">Web</button>
+                        <a href="acestream://e572a5178ff72eed7d1d751a18b4b3419699f370" class="a-btn a-ace">Ace Stream</a>
                     </div>
                 </div>
             </div>
@@ -106,11 +119,11 @@
             <div class="card">
                 <div class="card-img">🏎️</div>
                 <div class="card-body">
-                    <span class="card-tag">Repetición / Libres</span>
-                    <h3 class="card-title">Fórmula 1 (DAZN)</h3>
+                    <span class="card-tag">Motor - Repetición</span>
+                    <h3 class="card-title">Fórmula 1 DAZN</h3>
                     <div class="action-box">
-                        <a href="acestream://d65257bb934b73647374224fd62d836815804be2" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('d65257bb934b73647374224fd62d836815804be2', 'F1')">ID</button>
+                        <button class="a-btn a-web" onclick="openWeb('https://fomny.com/Video/Sport/Dazn-f1-es/Dazn-f1-es.php', 'F1')">Web</button>
+                        <a href="acestream://d65257bb934b73647374224fd62d836815804be2" class="a-btn a-ace">Ace Stream</a>
                     </div>
                 </div>
             </div>
@@ -121,8 +134,8 @@
                     <span class="card-tag">LaLiga</span>
                     <h3 class="card-title">DAZN LaLiga</h3>
                     <div class="action-box">
-                        <a href="acestream://19f28f60c908f987b1a03da078e63320d7bf29e8" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('19f28f60c908f987b1a03da078e63320d7bf29e8', 'DAZN LaLiga')">ID</button>
+                        <button class="a-btn a-web" onclick="openWeb('https://itvhd.live/dazn-laliga/', 'DAZN LaLiga')">Web</button>
+                        <a href="acestream://19f28f60c908f987b1a03da078e63320d7bf29e8" class="a-btn a-ace">Ace Stream</a>
                     </div>
                 </div>
             </div>
@@ -131,10 +144,22 @@
                 <div class="card-img">⚽</div>
                 <div class="card-body">
                     <span class="card-tag">LaLiga</span>
-                    <h3 class="card-title">Movistar LaLiga 2</h3>
+                    <h3 class="card-title">M+ LaLiga 1</h3>
                     <div class="action-box">
-                        <a href="acestream://caa631e8850e3eb5e7c039063dd8a339ccef1176" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('caa631e8850e3eb5e7c039063dd8a339ccef1176', 'M+ LaLiga 2')">ID</button>
+                        <button class="a-btn a-web" onclick="openWeb('https://itvhd.live/movistar-laliga/', 'M+ LaLiga 1')">Web</button>
+                        <a href="acestream://31c19ffb3472c289c5bbbbc174449c8ed0d19e38" class="a-btn a-ace">Ace Stream</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img">⚽</div>
+                <div class="card-body">
+                    <span class="card-tag">LaLiga</span>
+                    <h3 class="card-title">M+ LaLiga 2</h3>
+                    <div class="action-box">
+                        <button class="a-btn a-web" onclick="openWeb('https://itvhd.live/movistar-laliga-2/', 'M+ LaLiga 2')">Web</button>
+                        <a href="acestream://caa631e8850e3eb5e7c039063dd8a339ccef1176" class="a-btn a-ace">Ace Stream</a>
                     </div>
                 </div>
             </div>
@@ -142,11 +167,23 @@
             <div class="card">
                 <div class="card-img">📺</div>
                 <div class="card-body">
-                    <span class="card-tag">Multideporte</span>
+                    <span class="card-tag">DAZN</span>
                     <h3 class="card-title">DAZN 1</h3>
                     <div class="action-box">
-                        <a href="acestream://4141892f5df7d6474bf0279895ce02b7336c9928" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('4141892f5df7d6474bf0279895ce02b7336c9928', 'DAZN 1')">ID</button>
+                        <button class="a-btn a-web" onclick="openWeb('https://itvhd.live/dazn-1-espanol/', 'DAZN 1')">Web</button>
+                        <a href="acestream://4141892f5df7d6474bf0279895ce02b7336c9928" class="a-btn a-ace">Ace Stream</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img">📺</div>
+                <div class="card-body">
+                    <span class="card-tag">DAZN</span>
+                    <h3 class="card-title">DAZN 2</h3>
+                    <div class="action-box">
+                        <button class="a-btn a-web" onclick="openWeb('https://itvhd.live/dazn-2-espanol/', 'DAZN 2')">Web</button>
+                        <a href="acestream://b0eabe0fdd02fdd165896236765a9b753a2ff516" class="a-btn a-ace">Ace Stream</a>
                     </div>
                 </div>
             </div>
@@ -157,20 +194,8 @@
                     <span class="card-tag">NBA</span>
                     <h3 class="card-title">NBA TV Pro</h3>
                     <div class="action-box">
-                        <a href="acestream://e72d03fb9694164317260f684470be9ab781ed95" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('e72d03fb9694164317260f684470be9ab781ed95', 'NBA')">ID</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img">⚽</div>
-                <div class="card-body">
-                    <span class="card-tag">LaLiga</span>
-                    <h3 class="card-title">Movistar LaLiga 1</h3>
-                    <div class="action-box">
-                        <a href="acestream://31c19ffb3472c289c5bbbbc174449c8ed0d19e38" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('31c19ffb3472c289c5bbbbc174449c8ed0d19e38', 'M+ LaLiga 1')">ID</button>
+                        <button class="a-btn a-web" onclick="openWeb('https://itvhd.live/nba-tv/', 'NBA TV')">Web</button>
+                        <a href="acestream://e72d03fb9694164317260f684470be9ab781ed95" class="a-btn a-ace">Ace Stream</a>
                     </div>
                 </div>
             </div>
@@ -190,15 +215,22 @@
             }
         }
 
-        window.onload = updateLiveStatus;
-
-        function copyId(id, name) {
-            navigator.clipboard.writeText(id);
-            const t = document.getElementById("toast");
-            t.innerText = "📋 ID de " + name + " copiada";
-            t.className = "show";
-            setTimeout(() => { t.className = ""; }, 3000);
+        function openWeb(url, name) {
+            const player = document.getElementById('player-section');
+            const iframe = document.getElementById('main-iframe');
+            const title = document.getElementById('now-playing');
+            player.style.display = 'block';
+            iframe.src = url;
+            title.innerText = "📺 VIENDO: " + name;
+            window.scrollTo({top: 150, behavior: 'smooth'});
         }
+
+        function closePlayer() {
+            document.getElementById('player-section').style.display = 'none';
+            document.getElementById('main-iframe').src = "";
+        }
+
+        window.onload = updateLiveStatus;
     </script>
 </body>
 </html>
