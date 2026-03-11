@@ -12,9 +12,23 @@
             --dazn-blue: #3498db; --nba-orange: #ff9800; --foot-green: #2ecc71;
             --movistar-blue: #00bcff; --champions-blue: #001e4e;
             --text-main: #ffffff; --transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --live-red: #ff0000;
         }
 
         @keyframes stripe-move { 0% { background-position: 0 0; } 100% { background-position: 100px 100px; } }
+        
+        /* Animación del Beam Rojo */
+        @keyframes live-glow {
+            0% { box-shadow: 0 0 5px var(--live-red); border-bottom-color: var(--live-red); }
+            50% { box-shadow: 0 0 25px var(--live-red); border-bottom-color: #ff4d4d; }
+            100% { box-shadow: 0 0 5px var(--live-red); border-bottom-color: var(--live-red); }
+        }
+
+        @keyframes pulse-live {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
 
         body {
             font-family: 'Poppins', sans-serif; background-color: var(--bg-deep); color: var(--text-main);
@@ -25,9 +39,23 @@
 
         header {
             width: 100%; background: rgba(10, 10, 12, 0.95); backdrop-filter: blur(10px);
-            padding: 20px 0; text-align: center; border-bottom: 2px solid var(--accent-neon);
-            position: sticky; top: 0; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            padding: 20px 0; text-align: center; border-bottom: 3px solid var(--accent-neon);
+            position: sticky; top: 0; z-index: 100;
+            /* El beam se activa con esta clase */
+            transition: var(--transition);
         }
+
+        header.event-live {
+            animation: live-glow 2s infinite ease-in-out;
+        }
+
+        .live-indicator {
+            display: none; color: var(--live-red); font-weight: 800; font-size: 0.8rem;
+            text-transform: uppercase; letter-spacing: 1px; margin-top: 5px;
+            animation: pulse-live 1.5s infinite;
+        }
+
+        header.event-live .live-indicator { display: block; }
 
         .logo-sdj { height: 65px; border-radius: 12px; border: 1px solid var(--accent-neon); box-shadow: 0 0 20px rgba(127, 90, 240, 0.4); }
 
@@ -54,7 +82,15 @@
             border: 1px solid #222; transition: var(--transition); position: relative;
             display: flex; flex-direction: column;
         }
+
+        /* Estilo para tarjeta en vivo */
+        .card.live-now {
+            border: 1px solid var(--live-red);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+        }
+
         .card:hover { border-color: var(--accent-neon); transform: translateY(-12px); box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
+        .card.live-now:hover { border-color: var(--live-red); box-shadow: 0 0 30px rgba(255, 0, 0, 0.4); }
 
         .card-img {
             height: 130px; background: #111; display: flex; align-items: center; justify-content: center;
@@ -84,10 +120,11 @@
         @keyframes slideIn { from { bottom: -50px; opacity: 0; } to { bottom: 30px; opacity: 1; } }
     </style>
 </head>
-<body>
+<body class="">
 
-    <header>
+    <header id="main-header" class="event-live">
         <img src="SDJ.jpg" alt="SDJ" class="logo-sdj">
+        <div class="live-indicator">● EVENTO EN VIVO DETECTADO</div>
     </header>
 
     <div class="hero">
@@ -99,7 +136,7 @@
         </div>
 
         <div class="grid">
-            <div class="card">
+            <div class="card live-now">
                 <div class="card-img">🏎️</div>
                 <div class="card-body">
                     <span class="card-tag" style="color: var(--f1-red);">Motor</span>
@@ -111,7 +148,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card live-now">
                 <div class="card-img" style="background: radial-gradient(circle, var(--champions-blue) 0%, #000 100%);">🏆</div>
                 <div class="card-body">
                     <span class="card-tag" style="color: var(--movistar-blue);">UEFA</span>
@@ -200,6 +237,13 @@
     <div id="toast">Copiado con éxito</div>
 
     <script>
+        // Función para activar/desactivar el modo Live manualmente si quieres probar
+        function setLiveMode(active) {
+            const header = document.getElementById('main-header');
+            if(active) header.classList.add('event-live');
+            else header.classList.remove('event-live');
+        }
+
         function copyId(id, name) {
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(id).then(() => {
