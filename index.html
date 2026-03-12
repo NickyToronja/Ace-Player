@@ -16,8 +16,6 @@
         }
 
         @keyframes stripe-move { 0% { background-position: 0 0; } 100% { background-position: 100px 100px; } }
-        
-        /* Animaciones para el Beam */
         @keyframes live-glow {
             0%, 100% { box-shadow: 0 0 10px var(--live-red); border-bottom-color: var(--live-red); }
             50% { box-shadow: 0 0 25px var(--live-red); border-bottom-color: #ff4d4d; }
@@ -38,13 +36,8 @@
             transition: var(--transition);
         }
 
-        /* Clase activa para el BEAM ROJO */
         header.live-active { animation: live-glow 1.5s infinite ease-in-out; border-bottom-width: 3px; }
-
-        .live-banner {
-            display: none; color: var(--live-red); font-weight: 800; font-size: 0.75rem;
-            text-transform: uppercase; letter-spacing: 1px; margin-top: 8px; animation: pulse-text 1s infinite;
-        }
+        .live-banner { display: none; color: var(--live-red); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 8px; animation: pulse-text 1s infinite; }
         header.live-active .live-banner { display: block; }
 
         .logo-sdj { height: 65px; border-radius: 12px; border: 1px solid var(--accent-neon); box-shadow: 0 0 20px rgba(127, 90, 240, 0.4); }
@@ -52,219 +45,169 @@
         .hero { width: 100%; max-width: 1100px; padding: 40px 20px; text-align: center; box-sizing: border-box; }
         h1 { font-family: 'Oswald'; font-size: 3.5rem; margin: 0; letter-spacing: 2px; text-shadow: 0 0 20px rgba(127, 90, 240, 0.6); }
 
-        .btn-group { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin: 40px 0; }
-        .btn-main {
-            padding: 15px 35px; border-radius: 50px; text-decoration: none; font-weight: 800;
-            text-transform: uppercase; font-size: 0.9rem; transition: var(--transition);
-            display: flex; align-items: center; gap: 10px; color: white; border: none; cursor: pointer;
-        }
-        .btn-discord { background: var(--discord-color); }
-        .btn-discord:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--discord-color); }
-        .btn-download { background: var(--f1-red); }
-        .btn-download:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--f1-red); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; width: 100%; margin-top: 30px;}
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; width: 100%; }
-
-        .card {
-            background: var(--card-bg); border-radius: 24px; overflow: hidden;
-            border: 1px solid #222; transition: var(--transition); position: relative;
-            display: flex; flex-direction: column;
-        }
-
-        /* Estilo para tarjeta en vivo */
+        .card { background: var(--card-bg); border-radius: 24px; overflow: hidden; border: 1px solid #222; transition: var(--transition); display: flex; flex-direction: column; }
         .card.live-now { border-color: var(--live-red); box-shadow: 0 0 15px rgba(255, 0, 0, 0.2); }
-        .card.live-now .card-tag { animation: pulse-text 1s infinite; font-weight: 900; }
+        .card:hover { border-color: var(--accent-neon); transform: translateY(-12px); }
 
-        .card:hover { border-color: var(--accent-neon); transform: translateY(-12px); box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
-        .card.live-now:hover { border-color: var(--live-red); }
-
-        .card-img {
-            height: 130px; background: #111; display: flex; align-items: center; justify-content: center;
-            font-size: 3.5rem; border-bottom: 1px solid #222;
-        }
-
+        .card-img { height: 130px; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; border-bottom: 1px solid #222; }
         .card-body { padding: 25px; text-align: left; }
         .card-tag { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: block; }
-        .card-title { font-size: 1.3rem; font-weight: 700; margin: 0 0 20px 0; height: 1.5em; overflow: hidden; }
+        .card-title { font-size: 1.3rem; font-weight: 700; margin: 0 0 20px 0; }
 
         .action-box { display: flex; gap: 10px; }
-        .a-btn {
-            flex: 1; padding: 12px; border-radius: 12px; border: none; cursor: pointer;
-            font-weight: 800; font-size: 0.75rem; text-transform: uppercase; transition: 0.2s;
-            display: flex; align-items: center; justify-content: center; gap: 5px;
-        }
-        .a-play { background: var(--accent-neon); color: white; text-decoration: none; }
+        .a-btn { flex: 1; padding: 12px; border-radius: 12px; border: none; cursor: pointer; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; text-align: center; text-decoration: none; }
+        .a-play { background: var(--accent-neon); color: white; }
         .a-copy { background: #222; color: #eee; border: 1px solid #333; }
-        .a-btn:hover { opacity: 0.9; transform: scale(1.02); }
 
-        #toast {
-            visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: white; color: black; padding: 15px 35px; border-radius: 50px;
-            font-weight: 800; z-index: 1000; box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-        }
-        #toast.show { visibility: visible; animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        @keyframes slideIn { from { bottom: -50px; opacity: 0; } to { bottom: 30px; opacity: 1; } }
+        /* AJUSTES PANEL */
+        #settings-btn { position: fixed; bottom: 20px; right: 20px; background: #333; color: white; width: 50px; height: 50px; border-radius: 50%; border: none; cursor: pointer; font-size: 1.5rem; z-index: 1000; opacity: 0.5; transition: 0.3s; }
+        #settings-btn:hover { opacity: 1; transform: rotate(90deg); }
+
+        #admin-panel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1a1a20; padding: 30px; border-radius: 20px; border: 2px solid var(--accent-neon); z-index: 2000; width: 300px; box-shadow: 0 0 100px rgba(0,0,0,0.9); }
+        .admin-row { margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        input[type="number"] { width: 60px; background: #000; border: 1px solid #444; color: white; padding: 5px; border-radius: 5px; }
+        .save-btn { width: 100%; padding: 10px; background: var(--accent-neon); border: none; color: white; font-weight: 800; border-radius: 10px; cursor: pointer; margin-top: 10px; }
+
+        #toast { visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: white; color: black; padding: 15px 35px; border-radius: 50px; font-weight: 800; z-index: 3000; }
+        #toast.show { visibility: visible; animation: slideIn 0.4s forwards; }
+        @keyframes slideIn { from { bottom: -50px; } to { bottom: 30px; } }
     </style>
 </head>
 <body>
 
     <header id="main-header">
         <img src="SDJ.jpg" alt="SDJ" class="logo-sdj">
-        <div class="live-banner">● EN VIVO AHORA</div>
+        <div class="live-banner" id="live-text">● EN VIVO AHORA</div>
     </header>
 
     <div class="hero">
         <h1>SDJ COMMAND CENTER</h1>
         
-        <div class="btn-group">
-            <a href="https://discord.com/invite/zCS9ZBUXAt" target="_blank" class="btn-main btn-discord">Comunidad Discord 💬</a>
-            <a href="https://www.mediafire.com/file/s0kkul8d9cbpkty/Ace_Stream_Media_3.2.8.exe/file" target="_blank" class="btn-main btn-download">Descargar Ace Player 📦</a>
-        </div>
-
-        <div class="grid">
-            <div class="card">
-                <div class="card-img">🏎️</div>
+        <div class="grid" id="main-grid">
+            <div class="card" data-channel="f1">
+                <div class="card-img" style="background: radial-gradient(circle, var(--f1-red) 0%, #000 100%);">🏎️</div>
                 <div class="card-body">
                     <span class="card-tag" style="color: var(--f1-red);">Motor</span>
                     <h3 class="card-title">Fórmula 1 (DAZN)</h3>
                     <div class="action-box">
                         <a href="acestream://d65257bb934b73647374224fd62d836815804be2" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('d65257bb934b73647374224fd62d836815804be2', 'F1')">Copiar ID</button>
+                        <button class="a-btn a-copy" onclick="copyId('d65257bb934b73647374224fd62d836815804be2', 'F1')">ID</button>
                     </div>
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card" data-channel="champions">
                 <div class="card-img" style="background: radial-gradient(circle, var(--champions-blue) 0%, #000 100%);">🏆</div>
                 <div class="card-body">
-                   <span class="card-tag" style="color: var(--movistar-blue);">UEFA</span>
+                    <span class="card-tag" style="color: var(--movistar-blue);">UEFA</span>
                     <h3 class="card-title">Liga de Campeones</h3>
                     <div class="action-box">
                         <a href="acestream://e572a5178ff72eed7d1d751a18b4b3419699f370" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('e572a5178ff72eed7d1d751a18b4b3419699f370', 'Champions')">Copiar ID</button>
+                        <button class="a-btn a-copy" onclick="copyId('e572a5178ff72eed7d1d751a18b4b3419699f370', 'Champions')">ID</button>
                     </div>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-img">⚽</div>
+            <div class="card" data-channel="laliga">
+                <div class="card-img" style="background: radial-gradient(circle, var(--foot-green) 0%, #000 100%);">⚽</div>
                 <div class="card-body">
-                    <span class="card-tag" style="color: var(--foot-green);">LALIGA</span>
-                    <h3 class="card-title">DAZN LaLiga (Partidos)</h3>
+                    <span class="card-tag" style="color: var(--foot-green);">LaLiga</span>
+                    <h3 class="card-title">DAZN LaLiga</h3>
                     <div class="action-box">
                         <a href="acestream://19f28f60c908f987b1a03da078e63320d7bf29e8" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('19f28f60c908f987b1a03da078e63320d7bf29e8', 'DAZN LaLiga')">Copiar ID</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img">⚽</div>
-                <div class="card-body">
-                    <span class="card-tag" style="color: var(--movistar-blue);">LALIGA</span>
-                    <h3 class="card-title">M+ LaLiga 2</h3>
-                    <div class="action-box">
-                        <a href="acestream://caa631e8850e3eb5e7c039063dd8a339ccef1176" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('caa631e8850e3eb5e7c039063dd8a339ccef1176', 'M+ LaLiga 2')">Copiar ID</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img">📺</div>
-                <div class="card-body">
-                    <span class="card-tag" style="color: var(--dazn-blue);">DAZN</span>
-                    <h3 class="card-title">DAZN 1</h3>
-                    <div class="action-box">
-                        <a href="acestream://4141892f5df7d6474bf0279895ce02b7336c9928" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('4141892f5df7d6474bf0279895ce02b7336c9928', 'DAZN 1')">Copiar ID</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img">📺</div>
-                <div class="card-body">
-                    <span class="card-tag" style="color: var(--dazn-blue);">DAZN</span>
-                    <h3 class="card-title">DAZN 2 (Secundario)</h3>
-                    <div class="action-box">
-                        <a href="acestream://b0eabe0fdd02fdd165896236765a9b753a2ff516" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('b0eabe0fdd02fdd165896236765a9b753a2ff516', 'DAZN 2')">Copiar ID</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img">🏀</div>
-                <div class="card-body">
-                    <span class="card-tag" style="color: var(--nba-orange);">Basketball</span>
-                    <h3 class="card-title">NBA TV Pro</h3>
-                    <div class="action-box">
-                        <a href="acestream://e72d03fb9694164317260f684470be9ab781ed95" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('e72d03fb9694164317260f684470be9ab781ed95', 'NBA')">Copiar ID</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img">⚽</div>
-                <div class="card-body">
-                    <span class="card-tag" style="color: var(--foot-green);">Fútbol</span>
-                    <h3 class="card-title">M+ LaLiga 1</h3>
-                    <div class="action-box">
-                        <a href="acestream://31c19ffb3472c289c5bbbbc174449c8ed0d19e38" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('31c19ffb3472c289c5bbbbc174449c8ed0d19e38', 'M+ LaLiga 1')">Copiar ID</button>
+                        <button class="a-btn a-copy" onclick="copyId('19f28f60c908f987b1a03da078e63320d7bf29e8', 'DAZN LaLiga')">ID</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="toast">Copiado con éxito</div>
+    <button id="settings-btn" onclick="loginAdmin()">⚙️</button>
+
+    <div id="admin-panel">
+        <h3 style="margin-top:0">Configurar Directos</h3>
+        <div id="admin-list">
+            </div>
+        <button class="save-btn" onclick="closeAdmin()">Cerrar Panel</button>
+    </div>
+
+    <div id="toast">Copiado</div>
 
     <script>
-        // Función para el Beam Automático
-        function checkLive() {
+        // CONFIGURACIÓN INICIAL
+        const userAdmin = "admin";
+        const passAdmin = "1234";
+        
+        const channels = [
+            { id: 'f1', name: 'F1' },
+            { id: 'champions', name: 'Champions' },
+            { id: 'laliga', name: 'LaLiga' }
+        ];
+
+        function loginAdmin() {
+            const user = prompt("Usuario:");
+            const pass = prompt("Contraseña:");
+            if(user === userAdmin && pass === passAdmin) {
+                document.getElementById('admin-panel').style.display = 'block';
+                renderAdmin();
+            } else {
+                alert("Acceso denegado");
+            }
+        }
+
+        function renderAdmin() {
+            const list = document.getElementById('admin-list');
+            list.innerHTML = '';
+            channels.forEach(ch => {
+                const card = document.querySelector(`.card[data-channel="${ch.id}"]`);
+                const isLive = card.classList.contains('live-now');
+                list.innerHTML += `
+                    <div class="admin-row">
+                        <span>${ch.name}</span>
+                        <input type="checkbox" ${isLive ? 'checked' : ''} onchange="toggleLive('${ch.id}', this.checked)">
+                        <input type="number" placeholder="Min" onchange="setTimer('${ch.id}', this.value)">
+                    </div>
+                `;
+            });
+        }
+
+        function toggleLive(id, status) {
+            const card = document.querySelector(`.card[data-channel="${id}"]`);
+            const tag = card.querySelector('.card-tag');
+            if(status) {
+                card.classList.add('live-now');
+                tag.dataset.oldText = tag.innerText;
+                tag.innerText = "● LIVE - " + tag.innerText;
+                tag.style.color = "var(--live-red)";
+            } else {
+                card.classList.remove('live-now');
+                tag.innerText = tag.dataset.oldText || tag.innerText.replace("● LIVE - ", "");
+                tag.style.color = "";
+            }
+            updateHeader();
+        }
+
+        function setTimer(id, mins) {
+            if(mins > 0) {
+                setTimeout(() => {
+                    toggleLive(id, false);
+                    renderAdmin(); // Actualiza el checkbox si el panel está abierto
+                }, mins * 60000);
+            }
+        }
+
+        function updateHeader() {
             const header = document.getElementById('main-header');
             const hasLive = document.querySelector('.card.live-now');
-            if (hasLive) {
-                header.classList.add('live-active');
-            } else {
-                header.classList.remove('live-active');
-            }
+            header.className = hasLive ? 'live-active' : '';
         }
 
-        window.onload = checkLive;
+        function closeAdmin() { document.getElementById('admin-panel').style.display = 'none'; }
 
         function copyId(id, name) {
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(id).then(() => {
-                    success(name);
-                }).catch(() => {
-                    fallback(id, name);
-                });
-            } else {
-                fallback(id, name);
-            }
-        }
-
-        function fallback(id, name) {
-            const area = document.createElement("textarea");
-            area.value = id;
-            area.style.position = "fixed";
-            area.style.left = "-9999px";
-            document.body.appendChild(area);
-            area.select();
-            try {
-                document.execCommand('copy');
-                success(name);
-            } catch (err) {
-                console.error("Error copy", err);
-            }
-            document.body.removeChild(area);
-        }
-
-        function success(name) {
+            navigator.clipboard.writeText(id);
             const t = document.getElementById("toast");
             t.innerText = "📋 ID de " + name + " copiada";
             t.className = "show";
@@ -273,4 +216,3 @@
     </script>
 </body>
 </html>
-
