@@ -12,17 +12,12 @@
             --dazn-blue: #3498db; --nba-orange: #ff9800; --foot-green: #2ecc71;
             --movistar-blue: #00bcff; --champions-blue: #001e4e;
             --text-main: #ffffff; --transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-            --live-red: #ff0000;
+            --live-red: #ff0000; --fav-gold: #f1c40f;
         }
 
         @keyframes stripe-move { 0% { background-position: 0 0; } 100% { background-position: 100px 100px; } }
+        @keyframes live-glow { 0%, 100% { box-shadow: 0 0 10px var(--live-red); border-bottom-color: var(--live-red); } 50% { box-shadow: 0 0 25px var(--live-red); border-bottom-color: #ff4d4d; } }
         
-        @keyframes live-glow {
-            0%, 100% { box-shadow: 0 0 10px var(--live-red); border-bottom-color: var(--live-red); }
-            50% { box-shadow: 0 0 25px var(--live-red); border-bottom-color: #ff4d4d; }
-        }
-        @keyframes pulse-text { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-
         body {
             font-family: 'Poppins', sans-serif; background-color: var(--bg-deep); color: var(--text-main);
             margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh;
@@ -34,95 +29,74 @@
             width: 100%; background: rgba(10, 10, 12, 0.95); backdrop-filter: blur(10px);
             padding: 20px 0; text-align: center; border-bottom: 2px solid var(--accent-neon);
             position: sticky; top: 0; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: var(--transition);
         }
+        header.live-active { animation: live-glow 1.5s infinite ease-in-out; }
 
-        header.live-active { animation: live-glow 1.5s infinite ease-in-out; border-bottom-width: 3px; }
+        .logo-sdj { height: 60px; border-radius: 12px; border: 1px solid var(--accent-neon); }
 
-        .live-banner {
-            display: none; color: var(--live-red); font-weight: 800; font-size: 0.75rem;
-            text-transform: uppercase; letter-spacing: 1px; margin-top: 8px; animation: pulse-text 1s infinite;
-        }
-        header.live-active .live-banner { display: block; }
+        .hero { width: 100%; max-width: 1100px; padding: 30px 20px; text-align: center; box-sizing: border-box; }
+        h1 { font-family: 'Oswald'; font-size: 3rem; margin: 0 0 20px 0; letter-spacing: 2px; }
 
-        .logo-sdj { height: 65px; border-radius: 12px; border: 1px solid var(--accent-neon); box-shadow: 0 0 20px rgba(127, 90, 240, 0.4); }
-
-        .hero { width: 100%; max-width: 1100px; padding: 40px 20px; text-align: center; box-sizing: border-box; }
-        h1 { font-family: 'Oswald'; font-size: 3.5rem; margin: 0; letter-spacing: 2px; text-shadow: 0 0 20px rgba(127, 90, 240, 0.6); }
-
-        /* Buscador Estilizado */
-        .search-container {
-            margin: 20px auto 40px;
-            max-width: 500px;
-            position: relative;
-        }
+        /* BUSCADOR Y BOTONES */
+        .controls-wrapper { display: flex; flex-direction: column; gap: 20px; align-items: center; margin-bottom: 40px; }
         .search-input {
-            width: 100%;
-            padding: 15px 25px;
-            border-radius: 30px;
-            border: 2px solid #333;
-            background: var(--card-bg);
-            color: white;
-            font-size: 1rem;
-            outline: none;
-            transition: var(--transition);
-            box-sizing: border-box;
+            width: 100%; max-width: 500px; padding: 15px 25px; border-radius: 30px; border: 2px solid #333;
+            background: var(--card-bg); color: white; font-size: 1rem; outline: none; transition: 0.3s;
         }
-        .search-input:focus {
-            border-color: var(--accent-neon);
-            box-shadow: 0 0 15px rgba(127, 90, 240, 0.3);
-        }
+        .search-input:focus { border-color: var(--accent-neon); box-shadow: 0 0 15px rgba(127, 90, 240, 0.3); }
 
-        .btn-group { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 40px; }
+        .btn-group { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
         .btn-main {
-            padding: 15px 35px; border-radius: 50px; text-decoration: none; font-weight: 800;
-            text-transform: uppercase; font-size: 0.9rem; transition: var(--transition);
-            display: flex; align-items: center; gap: 10px; color: white; border: none; cursor: pointer;
+            padding: 12px 20px; border-radius: 50px; text-decoration: none; font-weight: 800;
+            text-transform: uppercase; font-size: 0.75rem; transition: var(--transition);
+            display: flex; align-items: center; gap: 8px; color: white; border: none; cursor: pointer;
         }
         .btn-discord { background: var(--discord-color); }
-        .btn-discord:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--discord-color); }
         .btn-download { background: var(--f1-red); }
-        .btn-download:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--f1-red); }
+        .btn-fav-filter { background: #222; border: 1px solid #444; }
+        .btn-fav-filter.active { background: var(--fav-gold); color: #000; }
+        .btn-config { background: #444; font-size: 1.2rem; padding: 12px; }
 
+        /* GRID Y CARDS */
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; width: 100%; }
-
         .card {
             background: var(--card-bg); border-radius: 24px; overflow: hidden;
             border: 1px solid #222; transition: var(--transition); position: relative;
-            display: flex; flex-direction: column;
         }
-        
-        /* Animación para cuando se ocultan las tarjetas */
         .card.hidden { display: none; }
-
-        .card.live-now { border-color: var(--live-red); box-shadow: 0 0 15px rgba(255, 0, 0, 0.2); }
-        .card:hover { border-color: var(--accent-neon); transform: translateY(-12px); box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
-
-        .card-img {
-            height: 130px; display: flex; align-items: center; justify-content: center;
-            font-size: 3.5rem; border-bottom: 1px solid #222;
+        .fav-btn {
+            position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6);
+            border: none; color: #fff; width: 35px; height: 35px; border-radius: 50%;
+            cursor: pointer; z-index: 5; transition: 0.3s;
         }
+        .fav-btn.is-fav { color: var(--fav-gold); }
 
-        .card-body { padding: 25px; text-align: left; }
-        .card-tag { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: block; }
-        .card-title { font-size: 1.3rem; font-weight: 700; margin: 0 0 20px 0; height: 1.5em; overflow: hidden; }
+        .card-img { height: 110px; display: flex; align-items: center; justify-content: center; font-size: 3rem; border-bottom: 1px solid #222; }
+        .card-body { padding: 20px; text-align: left; }
+        .card-title { font-size: 1.1rem; font-weight: 700; margin: 0 0 15px 0; }
 
-        .action-box { display: flex; gap: 10px; }
+        .action-box { display: flex; gap: 8px; }
         .a-btn {
-            flex: 1; padding: 12px; border-radius: 12px; border: none; cursor: pointer;
-            font-weight: 800; font-size: 0.75rem; text-transform: uppercase; transition: 0.2s;
-            display: flex; align-items: center; justify-content: center; gap: 5px;
+            flex: 1; padding: 10px; border-radius: 10px; border: none; cursor: pointer;
+            font-weight: 800; font-size: 0.7rem; text-transform: uppercase;
+            display: flex; align-items: center; justify-content: center; gap: 5px; color: white; text-decoration: none;
         }
-        .a-play { background: var(--accent-neon); color: white; text-decoration: none; }
-        .a-copy { background: #222; color: #eee; border: 1px solid #333; }
-        .a-btn:hover { opacity: 0.9; transform: scale(1.02); }
+        .a-play { background: var(--accent-neon); }
+        .a-copy { background: #333; }
+
+        /* PANEL CONFIGURACIÓN */
+        #configPanel {
+            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: #1a1a20; padding: 30px; border-radius: 20px; border: 2px solid var(--accent-neon);
+            z-index: 200; width: 90%; max-width: 400px; box-shadow: 0 0 100px rgba(0,0,0,0.9);
+        }
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 199; }
 
         #toast {
             visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: white; color: black; padding: 15px 35px; border-radius: 50px;
-            font-weight: 800; z-index: 1000; box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            background: white; color: black; padding: 12px 30px; border-radius: 50px; font-weight: 800; z-index: 1000;
         }
-        #toast.show { visibility: visible; animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        #toast.show { visibility: visible; animation: slideIn 0.4s; }
         @keyframes slideIn { from { bottom: -50px; opacity: 0; } to { bottom: 30px; opacity: 1; } }
     </style>
 </head>
@@ -130,188 +104,138 @@
 
     <header id="main-header">
         <img src="SDJ.jpg" alt="SDJ" class="logo-sdj">
-        <div class="live-banner">● EN VIVO AHORA</div>
     </header>
 
     <div class="hero">
         <h1>SDJ COMMAND CENTER</h1>
         
-        <div class="btn-group">
-            <a href="https://discord.gg/9xSdJfUQuw" target="_blank" class="btn-main btn-discord">Comunidad Discord 💬</a>
-            <a href="https://www.mediafire.com/file/s0kkul8d9cbpkty/Ace_Stream_Media_3.2.8.exe/file" target="_blank" class="btn-main btn-download">Descargar Ace Player 📦</a>
-        </div>
-
-        <div class="search-container">
-            <input type="text" id="searchInput" class="search-input" placeholder="Buscar canal o deporte (F1, Fútbol, NBA...)" onkeyup="filterChannels()">
+        <div class="controls-wrapper">
+            <input type="text" id="searchInput" class="search-input" placeholder="Buscar canal..." onkeyup="filterChannels()">
+            
+            <div class="btn-group">
+                <a href="https://discord.gg/9xSdJfUQuw" target="_blank" class="btn-main btn-discord">Discord</a>
+                <a href="https://www.mediafire.com/file/s0kkul8d9cbpkty/Ace_Stream_Media_3.2.8.exe/file" target="_blank" class="btn-main btn-download">Ace Player</a>
+                <button onclick="toggleFavFilter()" id="favFilterBtn" class="btn-main btn-fav-filter">⭐ Favoritos</button>
+                <button onclick="toggleConfig()" class="btn-main btn-config">⚙️</button>
+            </div>
         </div>
 
         <div class="grid" id="channelGrid">
-            <div class="card">
+            <div class="card" data-id="f1-dazn">
+                <button class="fav-btn" onclick="toggleFav('f1-dazn')">★</button>
                 <div class="card-img" style="background: radial-gradient(circle, var(--f1-red) 0%, #000 100%);">🏎️</div>
                 <div class="card-body">
-                    <span class="card-tag" style="color: var(--f1-red);">Motor</span>
                     <h3 class="card-title">Fórmula 1 (DAZN)</h3>
                     <div class="action-box">
                         <a href="acestream://d65257bb934b73647374224fd62d836815804be2" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('d65257bb934b73647374224fd62d836815804be2', 'F1')">Copiar ID</button>
+                        <button class="a-btn a-copy" onclick="copyId('d65257bb934b73647374224fd62d836815804be2', 'F1')">ID</button>
                     </div>
                 </div>
             </div>
 
-            <div class="card live-now">
+            <div class="card live-now" data-id="ucl-live">
+                <button class="fav-btn" onclick="toggleFav('ucl-live')">★</button>
                 <div class="card-img" style="background: radial-gradient(circle, var(--champions-blue) 0%, #000 100%);">🏆</div>
                 <div class="card-body">
-                    <span class="card-tag" style="color: var(--live-red);">● LIVE - UEFA</span>
-                    <h3 class="card-title">Liga de Campeones</h3>
+                    <h3 class="card-title">UEFA Champions League</h3>
                     <div class="action-box">
                         <a href="acestream://e572a5178ff72eed7d1d751a18b4b3419699f370" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('e572a5178ff72eed7d1d751a18b4b3419699f370', 'Champions')">Copiar ID</button>
+                        <button class="a-btn a-copy" onclick="copyId('e572a5178ff72eed7d1d751a18b4b3419699f370', 'Champions')">ID</button>
                     </div>
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card" data-id="laliga-dazn">
+                <button class="fav-btn" onclick="toggleFav('laliga-dazn')">★</button>
                 <div class="card-img" style="background: radial-gradient(circle, var(--foot-green) 0%, #000 100%);">⚽</div>
                 <div class="card-body">
-                    <span class="card-tag" style="color: var(--foot-green);">LALIGA</span>
-                    <h3 class="card-title">DAZN LaLiga (Partidos)</h3>
+                    <h3 class="card-title">DAZN LaLiga (Nueva ID)</h3>
                     <div class="action-box">
                         <a href="acestream://19f28f60c908f987b1a03da078e63320d7bf29e8" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('19f28f60c908f987b1a03da078e63320d7bf29e8', 'DAZN LaLiga')">Copiar ID</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img" style="background: radial-gradient(circle, var(--movistar-blue) 0%, #000 100%);">⚽</div>
-                <div class="card-body">
-                    <span class="card-tag" style="color: var(--movistar-blue);">LALIGA</span>
-                    <h3 class="card-title">M+ LaLiga 2</h3>
-                    <div class="action-box">
-                        <a href="acestream://caa631e8850e3eb5e7c039063dd8a339ccef1176" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('caa631e8850e3eb5e7c039063dd8a339ccef1176', 'M+ LaLiga 2')">Copiar ID</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img" style="background: radial-gradient(circle, var(--dazn-blue) 0%, #000 100%);">📺</div>
-                <div class="card-body">
-                    <span class="card-tag" style="color: var(--dazn-blue);">DAZN</span>
-                    <h3 class="card-title">DAZN 1</h3>
-                    <div class="action-box">
-                        <a href="acestream://4141892f5df7d6474bf0279895ce02b7336c9928" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('4141892f5df7d6474bf0279895ce02b7336c9928', 'DAZN 1')">Copiar ID</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img" style="background: radial-gradient(circle, var(--dazn-blue) 0%, #000 100%);">📺</div>
-                <div class="card-body">
-                    <span class="card-tag" style="color: var(--dazn-blue);">DAZN</span>
-                    <h3 class="card-title">DAZN 2 (Secundario)</h3>
-                    <div class="action-box">
-                        <a href="acestream://b0eabe0fdd02fdd165896236765a9b753a2ff516" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('b0eabe0fdd02fdd165896236765a9b753a2ff516', 'DAZN 2')">Copiar ID</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img" style="background: radial-gradient(circle, var(--nba-orange) 0%, #000 100%);">🏀</div>
-                <div class="card-body">
-                    <span class="card-tag" style="color: var(--nba-orange);">Basketball</span>
-                    <h3 class="card-title">NBA TV Pro</h3>
-                    <div class="action-box">
-                        <a href="acestream://e72d03fb9694164317260f684470be9ab781ed95" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('e72d03fb9694164317260f684470be9ab781ed95', 'NBA')">Copiar ID</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img" style="background: radial-gradient(circle, var(--foot-green) 0%, #000 100%);">⚽</div>
-                <div class="card-body">
-                    <span class="card-tag" style="color: var(--foot-green);">Fútbol</span>
-                    <h3 class="card-title">M+ LaLiga 1</h3>
-                    <div class="action-box">
-                        <a href="acestream://31c19ffb3472c289c5bbbbc174449c8ed0d19e38" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('31c19ffb3472c289c5bbbbc174449c8ed0d19e38', 'M+ LaLiga 1')">Copiar ID</button>
+                        <button class="a-btn a-copy" onclick="copyId('19f28f60c908f987b1a03da078e63320d7bf29e8', 'DAZN LaLiga')">ID</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="overlay" id="overlay" onclick="toggleConfig()"></div>
+    <div id="configPanel">
+        <h2 style="margin-top:0">Configuración</h2>
+        <hr border="0" style="height:1px; background:#333; margin:20px 0">
+        <button class="a-btn a-copy" onclick="clearFavs()" style="width:100%; padding:15px; margin-bottom:10px">Borrar todos los Favoritos 🗑️</button>
+        <button class="a-btn a-play" onclick="toggleConfig()" style="width:100%; padding:15px">Cerrar</button>
+    </div>
+
     <div id="toast">Copiado con éxito</div>
 
     <script>
-        // Lógica de búsqueda
+        let favorites = JSON.parse(localStorage.getItem('sdj_favs')) || [];
+        let showOnlyFavs = false;
+
+        function toggleFav(id) {
+            const index = favorites.indexOf(id);
+            const btn = document.querySelector(`[data-id="${id}"] .fav-btn`);
+            if (index > -1) { favorites.splice(index, 1); btn.classList.remove('is-fav'); }
+            else { favorites.push(id); btn.classList.add('is-fav'); }
+            localStorage.setItem('sdj_favs', JSON.stringify(favorites));
+            if (showOnlyFavs) filterChannels();
+        }
+
+        function toggleFavFilter() {
+            showOnlyFavs = !showOnlyFavs;
+            document.getElementById('favFilterBtn').classList.toggle('active');
+            filterChannels();
+        }
+
         function filterChannels() {
-            const input = document.getElementById('searchInput');
-            const filter = input.value.toLowerCase();
-            const grid = document.getElementById('channelGrid');
-            const cards = grid.getElementsByClassName('card');
-
-            for (let i = 0; i < cards.length; i++) {
-                const title = cards[i].querySelector('.card-title').innerText.toLowerCase();
-                const tag = cards[i].querySelector('.card-tag').innerText.toLowerCase();
-                
-                if (title.includes(filter) || tag.includes(filter)) {
-                    cards[i].classList.remove('hidden');
-                } else {
-                    cards[i].classList.add('hidden');
-                }
-            }
+            const filter = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                const title = card.querySelector('.card-title').innerText.toLowerCase();
+                const isFav = favorites.includes(card.getAttribute('data-id'));
+                if (title.includes(filter) && (showOnlyFavs ? isFav : true)) {
+                    card.classList.remove('hidden');
+                } else { card.classList.add('hidden'); }
+            });
         }
 
-        function checkLive() {
-            const header = document.getElementById('main-header');
-            const hasLive = document.querySelector('.card.live-now');
-            if (hasLive) {
-                header.classList.add('live-active');
-            } else {
-                header.classList.remove('live-active');
-            }
+        function toggleConfig() {
+            const p = document.getElementById('configPanel');
+            const o = document.getElementById('overlay');
+            const isVisible = p.style.display === 'block';
+            p.style.display = isVisible ? 'none' : 'block';
+            o.style.display = isVisible ? 'none' : 'block';
         }
 
-        window.onload = checkLive;
+        function clearFavs() {
+            if(confirm('¿Borrar todos tus favoritos?')) {
+                favorites = [];
+                localStorage.removeItem('sdj_favs');
+                document.querySelectorAll('.fav-btn').forEach(b => b.classList.remove('is-fav'));
+                filterChannels();
+                toggleConfig();
+            }
+        }
 
         function copyId(id, name) {
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(id).then(() => {
-                    success(name);
-                }).catch(() => {
-                    fallback(id, name);
-                });
-            } else {
-                fallback(id, name);
-            }
+            navigator.clipboard.writeText(id).then(() => {
+                const t = document.getElementById("toast");
+                t.innerText = "📋 ID de " + name + " copiada";
+                t.className = "show";
+                setTimeout(() => { t.className = ""; }, 3000);
+            });
         }
 
-        function fallback(id, name) {
-            const area = document.createElement("textarea");
-            area.value = id;
-            area.style.position = "fixed";
-            area.style.left = "-9999px";
-            document.body.appendChild(area);
-            area.select();
-            try {
-                document.execCommand('copy');
-                success(name);
-            } catch (err) {
-                console.error("Error copy", err);
-            }
-            document.body.removeChild(area);
-        }
-
-        function success(name) {
-            const t = document.getElementById("toast");
-            t.innerText = "📋 ID de " + name + " copiada";
-            t.className = "show";
-            setTimeout(() => { t.className = ""; }, 3000);
-        }
+        window.onload = () => {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                if (favorites.includes(card.getAttribute('data-id'))) {
+                    card.querySelector('.fav-btn').classList.add('is-fav');
+                }
+            });
+            if (document.querySelector('.card.live-now')) document.getElementById('main-header').classList.add('live-active');
+        };
     </script>
 </body>
 </html>
