@@ -37,9 +37,8 @@
 
         .logo-sdj { height: 65px; border-radius: 12px; border: 1px solid var(--accent-neon); }
 
-        /* BUSCADOR */
         .search-box {
-            width: 90%; max-width: 500px; margin: 30px auto 0;
+            width: 90%; max-width: 500px; margin: 30px auto 10px;
             padding: 12px 25px; border-radius: 50px; background: var(--card-bg);
             border: 2px solid #333; color: white; font-family: 'Poppins'; outline: none;
             transition: 0.3s; display: block;
@@ -48,7 +47,6 @@
 
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; width: 100%; max-width: 1100px; padding: 20px; box-sizing: border-box; }
 
-        /* TARJETAS */
         .card { 
             background: var(--card-bg); border-radius: 24px; overflow: hidden; 
             border: 1px solid #222; transition: var(--transition); display: flex; 
@@ -57,7 +55,6 @@
         .card.live-now { border-color: var(--live-red); box-shadow: 0 0 15px rgba(255,0,0,0.2); }
         .card:hover { transform: translateY(-10px); border-color: var(--accent-neon); }
 
-        /* FAVORITOS */
         .fav-btn {
             position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.6);
             border: none; color: #444; font-size: 1.2rem; cursor: pointer;
@@ -65,7 +62,6 @@
         }
         .fav-btn.active { color: #ffcc00; text-shadow: 0 0 10px #ffcc00; }
 
-        /* INDICADOR ESTADO */
         .status-dot {
             position: absolute; top: 15px; right: 15px; width: 12px; height: 12px;
             border-radius: 50%; background: var(--online-green); border: 2px solid #000;
@@ -75,23 +71,24 @@
         .card-img { height: 120px; display: flex; align-items: center; justify-content: center; font-size: 3rem; border-bottom: 1px solid #222; }
         .card-body { padding: 20px; }
         .card-tag { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 5px; display: block; }
-        .card-title { font-size: 1.1rem; margin: 0 0 15px 0; }
+        .card-title { font-size: 1.1rem; margin: 0 0 15px 0; height: 1.4em; overflow: hidden; }
 
         .action-box { display: flex; gap: 8px; }
-        .a-btn { flex: 1; padding: 10px; border-radius: 10px; border: none; cursor: pointer; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; text-decoration: none; text-align: center; }
+        .a-btn { flex: 1; padding: 10px; border-radius: 10px; border: none; cursor: pointer; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; }
         .a-play { background: var(--accent-neon); color: white; }
-        .a-copy { background: #222; color: #eee; }
+        .a-copy { background: #222; color: #eee; border: 1px solid #333; }
 
         /* ADMIN PANEL */
-        #settings-btn { position: fixed; bottom: 20px; right: 20px; background: #333; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; z-index: 1000; opacity: 0.5; }
+        #settings-btn { position: fixed; bottom: 20px; right: 20px; background: #333; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; z-index: 1000; opacity: 0.5; font-size: 1.2rem; }
         #admin-panel { 
             display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
             background: #1a1a20; padding: 25px; border-radius: 20px; border: 2px solid var(--accent-neon); 
-            z-index: 2000; width: 320px; box-shadow: 0 0 100px rgba(0,0,0,0.9);
+            z-index: 2000; width: 350px; box-shadow: 0 0 100px rgba(0,0,0,0.9); max-height: 80vh; overflow-y: auto;
         }
-        .admin-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #333; font-size: 0.8rem; }
+        .admin-row { display: flex; flex-direction: column; gap: 5px; padding: 10px 0; border-bottom: 1px solid #333; font-size: 0.8rem; }
+        .admin-controls { display: flex; justify-content: space-between; align-items: center; }
 
-        #toast { visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: white; color: black; padding: 12px 30px; border-radius: 50px; font-weight: 800; z-index: 3000; }
+        #toast { visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: white; color: black; padding: 12px 30px; border-radius: 50px; font-weight: 800; z-index: 3000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         #toast.show { visibility: visible; animation: slideIn 0.3s forwards; }
         @keyframes slideIn { from { bottom: -20px; opacity: 0; } to { bottom: 30px; opacity: 1; } }
     </style>
@@ -102,45 +99,17 @@
         <img src="SDJ.jpg" alt="SDJ" class="logo-sdj">
     </header>
 
-    <input type="text" id="channelSearch" class="search-box" placeholder="Buscar canal..." onkeyup="filterChannels()">
+    <input type="text" id="channelSearch" class="search-box" placeholder="Buscar canal o deporte..." onkeyup="filterChannels()">
 
     <div class="grid" id="main-grid">
-        <div class="card" data-channel="f1">
-            <button class="fav-btn" onclick="toggleFav('f1')">★</button>
-            <div class="status-dot" id="dot-f1"></div>
-            <div class="card-img" style="background: radial-gradient(circle, var(--f1-red) 0%, #000 100%);">🏎️</div>
-            <div class="card-body">
-                <span class="card-tag" id="tag-f1" style="color: var(--f1-red);">Motor</span>
-                <h3 class="card-title">Fórmula 1 (DAZN)</h3>
-                <div class="action-box">
-                    <a href="acestream://d65257bb934b73647374224fd62d836815804be2" class="a-btn a-play">Abrir</a>
-                    <button class="a-btn a-copy" onclick="copyId('d65257bb934b73647374224fd62d836815804be2', 'F1')">ID</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="card" data-channel="champions">
-            <button class="fav-btn" onclick="toggleFav('champions')">★</button>
-            <div class="status-dot" id="dot-champions"></div>
-            <div class="card-img" style="background: radial-gradient(circle, var(--champions-blue) 0%, #000 100%);">🏆</div>
-            <div class="card-body">
-                <span class="card-tag" id="tag-champions" style="color: var(--movistar-blue);">UEFA</span>
-                <h3 class="card-title">Champions League</h3>
-                <div class="action-box">
-                    <a href="acestream://e572a5178ff72eed7d1d751a18b4b3419699f370" class="a-btn a-play">Abrir</a>
-                    <button class="a-btn a-copy" onclick="copyId('e572a5178ff72eed7d1d751a18b4b3419699f370', 'Champions')">ID</button>
-                </div>
-            </div>
-        </div>
-
         </div>
 
     <button id="settings-btn" onclick="loginAdmin()">⚙️</button>
 
     <div id="admin-panel">
-        <h3 style="margin:0 0 15px 0; color:var(--accent-neon)">Panel SDJ</h3>
+        <h3 style="margin:0 0 15px 0; color:var(--accent-neon)">SDJ Admin Center</h3>
         <div id="admin-list"></div>
-        <button class="a-play" style="width:100%; margin-top:15px; padding:10px" onclick="closeAdmin()">Guardar Cambios</button>
+        <button class="a-play" style="width:100%; margin-top:15px; padding:12px; border-radius:10px;" onclick="closeAdmin()">Guardar y Aplicar</button>
     </div>
 
     <div id="toast">Copiado</div>
@@ -149,28 +118,61 @@
         const userAdmin = "admin";
         const passAdmin = "1234";
         
+        // BASE DE DATOS DE CANALES ACTUALIZADA
         const channels = [
-            { id: 'f1', name: 'F1 DAZN' },
-            { id: 'champions', name: 'Champions' }
+            { id: 'f1', name: 'F1 DAZN', tag: 'Motor', icon: '🏎️', color: 'var(--f1-red)', ace: 'd65257bb934b73647374224fd62d836815804be2' },
+            { id: 'champions', name: 'Champions League', tag: 'UEFA', icon: '🏆', color: 'var(--champions-blue)', ace: 'e572a5178ff72eed7d1d751a18b4b3419699f370' },
+            { id: 'dazn-laliga', name: 'DAZN LaLiga', tag: 'LaLiga', icon: '⚽', color: 'var(--foot-green)', ace: '19f28f60c908f987b1a03da078e63320d7bf29e8' },
+            { id: 'movistar-laliga-1', name: 'M+ LaLiga TV', tag: 'M+ LaLiga', icon: '⚽', color: 'var(--movistar-blue)', ace: '31c19ffb3472c289c5bbbbc174449c8ed0d19e38' },
+            { id: 'movistar-laliga-2', name: 'M+ LaLiga 2', tag: 'M+ LaLiga', icon: '⚽', color: 'var(--movistar-blue)', ace: 'caa631e8850e3eb5e7c039063dd8a339ccef1176' },
+            { id: 'dazn-1', name: 'DAZN 1', tag: 'DAZN', icon: '📺', color: 'var(--dazn-blue)', ace: '4141892f5df7d6474bf0279895ce02b7336c9928' },
+            { id: 'dazn-2', name: 'DAZN 2', tag: 'DAZN', icon: '📺', color: 'var(--dazn-blue)', ace: 'b0eabe0fdd02fdd165896236765a9b753a2ff516' },
+            { id: 'nba', name: 'NBA TV Pro', tag: 'NBA', icon: '🏀', color: 'var(--nba-orange)', ace: 'e72d03fb9694164317260f684470be9ab781ed95' }
         ];
 
-        window.onload = () => {
+        // RENDERIZAR TARJETAS
+        function renderGrid() {
+            const grid = document.getElementById('main-grid');
+            grid.innerHTML = '';
             channels.forEach(ch => {
-                // Cargar Favoritos
+                grid.innerHTML += `
+                    <div class="card" data-channel="${ch.id}">
+                        <button class="fav-btn" onclick="toggleFav('${ch.id}')">★</button>
+                        <div class="status-dot" id="dot-${ch.id}"></div>
+                        <div class="card-img" style="background: radial-gradient(circle, ${ch.color} 0%, #000 100%);">${ch.icon}</div>
+                        <div class="card-body">
+                            <span class="card-tag" id="tag-${ch.id}" style="color: ${ch.color}">${ch.tag}</span>
+                            <h3 class="card-title">${ch.name}</h3>
+                            <div class="action-box">
+                                <a href="acestream://${ch.ace}" class="a-btn a-play">Abrir</a>
+                                <button class="a-btn a-copy" onclick="copyId('${ch.ace}', '${ch.name}')">ID</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            loadStates();
+        }
+
+        // CARGAR ESTADOS (FAVS, LIVE, STATUS)
+        function loadStates() {
+            channels.forEach(ch => {
+                // Favoritos
                 if(localStorage.getItem(`fav_${ch.id}`) === 'true') {
                     document.querySelector(`.card[data-channel="${ch.id}"] .fav-btn`).classList.add('active');
                 }
-                // Cargar Estado Online/Offline
-                const isOff = localStorage.getItem(`off_${ch.id}`) === 'true';
-                if(isOff) document.getElementById(`dot-${ch.id}`).classList.add('offline');
-                
-                // Cargar Live
-                if(localStorage.getItem(`live_${ch.id}`) === 'true') toggleLive(ch.id, true, false);
+                // Offline
+                if(localStorage.getItem(`off_${ch.id}`) === 'true') {
+                    document.getElementById(`dot-${ch.id}`).classList.add('offline');
+                }
+                // Live
+                if(localStorage.getItem(`live_${ch.id}`) === 'true') {
+                    toggleLive(ch.id, true, false);
+                }
             });
             sortCards();
-        };
+        }
 
-        // FAVORITOS Y BUSCADOR
         function toggleFav(id) {
             const btn = document.querySelector(`.card[data-channel="${id}"] .fav-btn`);
             const active = btn.classList.toggle('active');
@@ -193,16 +195,17 @@
             let input = document.getElementById('channelSearch').value.toLowerCase();
             document.querySelectorAll('.card').forEach(card => {
                 let title = card.querySelector('.card-title').innerText.toLowerCase();
-                card.style.display = title.includes(input) ? "flex" : "none";
+                let tag = card.querySelector('.card-tag').innerText.toLowerCase();
+                card.style.display = (title.includes(input) || tag.includes(input)) ? "flex" : "none";
             });
         }
 
-        // ADMIN FUNCTIONS
+        // PANEL ADMIN
         function loginAdmin() {
-            if(prompt("Usuario:") === userAdmin && prompt("Pass:") === passAdmin) {
+            if(prompt("Usuario Admin:") === userAdmin && prompt("Password:") === passAdmin) {
                 document.getElementById('admin-panel').style.display = 'block';
                 renderAdmin();
-            }
+            } else { alert("Error de acceso"); }
         }
 
         function renderAdmin() {
@@ -213,10 +216,10 @@
                 const isOff = document.getElementById(`dot-${ch.id}`).classList.contains('offline');
                 list.innerHTML += `
                     <div class="admin-row">
-                        <span>${ch.name}</span>
-                        <div>
-                            Live: <input type="checkbox" ${isLive ? 'checked' : ''} onchange="toggleLive('${ch.id}', this.checked, true)">
-                            Off: <input type="checkbox" ${isOff ? 'checked' : ''} onchange="toggleStatus('${ch.id}', this.checked)">
+                        <strong style="color:var(--accent-neon)">${ch.name}</strong>
+                        <div class="admin-controls">
+                            <label><input type="checkbox" ${isLive ? 'checked' : ''} onchange="toggleLive('${ch.id}', this.checked, true)"> EN VIVO</label>
+                            <label><input type="checkbox" ${isOff ? 'checked' : ''} onchange="toggleStatus('${ch.id}', this.checked)"> CAÍDO</label>
                         </div>
                     </div>`;
             });
@@ -227,12 +230,14 @@
             const tag = document.getElementById(`tag-${id}`);
             if(status) {
                 card.classList.add('live-now');
-                tag.innerText = "● LIVE - " + tag.innerText.replace("● LIVE - ", "");
+                if(!tag.innerText.includes("● LIVE")) tag.innerText = "● LIVE - " + tag.innerText;
                 tag.style.color = "var(--live-red)";
             } else {
                 card.classList.remove('live-now');
                 tag.innerText = tag.innerText.replace("● LIVE - ", "");
-                tag.style.color = "";
+                // Restaurar color original del canal
+                const chData = channels.find(c => c.id === id);
+                tag.style.color = chData ? chData.color : "";
             }
             if(save) localStorage.setItem(`live_${id}`, status);
             updateHeader();
@@ -257,6 +262,9 @@
         }
 
         function closeAdmin() { document.getElementById('admin-panel').style.display = 'none'; }
+
+        // Inicialización
+        renderGrid();
     </script>
 </body>
 </html>
