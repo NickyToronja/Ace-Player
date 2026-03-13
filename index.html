@@ -12,7 +12,7 @@
             --dazn-blue: #3498db; --nba-orange: #ff9800; --foot-green: #2ecc71;
             --movistar-blue: #00bcff; --champions-blue: #001e4e;
             --text-main: #ffffff; --transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-            --live-red: #ff0000;
+            --live-red: #ff0000; --online-green: #2ecc71;
         }
 
         @keyframes stripe-move { 0% { background-position: 0 0; } 100% { background-position: 100px 100px; } }
@@ -20,7 +20,6 @@
             0%, 100% { box-shadow: 0 0 10px var(--live-red); border-bottom-color: var(--live-red); }
             50% { box-shadow: 0 0 25px var(--live-red); border-bottom-color: #ff4d4d; }
         }
-        @keyframes pulse-text { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
         body {
             font-family: 'Poppins', sans-serif; background-color: var(--bg-deep); color: var(--text-main);
@@ -33,175 +32,115 @@
             width: 100%; background: rgba(10, 10, 12, 0.95); backdrop-filter: blur(10px);
             padding: 20px 0; text-align: center; border-bottom: 2px solid var(--accent-neon);
             position: sticky; top: 0; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: var(--transition);
         }
+        header.live-active { animation: live-glow 1.5s infinite ease-in-out; }
 
-        header.live-active { animation: live-glow 1.5s infinite ease-in-out; border-bottom-width: 3px; }
-        .live-banner { display: none; color: var(--live-red); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 8px; animation: pulse-text 1s infinite; }
-        header.live-active .live-banner { display: block; }
+        .logo-sdj { height: 65px; border-radius: 12px; border: 1px solid var(--accent-neon); }
 
-        .logo-sdj { height: 65px; border-radius: 12px; border: 1px solid var(--accent-neon); box-shadow: 0 0 20px rgba(127, 90, 240, 0.4); }
+        /* BUSCADOR */
+        .search-box {
+            width: 90%; max-width: 500px; margin: 30px auto 0;
+            padding: 12px 25px; border-radius: 50px; background: var(--card-bg);
+            border: 2px solid #333; color: white; font-family: 'Poppins'; outline: none;
+            transition: 0.3s; display: block;
+        }
+        .search-box:focus { border-color: var(--accent-neon); box-shadow: 0 0 15px rgba(127, 90, 240, 0.3); }
 
-        .hero { width: 100%; max-width: 1100px; padding: 40px 20px; text-align: center; box-sizing: border-box; }
-        h1 { font-family: 'Oswald'; font-size: 3.5rem; margin: 0; letter-spacing: 2px; text-shadow: 0 0 20px rgba(127, 90, 240, 0.6); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; width: 100%; max-width: 1100px; padding: 20px; box-sizing: border-box; }
 
-        .btn-group { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin: 40px 0; }
-        .btn-main { padding: 15px 35px; border-radius: 50px; text-decoration: none; font-weight: 800; text-transform: uppercase; font-size: 0.9rem; transition: var(--transition); display: flex; align-items: center; gap: 10px; color: white; border: none; cursor: pointer; }
-        .btn-discord { background: var(--discord-color); }
-        .btn-download { background: var(--f1-red); }
+        /* TARJETAS */
+        .card { 
+            background: var(--card-bg); border-radius: 24px; overflow: hidden; 
+            border: 1px solid #222; transition: var(--transition); display: flex; 
+            flex-direction: column; position: relative;
+        }
+        .card.live-now { border-color: var(--live-red); box-shadow: 0 0 15px rgba(255,0,0,0.2); }
+        .card:hover { transform: translateY(-10px); border-color: var(--accent-neon); }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; width: 100%; margin-top: 30px;}
+        /* FAVORITOS */
+        .fav-btn {
+            position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.6);
+            border: none; color: #444; font-size: 1.2rem; cursor: pointer;
+            width: 35px; height: 35px; border-radius: 50%; z-index: 5; transition: 0.3s;
+        }
+        .fav-btn.active { color: #ffcc00; text-shadow: 0 0 10px #ffcc00; }
 
-        .card { background: var(--card-bg); border-radius: 24px; overflow: hidden; border: 1px solid #222; transition: var(--transition); display: flex; flex-direction: column; position: relative; }
-        .card.live-now { border-color: var(--live-red); box-shadow: 0 0 15px rgba(255, 0, 0, 0.2); }
-        .card:hover { border-color: var(--accent-neon); transform: translateY(-12px); }
+        /* INDICADOR ESTADO */
+        .status-dot {
+            position: absolute; top: 15px; right: 15px; width: 12px; height: 12px;
+            border-radius: 50%; background: var(--online-green); border: 2px solid #000;
+        }
+        .status-dot.offline { background: #555; }
 
-        .card-img { height: 130px; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; border-bottom: 1px solid #222; }
-        .card-body { padding: 25px; text-align: left; }
-        .card-tag { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: block; }
-        .card-title { font-size: 1.2rem; font-weight: 700; margin: 0 0 20px 0; height: 1.5em; overflow: hidden; }
+        .card-img { height: 120px; display: flex; align-items: center; justify-content: center; font-size: 3rem; border-bottom: 1px solid #222; }
+        .card-body { padding: 20px; }
+        .card-tag { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 5px; display: block; }
+        .card-title { font-size: 1.1rem; margin: 0 0 15px 0; }
 
-        .action-box { display: flex; gap: 10px; }
-        .a-btn { flex: 1; padding: 12px; border-radius: 12px; border: none; cursor: pointer; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .action-box { display: flex; gap: 8px; }
+        .a-btn { flex: 1; padding: 10px; border-radius: 10px; border: none; cursor: pointer; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; text-decoration: none; text-align: center; }
         .a-play { background: var(--accent-neon); color: white; }
-        .a-copy { background: #222; color: #eee; border: 1px solid #333; }
-        .a-btn:hover { opacity: 0.8; transform: scale(1.02); }
+        .a-copy { background: #222; color: #eee; }
 
-        /* AJUSTES PANEL */
-        #settings-btn { position: fixed; bottom: 20px; right: 20px; background: #333; color: white; width: 50px; height: 50px; border-radius: 50%; border: none; cursor: pointer; font-size: 1.5rem; z-index: 1000; opacity: 0.4; transition: 0.3s; }
-        #settings-btn:hover { opacity: 1; transform: rotate(90deg); }
+        /* ADMIN PANEL */
+        #settings-btn { position: fixed; bottom: 20px; right: 20px; background: #333; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; z-index: 1000; opacity: 0.5; }
+        #admin-panel { 
+            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+            background: #1a1a20; padding: 25px; border-radius: 20px; border: 2px solid var(--accent-neon); 
+            z-index: 2000; width: 320px; box-shadow: 0 0 100px rgba(0,0,0,0.9);
+        }
+        .admin-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #333; font-size: 0.8rem; }
 
-        #admin-panel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1a1a20; padding: 25px; border-radius: 20px; border: 2px solid var(--accent-neon); z-index: 2000; width: 320px; box-shadow: 0 0 100px rgba(0,0,0,0.9); max-height: 80vh; overflow-y: auto; }
-        .admin-row { margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; padding-bottom: 8px; border-bottom: 1px solid #333; }
-        .admin-row span { font-size: 0.8rem; font-weight: 600; }
-        input[type="number"] { width: 50px; background: #000; border: 1px solid #444; color: white; padding: 5px; border-radius: 5px; font-size: 0.8rem; }
-        .save-btn { width: 100%; padding: 12px; background: var(--accent-neon); border: none; color: white; font-weight: 800; border-radius: 10px; cursor: pointer; margin-top: 10px; }
-
-        #toast { visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: white; color: black; padding: 15px 35px; border-radius: 50px; font-weight: 800; z-index: 3000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        #toast.show { visibility: visible; animation: slideIn 0.4s forwards; }
-        @keyframes slideIn { from { bottom: -50px; opacity: 0; } to { bottom: 30px; opacity: 1; } }
+        #toast { visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: white; color: black; padding: 12px 30px; border-radius: 50px; font-weight: 800; z-index: 3000; }
+        #toast.show { visibility: visible; animation: slideIn 0.3s forwards; }
+        @keyframes slideIn { from { bottom: -20px; opacity: 0; } to { bottom: 30px; opacity: 1; } }
     </style>
 </head>
 <body>
 
     <header id="main-header">
         <img src="SDJ.jpg" alt="SDJ" class="logo-sdj">
-        <div class="live-banner">● EN VIVO AHORA</div>
     </header>
 
-    <div class="hero">
-        <h1>SDJ COMMAND CENTER</h1>
+    <input type="text" id="channelSearch" class="search-box" placeholder="Buscar canal..." onkeyup="filterChannels()">
 
-        <div class="btn-group">
-            <a href="https://discord.com/invite/zCS9ZBUXAt" target="_blank" class="btn-main btn-discord">Discord 💬</a>
-            <a href="https://www.mediafire.com/file/s0kkul8d9cbpkty/Ace_Stream_Media_3.2.8.exe/file" target="_blank" class="btn-main btn-download">Ace Player 📦</a>
-        </div>
-        
-        <div class="grid">
-            <div class="card" data-channel="f1">
-                <div class="card-img" style="background: radial-gradient(circle, var(--f1-red) 0%, #000 100%);">🏎️</div>
-                <div class="card-body">
-                    <span class="card-tag" style="color: var(--f1-red);">Motor</span>
-                    <h3 class="card-title">Fórmula 1 (DAZN)</h3>
-                    <div class="action-box">
-                        <a href="acestream://d65257bb934b73647374224fd62d836815804be2" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('d65257bb934b73647374224fd62d836815804be2', 'F1')">ID</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card" data-channel="champions">
-                <div class="card-img" style="background: radial-gradient(circle, var(--champions-blue) 0%, #000 100%);">🏆</div>
-                <div class="card-body">
-                    <span class="card-tag" style="color: var(--movistar-blue);">UEFA</span>
-                    <h3 class="card-title">Liga de Campeones</h3>
-                    <div class="action-box">
-                        <a href="acestream://e572a5178ff72eed7d1d751a18b4b3419699f370" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('e572a5178ff72eed7d1d751a18b4b3419699f370', 'Champions')">ID</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card" data-channel="dazn-laliga">
-                <div class="card-img" style="background: radial-gradient(circle, var(--foot-green) 0%, #000 100%);">⚽</div>
-                <div class="card-body">
-                    <span class="card-tag" style="color: var(--foot-green);">LaLiga</span>
-                    <h3 class="card-title">DAZN LaLiga</h3>
-                    <div class="action-box">
-                        <a href="acestream://19f28f60c908f987b1a03da078e63320d7bf29e8" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('19f28f60c908f987b1a03da078e63320d7bf29e8', 'DAZN LaLiga')">ID</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card" data-channel="movistar-laliga-2">
-                <div class="card-img" style="background: radial-gradient(circle, var(--movistar-blue) 0%, #000 100%);">⚽</div>
-                <div class="card-body">
-                    <span class="card-tag" style="color: var(--movistar-blue);">M+ LaLiga</span>
-                    <h3 class="card-title">M+ LaLiga 2</h3>
-                    <div class="action-box">
-                        <a href="acestream://caa631e8850e3eb5e7c039063dd8a339ccef1176" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('caa631e8850e3eb5e7c039063dd8a339ccef1176', 'M+ LaLiga 2')">ID</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card" data-channel="dazn-1">
-                <div class="card-img" style="background: radial-gradient(circle, var(--dazn-blue) 0%, #000 100%);">📺</div>
-                <div class="card-body">
-                    <span class="card-tag" style="color: var(--dazn-blue);">DAZN</span>
-                    <h3 class="card-title">DAZN 1</h3>
-                    <div class="action-box">
-                        <a href="acestream://4141892f5df7d6474bf0279895ce02b7336c9928" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('4141892f5df7d6474bf0279895ce02b7336c9928', 'DAZN 1')">ID</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card" data-channel="dazn-2">
-                <div class="card-img" style="background: radial-gradient(circle, var(--dazn-blue) 0%, #000 100%);">📺</div>
-                <div class="card-body">
-                    <span class="card-tag" style="color: var(--dazn-blue);">DAZN</span>
-                    <h3 class="card-title">DAZN 2</h3>
-                    <div class="action-box">
-                        <a href="acestream://b0eabe0fdd02fdd165896236765a9b753a2ff516" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('b0eabe0fdd02fdd165896236765a9b753a2ff516', 'DAZN 2')">ID</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card" data-channel="nba">
-                <div class="card-img" style="background: radial-gradient(circle, var(--nba-orange) 0%, #000 100%);">🏀</div>
-                <div class="card-body">
-                    <span class="card-tag" style="color: var(--nba-orange);">NBA</span>
-                    <h3 class="card-title">NBA TV Pro</h3>
-                    <div class="action-box">
-                        <a href="acestream://e72d03fb9694164317260f684470be9ab781ed95" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('e72d03fb9694164317260f684470be9ab781ed95', 'NBA')">ID</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card" data-channel="movistar-laliga-1">
-                <div class="card-img" style="background: radial-gradient(circle, var(--foot-green) 0%, #000 100%);">⚽</div>
-                <div class="card-body">
-                    <span class="card-tag" style="color: var(--foot-green);">M+ LaLiga</span>
-                    <h3 class="card-title">M+ LaLiga 1</h3>
-                    <div class="action-box">
-                        <a href="acestream://31c19ffb3472c289c5bbbbc174449c8ed0d19e38" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('31c19ffb3472c289c5bbbbc174449c8ed0d19e38', 'M+ LaLiga 1')">ID</button>
-                    </div>
+    <div class="grid" id="main-grid">
+        <div class="card" data-channel="f1">
+            <button class="fav-btn" onclick="toggleFav('f1')">★</button>
+            <div class="status-dot" id="dot-f1"></div>
+            <div class="card-img" style="background: radial-gradient(circle, var(--f1-red) 0%, #000 100%);">🏎️</div>
+            <div class="card-body">
+                <span class="card-tag" id="tag-f1" style="color: var(--f1-red);">Motor</span>
+                <h3 class="card-title">Fórmula 1 (DAZN)</h3>
+                <div class="action-box">
+                    <a href="acestream://d65257bb934b73647374224fd62d836815804be2" class="a-btn a-play">Abrir</a>
+                    <button class="a-btn a-copy" onclick="copyId('d65257bb934b73647374224fd62d836815804be2', 'F1')">ID</button>
                 </div>
             </div>
         </div>
-    </div>
+
+        <div class="card" data-channel="champions">
+            <button class="fav-btn" onclick="toggleFav('champions')">★</button>
+            <div class="status-dot" id="dot-champions"></div>
+            <div class="card-img" style="background: radial-gradient(circle, var(--champions-blue) 0%, #000 100%);">🏆</div>
+            <div class="card-body">
+                <span class="card-tag" id="tag-champions" style="color: var(--movistar-blue);">UEFA</span>
+                <h3 class="card-title">Champions League</h3>
+                <div class="action-box">
+                    <a href="acestream://e572a5178ff72eed7d1d751a18b4b3419699f370" class="a-btn a-play">Abrir</a>
+                    <button class="a-btn a-copy" onclick="copyId('e572a5178ff72eed7d1d751a18b4b3419699f370', 'Champions')">ID</button>
+                </div>
+            </div>
+        </div>
+
+        </div>
 
     <button id="settings-btn" onclick="loginAdmin()">⚙️</button>
 
     <div id="admin-panel">
-        <h3 style="margin-top:0; color:var(--accent-neon)">Panel de Control</h3>
+        <h3 style="margin:0 0 15px 0; color:var(--accent-neon)">Panel SDJ</h3>
         <div id="admin-list"></div>
-        <button class="save-btn" onclick="closeAdmin()">Guardar y Cerrar</button>
+        <button class="a-play" style="width:100%; margin-top:15px; padding:10px" onclick="closeAdmin()">Guardar Cambios</button>
     </div>
 
     <div id="toast">Copiado</div>
@@ -212,98 +151,112 @@
         
         const channels = [
             { id: 'f1', name: 'F1 DAZN' },
-            { id: 'champions', name: 'Champions' },
-            { id: 'dazn-laliga', name: 'DAZN LaLiga' },
-            { id: 'movistar-laliga-2', name: 'M+ LaLiga 2' },
-            { id: 'dazn-1', name: 'DAZN 1' },
-            { id: 'dazn-2', name: 'DAZN 2' },
-            { id: 'nba', name: 'NBA TV' },
-            { id: 'movistar-laliga-1', name: 'M+ LaLiga 1' }
+            { id: 'champions', name: 'Champions' }
         ];
 
-        // Cargar estado al iniciar
         window.onload = () => {
             channels.forEach(ch => {
-                const isLive = localStorage.getItem(`live_${ch.id}`) === 'true';
-                if (isLive) toggleLive(ch.id, true, false);
+                // Cargar Favoritos
+                if(localStorage.getItem(`fav_${ch.id}`) === 'true') {
+                    document.querySelector(`.card[data-channel="${ch.id}"] .fav-btn`).classList.add('active');
+                }
+                // Cargar Estado Online/Offline
+                const isOff = localStorage.getItem(`off_${ch.id}`) === 'true';
+                if(isOff) document.getElementById(`dot-${ch.id}`).classList.add('offline');
+                
+                // Cargar Live
+                if(localStorage.getItem(`live_${ch.id}`) === 'true') toggleLive(ch.id, true, false);
             });
-            updateHeader();
+            sortCards();
         };
 
+        // FAVORITOS Y BUSCADOR
+        function toggleFav(id) {
+            const btn = document.querySelector(`.card[data-channel="${id}"] .fav-btn`);
+            const active = btn.classList.toggle('active');
+            localStorage.setItem(`fav_${id}`, active);
+            sortCards();
+        }
+
+        function sortCards() {
+            const grid = document.getElementById('main-grid');
+            const cards = Array.from(grid.children);
+            cards.sort((a, b) => {
+                const aFav = a.querySelector('.fav-btn').classList.contains('active');
+                const bFav = b.querySelector('.fav-btn').classList.contains('active');
+                return bFav - aFav;
+            });
+            cards.forEach(c => grid.appendChild(c));
+        }
+
+        function filterChannels() {
+            let input = document.getElementById('channelSearch').value.toLowerCase();
+            document.querySelectorAll('.card').forEach(card => {
+                let title = card.querySelector('.card-title').innerText.toLowerCase();
+                card.style.display = title.includes(input) ? "flex" : "none";
+            });
+        }
+
+        // ADMIN FUNCTIONS
         function loginAdmin() {
-            const user = prompt("Usuario:");
-            const pass = prompt("Contraseña:");
-            if(user === userAdmin && pass === passAdmin) {
+            if(prompt("Usuario:") === userAdmin && prompt("Pass:") === passAdmin) {
                 document.getElementById('admin-panel').style.display = 'block';
                 renderAdmin();
-            } else { alert("Acceso denegado"); }
+            }
         }
 
         function renderAdmin() {
             const list = document.getElementById('admin-list');
             list.innerHTML = '';
             channels.forEach(ch => {
-                const card = document.querySelector(`.card[data-channel="${ch.id}"]`);
-                const isLive = card.classList.contains('live-now');
+                const isLive = document.querySelector(`.card[data-channel="${ch.id}"]`).classList.contains('live-now');
+                const isOff = document.getElementById(`dot-${ch.id}`).classList.contains('offline');
                 list.innerHTML += `
                     <div class="admin-row">
                         <span>${ch.name}</span>
-                        <div style="display:flex; gap:10px; align-items:center">
-                            <input type="checkbox" ${isLive ? 'checked' : ''} onchange="toggleLive('${ch.id}', this.checked, true)">
-                            <input type="number" placeholder="Min" id="timer-${ch.id}" style="width:40px">
+                        <div>
+                            Live: <input type="checkbox" ${isLive ? 'checked' : ''} onchange="toggleLive('${ch.id}', this.checked, true)">
+                            Off: <input type="checkbox" ${isOff ? 'checked' : ''} onchange="toggleStatus('${ch.id}', this.checked)">
                         </div>
-                    </div>
-                `;
+                    </div>`;
             });
         }
 
         function toggleLive(id, status, save) {
             const card = document.querySelector(`.card[data-channel="${id}"]`);
-            const tag = card.querySelector('.card-tag');
-            
+            const tag = document.getElementById(`tag-${id}`);
             if(status) {
                 card.classList.add('live-now');
-                if(!tag.innerText.includes("● LIVE")) {
-                    tag.dataset.oldText = tag.innerText;
-                    tag.innerText = "● LIVE - " + tag.innerText;
-                }
+                tag.innerText = "● LIVE - " + tag.innerText.replace("● LIVE - ", "");
                 tag.style.color = "var(--live-red)";
-                if(save) {
-                    localStorage.setItem(`live_${id}`, 'true');
-                    const mins = document.getElementById(`timer-${id}`).value;
-                    if(mins > 0) setTimer(id, mins);
-                }
             } else {
                 card.classList.remove('live-now');
-                if(tag.dataset.oldText) tag.innerText = tag.dataset.oldText;
+                tag.innerText = tag.innerText.replace("● LIVE - ", "");
                 tag.style.color = "";
-                localStorage.setItem(`live_${id}`, 'false');
             }
+            if(save) localStorage.setItem(`live_${id}`, status);
             updateHeader();
         }
 
-        function setTimer(id, mins) {
-            setTimeout(() => {
-                toggleLive(id, false, true);
-                if(document.getElementById('admin-panel').style.display === 'block') renderAdmin();
-            }, mins * 60000);
+        function toggleStatus(id, isOffline) {
+            const dot = document.getElementById(`dot-${id}`);
+            isOffline ? dot.classList.add('offline') : dot.classList.remove('offline');
+            localStorage.setItem(`off_${id}`, isOffline);
         }
 
         function updateHeader() {
-            const header = document.getElementById('main-header');
-            const hasLive = document.querySelector('.card.live-now');
-            header.className = hasLive ? 'live-active' : '';
+            document.getElementById('main-header').classList.toggle('live-active', !!document.querySelector('.card.live-now'));
         }
-
-        function closeAdmin() { document.getElementById('admin-panel').style.display = 'none'; }
 
         function copyId(id, name) {
             navigator.clipboard.writeText(id);
             const t = document.getElementById("toast");
-            t.innerText = "📋 ID de " + name + " copiada";
+            t.innerText = "📋 " + name + " copiada";
             t.className = "show";
-            setTimeout(() => { t.className = ""; }, 3000);
+            setTimeout(() => t.className = "", 2000);
         }
+
+        function closeAdmin() { document.getElementById('admin-panel').style.display = 'none'; }
     </script>
 </body>
 </html>
