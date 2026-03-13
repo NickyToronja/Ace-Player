@@ -23,61 +23,53 @@
             background-size: 80px 80px; animation: stripe-move 12s linear infinite;
         }
 
-        header {
-            width: 100%; background: rgba(10, 10, 12, 0.95); backdrop-filter: blur(10px);
-            padding: 20px 0; text-align: center; border-bottom: 2px solid var(--accent-neon);
-            position: sticky; top: 0; z-index: 100;
-        }
+        header { width: 100%; background: rgba(10, 10, 12, 0.95); backdrop-filter: blur(10px); padding: 20px 0; text-align: center; border-bottom: 2px solid var(--accent-neon); position: sticky; top: 0; z-index: 100; }
 
-        /* SECCIÓN NOTICIAS */
+        /* SECCIÓN NOTICIAS MEJORADA */
         #news-section {
-            width: 90%; max-width: 1100px; margin: 20px 0; display: none;
-            background: rgba(127, 90, 240, 0.1); border: 1px dashed var(--accent-neon);
-            border-radius: 20px; overflow: hidden; display: flex; flex-wrap: wrap;
+            width: 90%; max-width: 1100px; margin: 20px 0; display: none; /* Oculto por defecto */
+            background: rgba(127, 90, 240, 0.05); border: 2px solid var(--accent-neon);
+            border-radius: 24px; overflow: hidden; animation: fadeIn 0.5s ease;
         }
-        .news-img { width: 300px; height: 180px; object-fit: cover; }
-        .news-content { padding: 20px; flex: 1; min-width: 280px; }
-        .news-content h2 { margin: 0; color: var(--accent-neon); font-family: 'Oswald'; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .news-img { width: 350px; height: 200px; object-fit: cover; border-right: 2px solid var(--accent-neon); }
+        .news-content { padding: 25px; flex: 1; position: relative; }
+        .news-content h2 { margin: 0 0 10px 0; color: var(--accent-neon); font-family: 'Oswald'; text-transform: uppercase; letter-spacing: 1px; }
+        .news-timer { position: absolute; top: 10px; right: 20px; font-size: 0.7rem; color: #888; font-weight: 800; }
 
-        .search-box {
-            width: 90%; max-width: 500px; margin: 10px auto;
-            padding: 12px 25px; border-radius: 50px; background: var(--card-bg);
-            border: 2px solid #333; color: white; outline: none; transition: 0.3s;
-        }
-
+        .search-box { width: 90%; max-width: 500px; margin: 10px auto; padding: 12px 25px; border-radius: 50px; background: var(--card-bg); border: 2px solid #333; color: white; outline: none; transition: 0.3s; display: block; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; width: 100%; max-width: 1100px; padding: 20px; box-sizing: border-box; }
 
-        .card { 
-            background: var(--card-bg); border-radius: 24px; overflow: hidden; 
-            border: 1px solid #222; transition: var(--transition); display: flex; 
-            flex-direction: column; position: relative;
-        }
-        .fav-btn { position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.6); border: none; color: #444; font-size: 1.2rem; cursor: pointer; width: 35px; height: 35px; border-radius: 50%; z-index: 5; }
-        .fav-btn.active { color: #ffcc00; }
+        .card { background: var(--card-bg); border-radius: 24px; overflow: hidden; border: 1px solid #222; transition: var(--transition); display: flex; flex-direction: column; position: relative; }
+        .card.live-now { border-color: var(--live-red); box-shadow: 0 0 15px rgba(255,0,0,0.2); }
         .status-dot { position: absolute; top: 15px; right: 15px; width: 12px; height: 12px; border-radius: 50%; background: var(--online-green); border: 2px solid #000; }
         .status-dot.offline { background: #555; }
+        .fav-btn { position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.6); border: none; color: #444; font-size: 1.2rem; cursor: pointer; width: 35px; height: 35px; border-radius: 50%; z-index: 5; }
+        .fav-btn.active { color: #ffcc00; }
 
         .card-img { height: 120px; display: flex; align-items: center; justify-content: center; font-size: 3rem; border-bottom: 1px solid #222; }
         .card-body { padding: 20px; }
         .card-title { font-size: 1.1rem; margin: 0 0 15px 0; }
         .action-box { display: flex; gap: 8px; }
-        .a-btn { flex: 1; padding: 10px; border-radius: 10px; border: none; cursor: pointer; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; text-align: center; text-decoration: none; }
+        .a-btn { flex: 1; padding: 10px; border-radius: 10px; border: none; cursor: pointer; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; }
         .a-play { background: var(--accent-neon); color: white; }
 
         /* ADMIN */
         #settings-btn { position: fixed; bottom: 20px; right: 20px; background: #333; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; z-index: 1000; opacity: 0.5; }
-        #admin-panel { 
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-            background: #1a1a20; padding: 25px; border-radius: 20px; border: 2px solid var(--accent-neon); 
-            z-index: 2000; width: 350px; max-height: 80vh; overflow-y: auto;
-        }
+        #admin-panel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1a1a20; padding: 25px; border-radius: 20px; border: 2px solid var(--accent-neon); z-index: 2000; width: 350px; max-height: 80vh; overflow-y: auto; }
         .admin-tab { display: flex; gap: 10px; margin-bottom: 15px; }
-        .tab-btn { flex: 1; padding: 5px; cursor: pointer; background: #333; color: white; border: none; border-radius: 5px; }
+        .tab-btn { flex: 1; padding: 8px; cursor: pointer; background: #333; color: white; border: none; border-radius: 5px; font-weight: 600; }
         .tab-btn.active { background: var(--accent-neon); }
-        input, textarea { width: 100%; background: #000; border: 1px solid #444; color: white; padding: 8px; margin: 5px 0; border-radius: 5px; box-sizing: border-box; }
+        input, textarea { width: 100%; background: #000; border: 1px solid #444; color: white; padding: 10px; margin: 5px 0; border-radius: 8px; box-sizing: border-box; }
         
         #toast { visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: white; color: black; padding: 12px 30px; border-radius: 50px; font-weight: 800; z-index: 3000; }
         #toast.show { visibility: visible; }
+
+        @media (max-width: 768px) {
+            #news-section { flex-direction: column; }
+            .news-img { width: 100%; height: 150px; border-right: none; border-bottom: 2px solid var(--accent-neon); }
+        }
     </style>
 </head>
 <body>
@@ -89,8 +81,9 @@
     <div id="news-section">
         <img id="news-img-display" src="" class="news-img">
         <div class="news-content">
-            <h2 id="news-title-display">Noticias sobre la Web</h2>
-            <p id="news-text-display">Bienvenido al Stream Center Pro de SDJ.</p>
+            <span class="news-timer" id="news-timer-display"></span>
+            <h2 id="news-title-display"></h2>
+            <p id="news-text-display"></p>
         </div>
     </div>
 
@@ -113,14 +106,17 @@
         <div id="tab-news" style="display:none">
             <label>URL de la Foto:</label>
             <input type="text" id="news-img-url" placeholder="https://ejemplo.com/foto.jpg">
-            <label>Título de la Noticia:</label>
-            <input type="text" id="news-title-input" placeholder="¡Nueva actualización!">
-            <label>Texto adjunto:</label>
-            <textarea id="news-text-input" rows="4"></textarea>
-            <button onclick="updateNews()" class="a-play" style="width:100%; margin-top:10px; padding:10px">Publicar Noticia</button>
+            <label>Título:</label>
+            <input type="text" id="news-title-input" placeholder="Ej: Mantenimiento hoy">
+            <label>Mensaje:</label>
+            <textarea id="news-text-input" rows="3"></textarea>
+            <label>Caducidad (minutos):</label>
+            <input type="number" id="news-expiry-input" placeholder="60 (1 hora)">
+            <button onclick="updateNews()" class="a-play" style="width:100%; margin-top:10px; padding:12px; border-radius:10px">Publicar Noticia</button>
+            <button onclick="deleteNews()" style="width:100%; margin-top:8px; padding:8px; background:#e10600; color:white; border:none; border-radius:10px; cursor:pointer; font-weight:800">Borrar Noticia Actual</button>
         </div>
 
-        <button class="a-play" style="width:100%; margin-top:20px; padding:12px; border-radius:10px; background:#444" onclick="closeAdmin()">Cerrar</button>
+        <button class="a-play" style="width:100%; margin-top:20px; padding:12px; border-radius:10px; background:#444" onclick="closeAdmin()">Cerrar Panel</button>
     </div>
 
     <div id="toast">Copiado</div>
@@ -162,33 +158,60 @@
             loadAll();
         }
 
-        // NOTICIAS LOGIC
+        // LOGICA DE NOTICIAS ACTUALIZADA
         function updateNews() {
             const img = document.getElementById('news-img-url').value;
             const title = document.getElementById('news-title-input').value;
             const text = document.getElementById('news-text-input').value;
+            const mins = parseInt(document.getElementById('news-expiry-input').value) || 60;
 
-            const newsObj = { img, title, text, active: true };
+            const expiryTime = Date.now() + (mins * 60000);
+            const newsObj = { img, title, text, expiry: expiryTime };
+            
             localStorage.setItem('sdj_news', JSON.stringify(newsObj));
-            applyNews(newsObj);
-            alert("¡Noticia Publicada!");
+            checkNews();
+            alert("Noticia publicada por " + mins + " minutos.");
         }
 
-        function applyNews(news) {
-            if(news && news.active) {
-                document.getElementById('news-section').style.display = 'flex';
-                document.getElementById('news-img-display').src = news.img || 'https://via.placeholder.com/300x180';
-                document.getElementById('news-title-display').innerText = news.title || 'Noticias';
-                document.getElementById('news-text-display').innerText = news.text || '';
+        function deleteNews() {
+            localStorage.removeItem('sdj_news');
+            checkNews();
+        }
+
+        function checkNews() {
+            const newsData = JSON.parse(localStorage.getItem('sdj_news'));
+            const section = document.getElementById('news-section');
+
+            if (!newsData) {
+                section.style.display = 'none';
+                return;
+            }
+
+            const now = Date.now();
+            if (now > newsData.expiry) {
+                localStorage.removeItem('sdj_news');
+                section.style.display = 'none';
+            } else {
+                section.style.display = 'flex';
+                document.getElementById('news-img-display').src = newsData.img || 'https://via.placeholder.com/350x200';
+                document.getElementById('news-title-display').innerText = newsData.title;
+                document.getElementById('news-text-display').innerText = newsData.text;
+                
+                // Mostrar tiempo restante
+                const diff = Math.round((newsData.expiry - now) / 60000);
+                document.getElementById('news-timer-display').innerText = "CADUCA EN: " + diff + " MIN";
             }
         }
 
-        // ADMIN TABS
+        // Ejecutar chequeo cada 30 segundos
+        setInterval(checkNews, 30000);
+
+        // FUNCIONES ADMIN Y ESTADOS
         function showTab(tab) {
             document.getElementById('tab-channels').style.display = tab === 'channels' ? 'block' : 'none';
             document.getElementById('tab-news').style.display = tab === 'news' ? 'block' : 'none';
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
+            if(event) event.target.classList.add('active');
         }
 
         function loginAdmin() {
@@ -213,7 +236,18 @@
             });
         }
 
-        // OTROS SCRIPTS (FILTRO, FAVS, ETC)
+        function toggleLive(id, status, save) {
+            const card = document.querySelector(`.card[data-channel="${id}"]`);
+            if(status) card.classList.add('live-now'); else card.classList.remove('live-now');
+            if(save) localStorage.setItem(`live_${id}`, status);
+        }
+
+        function toggleStatus(id, isOff) {
+            const dot = document.getElementById(`dot-${id}`);
+            if(isOff) dot.classList.add('offline'); else dot.classList.remove('offline');
+            localStorage.setItem(`off_${id}`, isOff);
+        }
+
         function toggleFav(id) {
             const btn = document.querySelector(`.card[data-channel="${id}"] .fav-btn`);
             const active = btn.classList.toggle('active');
@@ -228,16 +262,11 @@
             cards.forEach(c => grid.appendChild(c));
         }
 
-        function toggleLive(id, status, save) {
-            const card = document.querySelector(`.card[data-channel="${id}"]`);
-            if(status) card.classList.add('live-now'); else card.classList.remove('live-now');
-            if(save) localStorage.setItem(`live_${id}`, status);
-        }
-
-        function toggleStatus(id, isOff) {
-            const dot = document.getElementById(`dot-${id}`);
-            if(isOff) dot.classList.add('offline'); else dot.classList.remove('offline');
-            localStorage.setItem(`off_${id}`, isOff);
+        function filterChannels() {
+            let input = document.getElementById('channelSearch').value.toLowerCase();
+            document.querySelectorAll('.card').forEach(card => {
+                card.style.display = card.querySelector('.card-title').innerText.toLowerCase().includes(input) ? "flex" : "none";
+            });
         }
 
         function copyId(id, name) {
@@ -246,21 +275,13 @@
             t.className = "show"; setTimeout(() => t.className = "", 2000);
         }
 
-        function filterChannels() {
-            let input = document.getElementById('channelSearch').value.toLowerCase();
-            document.querySelectorAll('.card').forEach(card => {
-                card.style.display = card.querySelector('.card-title').innerText.toLowerCase().includes(input) ? "flex" : "none";
-            });
-        }
-
         function loadAll() {
             channels.forEach(ch => {
                 if(localStorage.getItem(`fav_${ch.id}`) === 'true') document.querySelector(`.card[data-channel="${ch.id}"] .fav-btn`).classList.add('active');
                 if(localStorage.getItem(`off_${ch.id}`) === 'true') document.getElementById(`dot-${ch.id}`).classList.add('offline');
                 if(localStorage.getItem(`live_${ch.id}`) === 'true') toggleLive(ch.id, true, false);
             });
-            const savedNews = JSON.parse(localStorage.getItem('sdj_news'));
-            applyNews(savedNews);
+            checkNews();
             sortCards();
         }
 
