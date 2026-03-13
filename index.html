@@ -3,246 +3,270 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreamPanel Pro 2026</title>
+    <title>SDJ | Stream Center Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Oswald:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #3498db;
-            --bg: #0f0f0f;
-            --card-bg: #1e1e1e;
-            --text: #ffffff;
-            --accent: #27ae60;
+            --bg-deep: #0a0a0c; --bg-stripe: #121216; --card-bg: #1a1a20;
+            --accent-neon: #7f5af0; --discord-color: #5865F2; --f1-red: #e10600;
+            --dazn-blue: #3498db; --nba-orange: #ff9800; --foot-green: #2ecc71;
+            --movistar-blue: #00bcff; --champions-blue: #001e4e;
+            --text-main: #ffffff; --transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --live-red: #ff0000; --online-green: #2ecc71;
         }
 
+        @keyframes stripe-move { 0% { background-position: 0 0; } 100% { background-position: 100px 100px; } }
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding-bottom: 80px;
+            font-family: 'Poppins', sans-serif; background-color: var(--bg-deep); color: var(--text-main);
+            margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+            background-image: linear-gradient(135deg, var(--bg-stripe) 25%, transparent 25%, transparent 50%, var(--bg-stripe) 50%, var(--bg-stripe) 75%, transparent 75%, transparent);
+            background-size: 80px 80px; animation: stripe-move 12s linear infinite;
         }
 
         header {
-            background: linear-gradient(rgba(0,0,0,0.8), transparent);
-            padding: 20px;
-            text-align: center;
+            width: 100%; background: rgba(10, 10, 12, 0.95); backdrop-filter: blur(10px);
+            padding: 20px 0; text-align: center; border-bottom: 2px solid var(--accent-neon);
+            position: sticky; top: 0; z-index: 100;
         }
-
-        .container { max-width: 1000px; margin: auto; padding: 15px; }
-
-        h2 { border-left: 4px solid var(--primary); padding-left: 10px; margin-top: 30px; }
-
-        /* GRILLA DE CANALES */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-        }
-
-        .channel-card {
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-            transition: 0.3s;
-            border: 1px solid #333;
-            text-decoration: none;
-            color: white;
-            display: block;
-        }
-
-        .channel-card:hover { transform: translateY(-5px); border-color: var(--primary); }
-        .channel-card i { font-size: 2em; display: block; margin-bottom: 10px; }
 
         /* SECCIÓN NOTICIAS */
-        .news-scroll {
-            display: flex;
-            overflow-x: auto;
-            gap: 15px;
-            padding-bottom: 10px;
+        #news-section {
+            width: 90%; max-width: 1100px; margin: 20px 0; display: none;
+            background: rgba(127, 90, 240, 0.1); border: 1px dashed var(--accent-neon);
+            border-radius: 20px; overflow: hidden; display: flex; flex-wrap: wrap;
+        }
+        .news-img { width: 300px; height: 180px; object-fit: cover; }
+        .news-content { padding: 20px; flex: 1; min-width: 280px; }
+        .news-content h2 { margin: 0; color: var(--accent-neon); font-family: 'Oswald'; }
+
+        .search-box {
+            width: 90%; max-width: 500px; margin: 10px auto;
+            padding: 12px 25px; border-radius: 50px; background: var(--card-bg);
+            border: 2px solid #333; color: white; outline: none; transition: 0.3s;
         }
 
-        .news-card {
-            min-width: 280px;
-            background: var(--card-bg);
-            border-radius: 15px;
-            overflow: hidden;
-            flex-shrink: 0;
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; width: 100%; max-width: 1100px; padding: 20px; box-sizing: border-box; }
+
+        .card { 
+            background: var(--card-bg); border-radius: 24px; overflow: hidden; 
+            border: 1px solid #222; transition: var(--transition); display: flex; 
+            flex-direction: column; position: relative;
         }
+        .fav-btn { position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.6); border: none; color: #444; font-size: 1.2rem; cursor: pointer; width: 35px; height: 35px; border-radius: 50%; z-index: 5; }
+        .fav-btn.active { color: #ffcc00; }
+        .status-dot { position: absolute; top: 15px; right: 15px; width: 12px; height: 12px; border-radius: 50%; background: var(--online-green); border: 2px solid #000; }
+        .status-dot.offline { background: #555; }
 
-        .news-card img { width: 100%; height: 140px; object-fit: cover; }
-        .news-content { padding: 12px; font-size: 0.9em; }
+        .card-img { height: 120px; display: flex; align-items: center; justify-content: center; font-size: 3rem; border-bottom: 1px solid #222; }
+        .card-body { padding: 20px; }
+        .card-title { font-size: 1.1rem; margin: 0 0 15px 0; }
+        .action-box { display: flex; gap: 8px; }
+        .a-btn { flex: 1; padding: 10px; border-radius: 10px; border: none; cursor: pointer; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; text-align: center; text-decoration: none; }
+        .a-play { background: var(--accent-neon); color: white; }
 
-        /* BOTONES FLOTANTES */
-        .admin-bar {
-            position: fixed;
-            bottom: 0; width: 100%;
-            background: #1a1a1a;
-            display: flex;
-            justify-content: space-around;
-            padding: 15px 0;
-            border-top: 1px solid #333;
-            z-index: 1000;
+        /* ADMIN */
+        #settings-btn { position: fixed; bottom: 20px; right: 20px; background: #333; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; z-index: 1000; opacity: 0.5; }
+        #admin-panel { 
+            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+            background: #1a1a20; padding: 25px; border-radius: 20px; border: 2px solid var(--accent-neon); 
+            z-index: 2000; width: 350px; max-height: 80vh; overflow-y: auto;
         }
-
-        .btn-admin {
-            background: var(--primary);
-            color: white; border: none;
-            padding: 10px 20px; border-radius: 20px;
-            cursor: pointer; font-weight: bold;
-        }
-
-        /* MODALES / AJUSTES */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: #2c3e50; padding: 25px;
-            border-radius: 20px; z-index: 2000;
-            width: 90%; max-width: 400px;
-            box-shadow: 0 0 50px rgba(0,0,0,0.9);
-        }
-
-        input, textarea {
-            width: 100%; margin-bottom: 15px;
-            padding: 12px; border-radius: 8px; border: none;
-            box-sizing: border-box;
-        }
-
-        .overlay {
-            display: none; position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%; background: rgba(0,0,0,0.8);
-            z-index: 1500;
-        }
-
-        .badge { background: var(--accent); font-size: 0.7em; padding: 2px 6px; border-radius: 4px; }
+        .admin-tab { display: flex; gap: 10px; margin-bottom: 15px; }
+        .tab-btn { flex: 1; padding: 5px; cursor: pointer; background: #333; color: white; border: none; border-radius: 5px; }
+        .tab-btn.active { background: var(--accent-neon); }
+        input, textarea { width: 100%; background: #000; border: 1px solid #444; color: white; padding: 8px; margin: 5px 0; border-radius: 5px; box-sizing: border-box; }
+        
+        #toast { visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: white; color: black; padding: 12px 30px; border-radius: 50px; font-weight: 800; z-index: 3000; }
+        #toast.show { visibility: visible; }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>STREAM<span style="color:var(--primary)">PANEL</span></h1>
-    <p style="font-size: 0.8em; color: #888;">Bienvenido | Hoy es 13 de marzo de 2026</p>
-</header>
+    <header id="main-header">
+        <img src="SDJ.jpg" alt="SDJ" style="height: 60px; border-radius: 10px;">
+    </header>
 
-<div class="container">
-    
-    <h2>📰 Noticias y Avisos</h2>
-    <div id="news-container" class="news-scroll">
+    <div id="news-section">
+        <img id="news-img-display" src="" class="news-img">
+        <div class="news-content">
+            <h2 id="news-title-display">Noticias sobre la Web</h2>
+            <p id="news-text-display">Bienvenido al Stream Center Pro de SDJ.</p>
         </div>
-
-    <h2>🏆 Canales Principales</h2>
-    <div class="grid">
-        <a href="acestream://90237c8651c65a7824b2684a8268482684826848" class="channel-card">📺 M+ Plus</a>
-        <a href="acestream://3b5692a70c0d0d1dd23fed31d7886b4aaa64bdaa" class="channel-card">⚽ Champions</a>
-        <a href="acestream://68c56e3089d8929949826a575a68739a82688846" class="channel-card">🎬 Estrenos</a>
-        <a href="acestream://f1396b79788e0b63168b19de62070e7f23ad069c" class="channel-card">🐣 Boing</a>
-        <a href="acestream://b3fc9b5647c5933b101c0b6b64322590c68587b9" class="channel-card">🌍 Nat Geo</a>
     </div>
 
-    <h2>⭐ Mis Canales Guardados</h2>
-    <div id="custom-channels" class="grid">
+    <input type="text" id="channelSearch" class="search-box" placeholder="Buscar canal..." onkeyup="filterChannels()">
+
+    <div class="grid" id="main-grid"></div>
+
+    <button id="settings-btn" onclick="loginAdmin()">⚙️</button>
+
+    <div id="admin-panel">
+        <div class="admin-tab">
+            <button class="tab-btn active" onclick="showTab('channels')">Canales</button>
+            <button class="tab-btn" onclick="showTab('news')">Noticias</button>
         </div>
-</div>
 
-<div class="admin-bar">
-    <button class="btn-admin" onclick="openModal('modal-noticia')">+ Noticia</button>
-    <button class="btn-admin" style="background:#8e44ad" onclick="openModal('modal-canal')">+ Canal</button>
-</div>
+        <div id="tab-channels">
+            <div id="admin-list"></div>
+        </div>
 
-<div id="modal-noticia" class="modal">
-    <h3>Nueva Noticia</h3>
-    <input type="text" id="n-titulo" placeholder="Título">
-    <textarea id="n-texto" placeholder="Mensaje..."></textarea>
-    <input type="text" id="n-img" placeholder="URL Foto (Imgur/Postimg)">
-    <button class="btn-admin" style="width:100%" onclick="saveNews()">Publicar</button>
-</div>
+        <div id="tab-news" style="display:none">
+            <label>URL de la Foto:</label>
+            <input type="text" id="news-img-url" placeholder="https://ejemplo.com/foto.jpg">
+            <label>Título de la Noticia:</label>
+            <input type="text" id="news-title-input" placeholder="¡Nueva actualización!">
+            <label>Texto adjunto:</label>
+            <textarea id="news-text-input" rows="4"></textarea>
+            <button onclick="updateNews()" class="a-play" style="width:100%; margin-top:10px; padding:10px">Publicar Noticia</button>
+        </div>
 
-<div id="modal-canal" class="modal">
-    <h3>Guardar Canal</h3>
-    <input type="text" id="c-nombre" placeholder="Nombre (Ej: DAZN 1)">
-    <input type="text" id="c-id" placeholder="ID de AceStream">
-    <button class="btn-admin" style="width:100%; background:#8e44ad" onclick="saveChannel()">Guardar</button>
-</div>
+        <button class="a-play" style="width:100%; margin-top:20px; padding:12px; border-radius:10px; background:#444" onclick="closeAdmin()">Cerrar</button>
+    </div>
 
-<div id="overlay" class="overlay" onclick="closeModals()"></div>
+    <div id="toast">Copiado</div>
 
-<script>
-    // CARGA INICIAL
-    window.onload = () => { renderNews(); renderChannels(); };
-
-    function openModal(id) {
-        document.getElementById(id).style.display = 'block';
-        document.getElementById('overlay').style.display = 'block';
-    }
-
-    function closeModals() {
-        document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
-        document.getElementById('overlay').style.display = 'none';
-    }
-
-    // GESTIÓN DE NOTICIAS
-    function saveNews() {
-        const tit = document.getElementById('n-titulo').value;
-        const txt = document.getElementById('n-texto').value;
-        const img = document.getElementById('n-img').value;
+    <script>
+        const userAdmin = "admin";
+        const passAdmin = "1234";
         
-        if(!tit || !txt) return;
+        const channels = [
+            { id: 'f1', name: 'F1 DAZN', tag: 'Motor', icon: '🏎️', color: 'var(--f1-red)', ace: 'd65257bb934b73647374224fd62d836815804be2' },
+            { id: 'champions', name: 'Champions League', tag: 'UEFA', icon: '🏆', color: 'var(--champions-blue)', ace: 'e572a5178ff72eed7d1d751a18b4b3419699f370' },
+            { id: 'dazn-laliga', name: 'DAZN LaLiga', tag: 'LaLiga', icon: '⚽', color: 'var(--foot-green)', ace: '19f28f60c908f987b1a03da078e63320d7bf29e8' },
+            { id: 'movistar-laliga-1', name: 'M+ LaLiga TV', tag: 'M+ LaLiga', icon: '⚽', color: 'var(--movistar-blue)', ace: '31c19ffb3472c289c5bbbbc174449c8ed0d19e38' },
+            { id: 'movistar-laliga-2', name: 'M+ LaLiga 2', tag: 'M+ LaLiga', icon: '⚽', color: 'var(--movistar-blue)', ace: 'caa631e8850e3eb5e7c039063dd8a339ccef1176' },
+            { id: 'dazn-1', name: 'DAZN 1', tag: 'DAZN', icon: '📺', color: 'var(--dazn-blue)', ace: '4141892f5df7d6474bf0279895ce02b7336c9928' },
+            { id: 'dazn-2', name: 'DAZN 2', tag: 'DAZN', icon: '📺', color: 'var(--dazn-blue)', ace: 'b0eabe0fdd02fdd165896236765a9b753a2ff516' },
+            { id: 'nba', name: 'NBA TV Pro', tag: 'NBA', icon: '🏀', color: 'var(--nba-orange)', ace: 'e72d03fb9694164317260f684470be9ab781ed95' }
+        ];
 
-        let news = JSON.parse(localStorage.getItem('st_news')) || [];
-        news.unshift({tit, txt, img: img || 'https://via.placeholder.com/300x150?text=News'});
-        localStorage.setItem('st_news', JSON.stringify(news));
+        function renderGrid() {
+            const grid = document.getElementById('main-grid');
+            grid.innerHTML = '';
+            channels.forEach(ch => {
+                grid.innerHTML += `
+                    <div class="card" data-channel="${ch.id}">
+                        <button class="fav-btn" onclick="toggleFav('${ch.id}')">★</button>
+                        <div class="status-dot" id="dot-${ch.id}"></div>
+                        <div class="card-img" style="background: radial-gradient(circle, ${ch.color} 0%, #000 100%);">${ch.icon}</div>
+                        <div class="card-body">
+                            <span class="card-tag" id="tag-${ch.id}" style="color: ${ch.color}">${ch.tag}</span>
+                            <h3 class="card-title">${ch.name}</h3>
+                            <div class="action-box">
+                                <a href="acestream://${ch.ace}" class="a-btn a-play">Abrir</a>
+                                <button class="a-btn a-copy" onclick="copyId('${ch.ace}', '${ch.name}')" style="background:#222; color:white; flex:0.4">ID</button>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+            loadAll();
+        }
+
+        // NOTICIAS LOGIC
+        function updateNews() {
+            const img = document.getElementById('news-img-url').value;
+            const title = document.getElementById('news-title-input').value;
+            const text = document.getElementById('news-text-input').value;
+
+            const newsObj = { img, title, text, active: true };
+            localStorage.setItem('sdj_news', JSON.stringify(newsObj));
+            applyNews(newsObj);
+            alert("¡Noticia Publicada!");
+        }
+
+        function applyNews(news) {
+            if(news && news.active) {
+                document.getElementById('news-section').style.display = 'flex';
+                document.getElementById('news-img-display').src = news.img || 'https://via.placeholder.com/300x180';
+                document.getElementById('news-title-display').innerText = news.title || 'Noticias';
+                document.getElementById('news-text-display').innerText = news.text || '';
+            }
+        }
+
+        // ADMIN TABS
+        function showTab(tab) {
+            document.getElementById('tab-channels').style.display = tab === 'channels' ? 'block' : 'none';
+            document.getElementById('tab-news').style.display = tab === 'news' ? 'block' : 'none';
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function loginAdmin() {
+            if(prompt("Usuario Admin:") === userAdmin && prompt("Password:") === passAdmin) {
+                document.getElementById('admin-panel').style.display = 'block';
+                renderAdmin();
+            }
+        }
+
+        function renderAdmin() {
+            const list = document.getElementById('admin-list');
+            list.innerHTML = '';
+            channels.forEach(ch => {
+                const isLive = document.querySelector(`.card[data-channel="${ch.id}"]`).classList.contains('live-now');
+                const isOff = document.getElementById(`dot-${ch.id}`).classList.contains('offline');
+                list.innerHTML += `
+                    <div style="padding:10px 0; border-bottom:1px solid #333; font-size:12px">
+                        <strong>${ch.name}</strong><br>
+                        Live: <input type="checkbox" ${isLive ? 'checked' : ''} onchange="toggleLive('${ch.id}', this.checked, true)">
+                        Down: <input type="checkbox" ${isOff ? 'checked' : ''} onchange="toggleStatus('${ch.id}', this.checked)">
+                    </div>`;
+            });
+        }
+
+        // OTROS SCRIPTS (FILTRO, FAVS, ETC)
+        function toggleFav(id) {
+            const btn = document.querySelector(`.card[data-channel="${id}"] .fav-btn`);
+            const active = btn.classList.toggle('active');
+            localStorage.setItem(`fav_${id}`, active);
+            sortCards();
+        }
+
+        function sortCards() {
+            const grid = document.getElementById('main-grid');
+            const cards = Array.from(grid.children);
+            cards.sort((a, b) => (b.querySelector('.fav-btn').classList.contains('active')) - (a.querySelector('.fav-btn').classList.contains('active')));
+            cards.forEach(c => grid.appendChild(c));
+        }
+
+        function toggleLive(id, status, save) {
+            const card = document.querySelector(`.card[data-channel="${id}"]`);
+            if(status) card.classList.add('live-now'); else card.classList.remove('live-now');
+            if(save) localStorage.setItem(`live_${id}`, status);
+        }
+
+        function toggleStatus(id, isOff) {
+            const dot = document.getElementById(`dot-${id}`);
+            if(isOff) dot.classList.add('offline'); else dot.classList.remove('offline');
+            localStorage.setItem(`off_${id}`, isOff);
+        }
+
+        function copyId(id, name) {
+            navigator.clipboard.writeText(id);
+            const t = document.getElementById("toast");
+            t.className = "show"; setTimeout(() => t.className = "", 2000);
+        }
+
+        function filterChannels() {
+            let input = document.getElementById('channelSearch').value.toLowerCase();
+            document.querySelectorAll('.card').forEach(card => {
+                card.style.display = card.querySelector('.card-title').innerText.toLowerCase().includes(input) ? "flex" : "none";
+            });
+        }
+
+        function loadAll() {
+            channels.forEach(ch => {
+                if(localStorage.getItem(`fav_${ch.id}`) === 'true') document.querySelector(`.card[data-channel="${ch.id}"] .fav-btn`).classList.add('active');
+                if(localStorage.getItem(`off_${ch.id}`) === 'true') document.getElementById(`dot-${ch.id}`).classList.add('offline');
+                if(localStorage.getItem(`live_${ch.id}`) === 'true') toggleLive(ch.id, true, false);
+            });
+            const savedNews = JSON.parse(localStorage.getItem('sdj_news'));
+            applyNews(savedNews);
+            sortCards();
+        }
+
+        function closeAdmin() { document.getElementById('admin-panel').style.display = 'none'; }
         
-        closeModals(); renderNews();
-    }
-
-    function renderNews() {
-        const box = document.getElementById('news-container');
-        const news = JSON.parse(localStorage.getItem('st_news')) || [];
-        box.innerHTML = news.map(n => `
-            <div class="news-card">
-                <img src="${n.img}">
-                <div class="news-content">
-                    <h3>${n.tit}</h3>
-                    <p>${n.txt}</p>
-                </div>
-            </div>
-        `).join('') || '<p>No hay noticias.</p>';
-    }
-
-    // GESTIÓN DE CANALES
-    function saveChannel() {
-        const name = document.getElementById('c-nombre').value;
-        const id = document.getElementById('c-id').value;
-        
-        if(!name || !id) return;
-
-        let chans = JSON.parse(localStorage.getItem('st_chans')) || [];
-        chans.push({name, id});
-        localStorage.setItem('st_chans', JSON.stringify(chans));
-        
-        closeModals(); renderChannels();
-    }
-
-    function renderChannels() {
-        const box = document.getElementById('custom-channels');
-        const chans = JSON.parse(localStorage.getItem('st_chans')) || [];
-        box.innerHTML = chans.map((c, index) => `
-            <div style="position:relative">
-                <a href="acestream://${c.id}" class="channel-card">
-                    <span class="badge">User</span><br>${c.name}
-                </a>
-                <button onclick="deleteChan(${index})" style="position:absolute; top:0; right:0; background:red; color:white; border:none; border-radius:50%; cursor:pointer">×</button>
-            </div>
-        `).join('') || '<p style="color:#666; padding:20px;">No has guardado canales todavía.</p>';
-    }
-
-    function deleteChan(index) {
-        let chans = JSON.parse(localStorage.getItem('st_chans'));
-        chans.splice(index, 1);
-        localStorage.setItem('st_chans', JSON.stringify(chans));
-        renderChannels();
-    }
-</script>
-
+        renderGrid();
+    </script>
 </body>
 </html>
