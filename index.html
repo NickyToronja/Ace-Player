@@ -8,14 +8,14 @@
     <style>
         :root {
             --bg-deep: #0a0a0c; --bg-stripe: #121216; --card-bg: #1a1a20;
-            --accent-neon: #7f5af0; --f1-red: #e10600; --dazn-blue: #3498db;
-            --foot-green: #2ecc71; --movistar-blue: #00bcff; --champions-blue: #001e4e;
-            --text-main: #ffffff; --live-red: #ff0000; --online-green: #2ecc71;
-            --nba-orange: #ff9800;
+            --accent-neon: #7f5af0; --discord-color: #5865F2; --f1-red: #e10600;
+            --dazn-blue: #3498db; --nba-orange: #ff9800; --foot-green: #2ecc71;
+            --movistar-blue: #00bcff; --champions-blue: #001e4e;
+            --text-main: #ffffff; --transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --live-red: #ff0000; --online-green: #2ecc71;
         }
 
         @keyframes stripe-move { 0% { background-position: 0 0; } 100% { background-position: 100px 100px; } }
-        
         body {
             font-family: 'Poppins', sans-serif; background-color: var(--bg-deep); color: var(--text-main);
             margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh;
@@ -23,93 +23,59 @@
             background-size: 80px 80px; animation: stripe-move 12s linear infinite;
         }
 
-        header { 
-            width: 100%; background: rgba(10, 10, 12, 0.95); backdrop-filter: blur(10px); 
-            padding: 20px 0; text-align: center; border-bottom: 2px solid var(--accent-neon); 
-            position: sticky; top: 0; z-index: 100; 
-        }
+        header { width: 100%; background: rgba(10, 10, 12, 0.95); backdrop-filter: blur(10px); padding: 20px 0; text-align: center; border-bottom: 2px solid var(--accent-neon); position: sticky; top: 0; z-index: 100; }
 
-        /* NOTICIAS WEB */
+        /* SECCIÓN NOTICIAS LIMPIA (SIN CONTADOR) */
         #news-section {
-            width: 90%; max-width: 1100px; margin: 25px 0; display: none;
-            background: rgba(127, 90, 240, 0.08); border: 2px solid var(--accent-neon);
-            border-radius: 24px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            width: 90%; max-width: 1100px; margin: 20px 0; display: none;
+            background: rgba(127, 90, 240, 0.05); border: 2px solid var(--accent-neon);
+            border-radius: 24px; overflow: hidden; animation: fadeIn 0.5s ease;
         }
-        .news-img { width: 350px; height: 220px; object-fit: cover; border-right: 2px solid var(--accent-neon); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .news-img { width: 350px; height: 200px; object-fit: cover; border-right: 2px solid var(--accent-neon); }
         .news-content { padding: 25px; flex: 1; display: flex; flex-direction: column; justify-content: center; }
-        .news-content h2 { margin: 0 0 10px 0; color: var(--accent-neon); font-family: 'Oswald'; text-transform: uppercase; font-size: 1.8rem; }
-        .news-content p { margin: 0; color: #ddd; line-height: 1.6; font-size: 1.1rem; }
+        .news-content h2 { margin: 0 0 10px 0; color: var(--accent-neon); font-family: 'Oswald'; text-transform: uppercase; letter-spacing: 1px; }
+        .news-content p { margin: 0; line-height: 1.6; color: #ccc; }
 
-        /* BUSCADOR */
-        .search-box { 
-            width: 90%; max-width: 500px; margin: 10px auto 20px; padding: 15px 25px; 
-            border-radius: 50px; background: var(--card-bg); border: 2px solid #333; 
-            color: white; font-family: 'Poppins'; outline: none; transition: 0.3s;
-        }
-        .search-box:focus { border-color: var(--accent-neon); box-shadow: 0 0 15px rgba(127, 90, 240, 0.3); }
+        .search-box { width: 90%; max-width: 500px; margin: 10px auto; padding: 12px 25px; border-radius: 50px; background: var(--card-bg); border: 2px solid #333; color: white; outline: none; transition: 0.3s; display: block; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; width: 100%; max-width: 1100px; padding: 20px; box-sizing: border-box; }
 
-        /* GRID */
-        .grid { 
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 25px; width: 100%; max-width: 1100px; padding: 20px; box-sizing: border-box; 
-        }
-
-        .card { 
-            background: var(--card-bg); border-radius: 24px; overflow: hidden; 
-            border: 1px solid #222; transition: 0.3s; position: relative; 
-            display: flex; flex-direction: column;
-        }
-        .card:hover { transform: translateY(-5px); border-color: var(--accent-neon); }
-        .card.live-now { border-color: var(--live-red); box-shadow: 0 0 20px rgba(255,0,0,0.2); }
-
-        .fav-btn { 
-            position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.6); 
-            border: none; color: #444; font-size: 1.2rem; cursor: pointer; 
-            width: 38px; height: 38px; border-radius: 50%; z-index: 5; transition: 0.3s;
-        }
-        .fav-btn.active { color: #ffcc00; text-shadow: 0 0 10px #ffcc00; }
-
-        .status-dot { 
-            position: absolute; top: 15px; right: 15px; width: 12px; height: 12px; 
-            border-radius: 50%; background: var(--online-green); border: 2px solid #000; 
-        }
+        .card { background: var(--card-bg); border-radius: 24px; overflow: hidden; border: 1px solid #222; transition: var(--transition); display: flex; flex-direction: column; position: relative; }
+        .card.live-now { border-color: var(--live-red); box-shadow: 0 0 15px rgba(255,0,0,0.2); }
+        .status-dot { position: absolute; top: 15px; right: 15px; width: 12px; height: 12px; border-radius: 50%; background: var(--online-green); border: 2px solid #000; }
         .status-dot.offline { background: #555; }
+        .fav-btn { position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.6); border: none; color: #444; font-size: 1.2rem; cursor: pointer; width: 35px; height: 35px; border-radius: 50%; z-index: 5; }
+        .fav-btn.active { color: #ffcc00; }
 
         .card-img { height: 120px; display: flex; align-items: center; justify-content: center; font-size: 3rem; border-bottom: 1px solid #222; }
-        
-        .card-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
-        .card-tag { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; }
-        .card-title { font-size: 1.2rem; margin: 0 0 20px 0; font-family: 'Poppins'; font-weight: 600; }
-
-        .action-box { display: flex; gap: 10px; margin-top: auto; }
-        .a-btn { 
-            flex: 1; padding: 12px; border-radius: 12px; border: none; cursor: pointer; 
-            font-weight: 800; font-size: 0.75rem; text-transform: uppercase; 
-            text-decoration: none; text-align: center; transition: 0.2s;
-        }
+        .card-body { padding: 20px; }
+        .card-title { font-size: 1.1rem; margin: 0 0 15px 0; }
+        .action-box { display: flex; gap: 8px; }
+        .a-btn { flex: 1; padding: 10px; border-radius: 10px; border: none; cursor: pointer; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; }
         .a-play { background: var(--accent-neon); color: white; }
-        .a-play:hover { background: #6b46d3; }
-        .a-copy { background: #222; color: #eee; border: 1px solid #333; }
 
-        #toast { 
-            visibility: hidden; position: fixed; bottom: 30px; left: 50%; 
-            transform: translateX(-50%); background: white; color: black; 
-            padding: 12px 30px; border-radius: 50px; font-weight: 800; z-index: 3000; 
-        }
-        #toast.show { visibility: visible; animation: slideUp 0.3s; }
-
-        @keyframes slideUp { from { bottom: 0; opacity: 0; } to { bottom: 30px; opacity: 1; } }
+        /* ADMIN */
+        #settings-btn { position: fixed; bottom: 20px; right: 20px; background: #333; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; z-index: 1000; opacity: 0.5; }
+        #admin-panel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1a1a20; padding: 25px; border-radius: 20px; border: 2px solid var(--accent-neon); z-index: 2000; width: 350px; max-height: 80vh; overflow-y: auto; }
+        .admin-tab { display: flex; gap: 10px; margin-bottom: 15px; }
+        .tab-btn { flex: 1; padding: 8px; cursor: pointer; background: #333; color: white; border: none; border-radius: 5px; font-weight: 600; }
+        .tab-btn.active { background: var(--accent-neon); }
+        input, textarea { width: 100%; background: #000; border: 1px solid #444; color: white; padding: 10px; margin: 5px 0; border-radius: 8px; box-sizing: border-box; }
+        
+        #toast { visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: white; color: black; padding: 12px 30px; border-radius: 50px; font-weight: 800; z-index: 3000; }
+        #toast.show { visibility: visible; }
 
         @media (max-width: 768px) {
             #news-section { flex-direction: column; }
-            .news-img { width: 100%; height: 180px; border-right: none; border-bottom: 2px solid var(--accent-neon); }
+            .news-img { width: 100%; height: 150px; border-right: none; border-bottom: 2px solid var(--accent-neon); }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <img src="SDJ.jpg" alt="SDJ" style="height: 60px; border-radius: 12px;">
+    <header id="main-header">
+        <img src="SDJ.jpg" alt="SDJ" style="height: 60px; border-radius: 10px;">
     </header>
 
     <div id="news-section">
@@ -120,122 +86,200 @@
         </div>
     </div>
 
-    <input type="text" id="channelSearch" class="search-box" placeholder="Buscar canal, equipo o deporte..." onkeyup="filterChannels()">
+    <input type="text" id="channelSearch" class="search-box" placeholder="Buscar canal..." onkeyup="filterChannels()">
 
-    <div class="grid" id="main-grid">
+    <div class="grid" id="main-grid"></div>
+
+    <button id="settings-btn" onclick="loginAdmin()">⚙️</button>
+
+    <div id="admin-panel">
+        <div class="admin-tab">
+            <button class="tab-btn active" onclick="showTab('channels')">Canales</button>
+            <button class="tab-btn" onclick="showTab('news')">Noticias</button>
         </div>
 
-    <div id="toast">Copiado al portapapeles</div>
+        <div id="tab-channels">
+            <div id="admin-list"></div>
+        </div>
+
+        <div id="tab-news" style="display:none">
+            <label>URL Imagen:</label>
+            <input type="text" id="news-img-url" placeholder="https://...">
+            <label>Título:</label>
+            <input type="text" id="news-title-input" placeholder="Ej: Aviso importante">
+            <label>Mensaje:</label>
+            <textarea id="news-text-input" rows="3"></textarea>
+            <label>Duración (minutos):</label>
+            <input type="number" id="news-expiry-input" placeholder="60">
+            <button onclick="updateNews()" class="a-play" style="width:100%; margin-top:10px; padding:12px; border-radius:10px">Publicar</button>
+            <button onclick="deleteNews()" style="width:100%; margin-top:8px; padding:8px; background:#444; color:white; border:none; border-radius:10px; cursor:pointer;">Borrar Actual</button>
+        </div>
+
+        <button class="a-play" style="width:100%; margin-top:20px; padding:12px; border-radius:10px; background:#222" onclick="closeAdmin()">Cerrar</button>
+    </div>
+
+    <div id="toast">Copiado</div>
 
     <script>
-        // ==========================================
-        // 1. CONFIGURACIÓN DE NOTICIAS (EDITA AQUÍ)
-        // ==========================================
-        const CONFIG_NOTICIA = {
-            activa: true, // Cambia a 'false' para quitar el cuadro
-            titulo: "NOTICIAS SDJ",
-            mensaje: "Bienvenidos a la nueva versión. Ya puedes marcar tus canales favoritos pulsando en la estrella. ¡Disfruta el directo!",
-            imagen: "https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&w=800&q=80" 
-        };
-
-        // ==========================================
-        // 2. BASE DE DATOS DE CANALES (EDITA AQUÍ)
-        // ==========================================
-        const channels = [
-            { id: 'f1', name: 'F1 DAZN', tag: 'Motor', icon: '🏎️', color: 'var(--f1-red)', ace: 'd65257bb934b73647374224fd62d836815804be2', live: true, offline: false },
-            { id: 'champions', name: 'Champions League', tag: 'UEFA', icon: '🏆', color: 'var(--champions-blue)', ace: 'e572a5178ff72eed7d1d751a18b4b3419699f370', live: false, offline: false },
-            { id: 'dazn-laliga', name: 'DAZN LaLiga', tag: 'LaLiga', icon: '⚽', color: 'var(--foot-green)', ace: '19f28f60c908f987b1a03da078e63320d7bf29e8', live: false, offline: false },
-            { id: 'movistar-laliga-1', name: 'M+ LaLiga TV', tag: 'M+ LaLiga', icon: '⚽', color: 'var(--movistar-blue)', ace: '31c19ffb3472c289c5bbbbc174449c8ed0d19e38', live: false, offline: false },
-            { id: 'movistar-laliga-2', name: 'M+ LaLiga 2', tag: 'M+ LaLiga', icon: '⚽', color: 'var(--movistar-blue)', ace: 'caa631e8850e3eb5e7c039063dd8a339ccef1176', live: false, offline: false },
-            { id: 'dazn-1', name: 'DAZN 1', tag: 'DAZN', icon: '📺', color: 'var(--dazn-blue)', ace: '4141892f5df7d6474bf0279895ce02b7336c9928', live: false, offline: false },
-            { id: 'dazn-2', name: 'DAZN 2', tag: 'DAZN', icon: '📺', color: 'var(--dazn-blue)', ace: 'b0eabe0fdd02fdd165896236765a9b753a2ff516', live: false, offline: false },
-            { id: 'nba', name: 'NBA TV Pro', tag: 'NBA', icon: '🏀', color: 'var(--nba-orange)', ace: 'e72d03fb9694164317260f684470be9ab781ed95', live: false, offline: false }
-        ];
-
-        // ==========================================
-        // 3. LÓGICA DE FUNCIONAMIENTO
-        // ==========================================
+        const userAdmin = "admin";
+        const passAdmin = "1234";
         
-        function init() {
-            renderNews();
-            renderGrid();
-        }
-
-        function renderNews() {
-            const section = document.getElementById('news-section');
-            if(CONFIG_NOTICIA.activa) {
-                section.style.display = 'flex';
-                document.getElementById('news-img-display').src = CONFIG_NOTICIA.imagen;
-                document.getElementById('news-title-display').innerText = CONFIG_NOTICIA.titulo;
-                document.getElementById('news-text-display').innerText = CONFIG_NOTICIA.mensaje;
-            } else {
-                section.style.display = 'none';
-            }
-        }
+        const channels = [
+            { id: 'f1', name: 'F1 DAZN', tag: 'Motor', icon: '🏎️', color: 'var(--f1-red)', ace: 'd65257bb934b73647374224fd62d836815804be2' },
+            { id: 'champions', name: 'Champions League', tag: 'UEFA', icon: '🏆', color: 'var(--champions-blue)', ace: 'e572a5178ff72eed7d1d751a18b4b3419699f370' },
+            { id: 'dazn-laliga', name: 'DAZN LaLiga', tag: 'LaLiga', icon: '⚽', color: 'var(--foot-green)', ace: '19f28f60c908f987b1a03da078e63320d7bf29e8' },
+            { id: 'movistar-laliga-1', name: 'M+ LaLiga TV', tag: 'M+ LaLiga', icon: '⚽', color: 'var(--movistar-blue)', ace: '31c19ffb3472c289c5bbbbc174449c8ed0d19e38' },
+            { id: 'movistar-laliga-2', name: 'M+ LaLiga 2', tag: 'M+ LaLiga', icon: '⚽', color: 'var(--movistar-blue)', ace: 'caa631e8850e3eb5e7c039063dd8a339ccef1176' },
+            { id: 'dazn-1', name: 'DAZN 1', tag: 'DAZN', icon: '📺', color: 'var(--dazn-blue)', ace: '4141892f5df7d6474bf0279895ce02b7336c9928' },
+            { id: 'dazn-2', name: 'DAZN 2', tag: 'DAZN', icon: '📺', color: 'var(--dazn-blue)', ace: 'b0eabe0fdd02fdd165896236765a9b753a2ff516' },
+            { id: 'nba', name: 'NBA TV Pro', tag: 'NBA', icon: '🏀', color: 'var(--nba-orange)', ace: 'e72d03fb9694164317260f684470be9ab781ed95' }
+        ];
 
         function renderGrid() {
             const grid = document.getElementById('main-grid');
             grid.innerHTML = '';
-            
             channels.forEach(ch => {
-                const isFav = localStorage.getItem(`fav_${ch.id}`) === 'true';
-                const tagColor = ch.live ? 'var(--live-red)' : ch.color;
-                const tagText = ch.live ? '● EN VIVO' : ch.tag;
-
                 grid.innerHTML += `
-                    <div class="card ${ch.live ? 'live-now' : ''}" data-channel="${ch.id}">
-                        <button class="fav-btn ${isFav ? 'active' : ''}" onclick="toggleFav('${ch.id}')">★</button>
-                        <div class="status-dot ${ch.offline ? 'offline' : ''}"></div>
+                    <div class="card" data-channel="${ch.id}">
+                        <button class="fav-btn" onclick="toggleFav('${ch.id}')">★</button>
+                        <div class="status-dot" id="dot-${ch.id}"></div>
                         <div class="card-img" style="background: radial-gradient(circle, ${ch.color} 0%, #000 100%);">${ch.icon}</div>
                         <div class="card-body">
-                            <span class="card-tag" style="color: ${tagColor}">${tagText}</span>
+                            <span class="card-tag" id="tag-${ch.id}" style="color: ${ch.color}">${ch.tag}</span>
                             <h3 class="card-title">${ch.name}</h3>
                             <div class="action-box">
-                                <a href="acestream://${ch.ace}" class="a-btn a-play">VER CANAL</a>
-                                <button class="a-btn a-copy" onclick="copyId('${ch.ace}', '${ch.name}')">ID</button>
+                                <a href="acestream://${ch.ace}" class="a-btn a-play">Abrir</a>
+                                <button class="a-btn a-copy" onclick="copyId('${ch.ace}', '${ch.name}')" style="background:#222; color:white; flex:0.4">ID</button>
                             </div>
                         </div>
                     </div>`;
             });
-            sortCards();
+            loadAll();
+        }
+
+        // NOTICIAS (SIN MOSTRAR TIEMPO)
+        function updateNews() {
+            const img = document.getElementById('news-img-url').value;
+            const title = document.getElementById('news-title-input').value;
+            const text = document.getElementById('news-text-input').value;
+            const mins = parseInt(document.getElementById('news-expiry-input').value) || 60;
+
+            const expiryTime = Date.now() + (mins * 60000);
+            localStorage.setItem('sdj_news', JSON.stringify({ img, title, text, expiry: expiryTime }));
+            checkNews();
+            alert("Noticia publicada.");
+        }
+
+        function deleteNews() {
+            localStorage.removeItem('sdj_news');
+            checkNews();
+        }
+
+        function checkNews() {
+            const newsData = JSON.parse(localStorage.getItem('sdj_news'));
+            const section = document.getElementById('news-section');
+
+            if (!newsData) {
+                section.style.display = 'none';
+                return;
+            }
+
+            if (Date.now() > newsData.expiry) {
+                localStorage.removeItem('sdj_news');
+                section.style.display = 'none';
+            } else {
+                section.style.display = 'flex';
+                document.getElementById('news-img-display').src = newsData.img || 'https://via.placeholder.com/350x200';
+                document.getElementById('news-title-display').innerText = newsData.title;
+                document.getElementById('news-text-display').innerText = newsData.text;
+            }
+        }
+
+        // Chequeo automático cada minuto
+        setInterval(checkNews, 60000);
+
+        function showTab(tab) {
+            document.getElementById('tab-channels').style.display = tab === 'channels' ? 'block' : 'none';
+            document.getElementById('tab-news').style.display = tab === 'news' ? 'block' : 'none';
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            if(event) event.target.classList.add('active');
+        }
+
+        function loginAdmin() {
+            if(prompt("Admin:") === userAdmin && prompt("Pass:") === passAdmin) {
+                document.getElementById('admin-panel').style.display = 'block';
+                renderAdmin();
+            }
+        }
+
+        function renderAdmin() {
+            const list = document.getElementById('admin-list');
+            list.innerHTML = '';
+            channels.forEach(ch => {
+                const card = document.querySelector(`.card[data-channel="${ch.id}"]`);
+                const isLive = card ? card.classList.contains('live-now') : false;
+                const isOff = document.getElementById(`dot-${ch.id}`).classList.contains('offline');
+                list.innerHTML += `
+                    <div style="padding:10px 0; border-bottom:1px solid #333; font-size:12px">
+                        <strong>${ch.name}</strong><br>
+                        Live: <input type="checkbox" ${isLive ? 'checked' : ''} onchange="toggleLive('${ch.id}', this.checked, true)">
+                        Down: <input type="checkbox" ${isOff ? 'checked' : ''} onchange="toggleStatus('${ch.id}', this.checked)">
+                    </div>`;
+            });
+        }
+
+        function toggleLive(id, status, save) {
+            const card = document.querySelector(`.card[data-channel="${id}"]`);
+            if(status) card.classList.add('live-now'); else card.classList.remove('live-now');
+            if(save) localStorage.setItem(`live_${id}`, status);
+        }
+
+        function toggleStatus(id, isOff) {
+            const dot = document.getElementById(`dot-${id}`);
+            if(isOff) dot.classList.add('offline'); else dot.classList.remove('offline');
+            localStorage.setItem(`off_${id}`, isOff);
         }
 
         function toggleFav(id) {
-            const isFav = localStorage.getItem(`fav_${id}`) === 'true';
-            localStorage.setItem(`fav_${id}`, !isFav);
-            renderGrid(); // Refrescar para mover la tarjeta arriba
+            const btn = document.querySelector(`.card[data-channel="${id}"] .fav-btn`);
+            const active = btn.classList.toggle('active');
+            localStorage.setItem(`fav_${id}`, active);
+            sortCards();
         }
 
         function sortCards() {
             const grid = document.getElementById('main-grid');
             const cards = Array.from(grid.children);
-            cards.sort((a, b) => {
-                const aFav = a.querySelector('.fav-btn').classList.contains('active');
-                const bFav = b.querySelector('.fav-btn').classList.contains('active');
-                return bFav - aFav; // Favoritos arriba
-            });
-            cards.forEach(card => grid.appendChild(card));
+            cards.sort((a, b) => (b.querySelector('.fav-btn').classList.contains('active')) - (a.querySelector('.fav-btn').classList.contains('active')));
+            cards.forEach(c => grid.appendChild(c));
         }
 
         function filterChannels() {
-            const search = document.getElementById('channelSearch').value.toLowerCase();
+            let input = document.getElementById('channelSearch').value.toLowerCase();
             document.querySelectorAll('.card').forEach(card => {
-                const text = card.innerText.toLowerCase();
-                card.style.display = text.includes(search) ? 'flex' : 'none';
+                card.style.display = card.querySelector('.card-title').innerText.toLowerCase().includes(input) ? "flex" : "none";
             });
         }
 
         function copyId(id, name) {
-            navigator.clipboard.writeText(id).then(() => {
-                const toast = document.getElementById('toast');
-                toast.innerText = `Copiado: ${name}`;
-                toast.className = 'show';
-                setTimeout(() => toast.className = '', 2500);
-            });
+            navigator.clipboard.writeText(id);
+            const t = document.getElementById("toast");
+            t.className = "show"; setTimeout(() => t.className = "", 2000);
         }
 
-        // Iniciar web
-        init();
+        function loadAll() {
+            channels.forEach(ch => {
+                if(localStorage.getItem(`fav_${ch.id}`) === 'true') document.querySelector(`.card[data-channel="${ch.id}"] .fav-btn`).classList.add('active');
+                if(localStorage.getItem(`off_${ch.id}`) === 'true') document.getElementById(`dot-${ch.id}`).classList.add('offline');
+                if(localStorage.getItem(`live_${ch.id}`) === 'true') toggleLive(ch.id, true, false);
+            });
+            checkNews();
+            sortCards();
+        }
+
+        function closeAdmin() { document.getElementById('admin-panel').style.display = 'none'; }
+        
+        renderGrid();
     </script>
 </body>
 </html>
