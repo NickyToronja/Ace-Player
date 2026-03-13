@@ -43,7 +43,6 @@
         .btn-download { background: #222; border: 1px solid var(--accent-neon); }
         .nav-btn:hover { transform: translateY(-3px); filter: brightness(1.2); }
 
-        /* NOTICIAS */
         #news-section {
             width: 90%; max-width: 1100px; margin: 20px 0; display: none;
             background: rgba(127, 90, 240, 0.1); border: 2px solid var(--accent-neon);
@@ -73,14 +72,13 @@
         .a-btn { flex: 1; padding: 10px; border-radius: 10px; border: none; cursor: pointer; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; }
         .a-play { background: var(--accent-neon); color: white; }
 
-        /* ADMIN PANEL */
         #settings-btn { position: fixed; bottom: 20px; right: 20px; background: #333; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; z-index: 1000; opacity: 0.5; }
         #admin-panel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1a1a20; padding: 25px; border-radius: 20px; border: 2px solid var(--accent-neon); z-index: 2000; width: 350px; max-height: 80vh; overflow-y: auto; box-shadow: 0 0 50px #000; }
         .admin-tab { display: flex; gap: 10px; margin-bottom: 15px; }
         .tab-btn { flex: 1; padding: 8px; cursor: pointer; background: #333; color: white; border: none; border-radius: 5px; font-weight: 600; }
         .tab-btn.active { background: var(--accent-neon); }
         input, textarea { width: 100%; background: #000; border: 1px solid #444; color: white; padding: 10px; margin: 5px 0; border-radius: 8px; box-sizing: border-box; }
-        #code-output-box { background: #000; color: #0f0; padding: 10px; font-family: monospace; font-size: 10px; border-radius: 8px; margin-top: 10px; display: none; white-space: pre-wrap; word-break: break-all; max-height: 150px; overflow-y: auto; }
+        #code-output-box { background: #000; color: #0f0; padding: 10px; font-family: monospace; font-size: 10px; border-radius: 8px; margin-top: 10px; display: none; white-space: pre-wrap; word-break: break-all; max-height: 150px; overflow-y: auto; border: 1px solid #0f0; }
         #toast { visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: white; color: black; padding: 12px 30px; border-radius: 50px; font-weight: 800; z-index: 3000; }
         #toast.show { visibility: visible; }
 
@@ -141,35 +139,107 @@
             </select>
         </div>
 
-        <button onclick="generateMasterCode()" class="a-play" style="width:100%; margin-top:20px; padding:12px; border-radius:10px; background:#2ecc71">GENERAR CÓDIGO MAESTRO</button>
+        <button onclick="generateMasterCode()" class="a-play" style="width:100%; margin-top:20px; padding:12px; border-radius:10px; background:#2ecc71">GENERAR ARCHIVO COMPLETO</button>
         <div id="code-output-box"></div>
         <button class="a-play" style="width:100%; margin-top:10px; padding:12px; border-radius:10px; background:#444" onclick="closeAdmin()">Cerrar</button>
     </div>
 
     <div id="toast">Copiado</div>
 
-    <script>
+    <script id="master-script">
         // ==========================================
-        //  DATOS MAESTROS (NO TOCAR SI USAS EL PANEL)
+        //  DATOS MAESTROS (SE ACTUALIZAN AL GENERAR)
         // ==========================================
         const MASTER_CONFIG = {
-            news: {
-                active: false,
-                title: "NUEVO SISTEMA ACTIVO",
-                text: "Usa los botones de arriba para entrar al Discord o descargar Ace Stream.",
-                img: "https://via.placeholder.com/350x200"
-            },
-            channels: [
-                { id: 'f1', name: 'F1 DAZN', tag: 'Motor', icon: '🏎️', color: 'var(--f1-red)', ace: 'd65257bb934b73647374224fd62d836815804be2', live: true, off: false },
-                { id: 'champions', name: 'Champions League', tag: 'UEFA', icon: '🏆', color: 'var(--champions-blue)', ace: 'e572a5178ff72eed7d1d751a18b4b3419699f370', live: false, off: false },
-                { id: 'dazn-laliga', name: 'DAZN LaLiga', tag: 'LaLiga', icon: '⚽', color: 'var(--foot-green)', ace: '19f28f60c908f987b1a03da078e63320d7bf29e8', live: false, off: false },
-                { id: 'movistar-laliga-1', name: 'M+ LaLiga TV', tag: 'M+ LaLiga', icon: '⚽', color: 'var(--movistar-blue)', ace: '31c19ffb3472c289c5bbbbc174449c8ed0d19e38', live: false, off: false },
-                { id: 'movistar-laliga-2', name: 'M+ LaLiga 2', tag: 'M+ LaLiga', icon: '⚽', color: 'var(--movistar-blue)', ace: 'caa631e8850e3eb5e7c039063dd8a339ccef1176', live: false, off: false },
-                { id: 'dazn-1', name: 'DAZN 1', tag: 'DAZN', icon: '📺', color: 'var(--dazn-blue)', ace: '4141892f5df7d6474bf0279895ce02b7336c9928', live: false, off: false },
-                { id: 'dazn-2', name: 'DAZN 2', tag: 'DAZN', icon: '📺', color: 'var(--dazn-blue)', ace: 'b0eabe0fdd02fdd165896236765a9b753a2ff516', live: false, off: false },
-                { id: 'nba', name: 'NBA TV Pro', tag: 'NBA', icon: '🏀', color: 'var(--nba-orange)', ace: 'e72d03fb9694164317260f684470be9ab781ed95', live: false, off: false }
-            ]
-        };
+    "news": {
+        "active": false,
+        "title": "NUEVO SISTEMA ACTIVO",
+        "text": "Usa los botones de arriba para entrar al Discord o descargar Ace Stream.",
+        "img": "https://via.placeholder.com/350x200"
+    },
+    "channels": [
+        {
+            "id": "f1",
+            "name": "F1 DAZN",
+            "tag": "Motor",
+            "icon": "🏎️",
+            "color": "var(--f1-red)",
+            "ace": "d65257bb934b73647374224fd62d836815804be2",
+            "live": true,
+            "off": false
+        },
+        {
+            "id": "champions",
+            "name": "Champions League",
+            "tag": "UEFA",
+            "icon": "🏆",
+            "color": "var(--champions-blue)",
+            "ace": "e572a5178ff72eed7d1d751a18b4b3419699f370",
+            "live": false,
+            "off": false
+        },
+        {
+            "id": "dazn-laliga",
+            "name": "DAZN LaLiga",
+            "tag": "LaLiga",
+            "icon": "⚽",
+            "color": "var(--foot-green)",
+            "ace": "19f28f60c908f987b1a03da078e63320d7bf29e8",
+            "live": false,
+            "off": false
+        },
+        {
+            "id": "movistar-laliga-1",
+            "name": "M+ LaLiga TV",
+            "tag": "M+ LaLiga",
+            "icon": "⚽",
+            "color": "var(--movistar-blue)",
+            "ace": "31c19ffb3472c289c5bbbbc174449c8ed0d19e38",
+            "live": false,
+            "off": false
+        },
+        {
+            "id": "movistar-laliga-2",
+            "name": "M+ LaLiga 2",
+            "tag": "M+ LaLiga",
+            "icon": "⚽",
+            "color": "var(--movistar-blue)",
+            "ace": "caa631e8850e3eb5e7c039063dd8a339ccef1176",
+            "live": false,
+            "off": false
+        },
+        {
+            "id": "dazn-1",
+            "name": "DAZN 1",
+            "tag": "DAZN",
+            "icon": "📺",
+            "color": "var(--dazn-blue)",
+            "ace": "4141892f5df7d6474bf0279895ce02b7336c9928",
+            "live": false,
+            "off": false
+        },
+        {
+            "id": "dazn-2",
+            "name": "DAZN 2",
+            "tag": "DAZN",
+            "icon": "📺",
+            "color": "var(--dazn-blue)",
+            "ace": "b0eabe0fdd02fdd165896236765a9b753a2ff516",
+            "live": false,
+            "off": false
+        },
+        {
+            "id": "nba",
+            "name": "NBA TV Pro",
+            "tag": "NBA",
+            "icon": "🏀",
+            "color": "var(--nba-orange)",
+            "ace": "e72d03fb9694164317260f684470be9ab781ed95",
+            "live": false,
+            "off": false
+        }
+    ]
+};
 
         const userAdmin = "admin";
         const passAdmin = "1234";
@@ -206,6 +276,7 @@
         }
 
         function generateMasterCode() {
+            // Actualizar objeto con datos de los inputs
             MASTER_CONFIG.news.title = document.getElementById('news-title-input').value;
             MASTER_CONFIG.news.text = document.getElementById('news-text-input').value;
             MASTER_CONFIG.news.img = document.getElementById('news-img-url').value;
@@ -216,12 +287,24 @@
                 ch.off = document.getElementById(`off-chk-${ch.id}`).checked;
             });
 
-            const code = "const MASTER_CONFIG = " + JSON.stringify(MASTER_CONFIG, null, 4) + ";";
+            // Obtener todo el HTML actual
+            let fullHTML = document.documentElement.outerHTML;
+            
+            // Crear el bloque de texto del nuevo MASTER_CONFIG
+            const newConfigText = "const MASTER_CONFIG = " + JSON.stringify(MASTER_CONFIG, null, 4) + ";";
+            
+            // Reemplazar el MASTER_CONFIG viejo por el nuevo en el código fuente mediante Regex
+            const regex = /const MASTER_CONFIG = \{[\s\S]*?\};/;
+            fullHTML = fullHTML.replace(regex, newConfigText);
+
+            // Mostrar y copiar
             const output = document.getElementById('code-output-box');
-            output.innerText = code;
+            output.innerText = fullHTML;
             output.style.display = 'block';
-            navigator.clipboard.writeText(code);
-            alert("¡CÓDIGO GENERADO! Cópialo y reemplaza el MASTER_CONFIG en tu archivo.");
+            
+            navigator.clipboard.writeText(fullHTML).then(() => {
+                alert("¡CÓDIGO COMPLETO GENERADO Y COPIADO! \n\nInstrucciones: \n1. Crea un nuevo archivo .html\n2. Pega todo el código.\n3. Guárdalo y súbelo.");
+            });
         }
 
         function loginAdmin() {
