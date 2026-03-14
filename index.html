@@ -57,15 +57,11 @@
         .btn-fav-filter.active { background: var(--fav-gold); color: #000; }
         .btn-config { background: #444; font-size: 1.2rem; padding: 12px; }
 
-        /* Estilos de Card */
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; width: 100%; }
         .card {
             background: var(--card-bg); border-radius: 24px; overflow: hidden;
             border: 1px solid #222; transition: var(--transition); position: relative;
         }
-        .card.hidden { display: none; }
-        
-        /* Estilo dinámico cuando el canal está LIVE */
         .card.is-live { border: 2px solid var(--live-red); box-shadow: 0 0 15px rgba(255, 0, 0, 0.2); }
         .live-dot { 
             display: inline-block; width: 8px; height: 8px; background: var(--live-red); 
@@ -247,54 +243,59 @@
 
     <script>
         // ==========================================
-        // CONFIGURACIÓN DE CANALES EN VIVO
-        // Cambia a true para activar el punto y el brillo
+        // 🚀 CENTRAL DE MANDOS - GESTIÓN DE CANALES
+        // live: activa el punto rojo y el brillo
+        // active: muestra u oculta el canal de la web
         // ==========================================
-        const ESTADO_CANALES = {
-            "f1-dazn": false,
-            "ucl-live": true,      // Ejemplo: Champions activa
-            "laliga-dazn": false,
-            "laliga2-m": false,
-            "dazn1": false,
-            "dazn2": false,
-            "nba-pro": false,
-            "laliga1-m": false
+        const CONFIG_CANALES = {
+            "f1-dazn":      { live: false, active: true },
+            "ucl-live":     { live: false, active: true },
+            "laliga-dazn":  { live: true,  active: true },
+            "laliga2-m":    { live: false, active: true },
+            "dazn1":        { live: false, active: true },
+            "dazn2":        { live: false, active: true },
+            "nba-pro":      { live: false, active: true },
+            "laliga1-m":    { live: false, active: true }
         };
 
         let favorites = JSON.parse(localStorage.getItem('sdj_favs')) || [];
         let showOnlyFavs = false;
 
-        function updateLiveStatus() {
+        function updateChannels() {
             let anyLive = false;
             const cards = document.querySelectorAll('.card');
             
             cards.forEach(card => {
                 const id = card.getAttribute('data-id');
+                const config = CONFIG_CANALES[id];
                 const tag = card.querySelector('.card-tag');
                 
-                if (ESTADO_CANALES[id]) {
-                    anyLive = true;
-                    card.classList.add('is-live');
-                    // Añadir punto si no existe
-                    if (!tag.querySelector('.live-dot')) {
-                        tag.insertAdjacentHTML('afterbegin', '<span class="live-dot"></span>');
-                        tag.innerHTML += ' <span class="live-text" style="color:var(--live-red); margin-left:5px">- LIVE</span>';
+                if (config) {
+                    // Control de Visibilidad
+                    card.style.display = config.active ? "block" : "none";
+
+                    // Control de Live
+                    if (config.live && config.active) {
+                        anyLive = true;
+                        card.classList.add('is-live');
+                        if (!tag.querySelector('.live-dot')) {
+                            tag.insertAdjacentHTML('afterbegin', '<span class="live-dot"></span>');
+                            tag.insertAdjacentHTML('beforeend', ' <span class="live-text" style="color:var(--live-red); margin-left:5px">- LIVE</span>');
+                        }
+                    } else {
+                        card.classList.remove('is-live');
+                        const dot = tag.querySelector('.live-dot');
+                        const txt = tag.querySelector('.live-text');
+                        if (dot) dot.remove();
+                        if (txt) txt.remove();
                     }
-                } else {
-                    card.classList.remove('is-live');
-                    const dot = tag.querySelector('.live-dot');
-                    const txt = tag.querySelector('.live-text');
-                    if (dot) dot.remove();
-                    if (txt) txt.remove();
                 }
             });
 
-            // Activar brillo en el header si hay algo en vivo
-            if (anyLive) {
-                document.getElementById('main-header').classList.add('live-active');
-            } else {
-                document.getElementById('main-header').classList.remove('live-active');
-            }
+            // Brillo del Header
+            const header = document.getElementById('main-header');
+            if (anyLive) header.classList.add('live-active');
+            else header.classList.remove('live-active');
         }
 
         function toggleFav(id) {
@@ -318,9 +319,11 @@
             cards.forEach(card => {
                 const title = card.querySelector('.card-title').innerText.toLowerCase();
                 const isFav = favorites.includes(card.getAttribute('data-id'));
-                if (title.includes(filter) && (showOnlyFavs ? isFav : true)) {
-                    card.classList.remove('hidden');
-                } else { card.classList.add('hidden'); }
+                const config = CONFIG_CANALES[card.getAttribute('data-id')];
+                
+                if (config.active && title.includes(filter) && (showOnlyFavs ? isFav : true)) {
+                    card.style.display = "block";
+                } else { card.style.display = "none"; }
             });
         }
 
@@ -337,7 +340,7 @@
                 favorites = [];
                 localStorage.removeItem('sdj_favs');
                 document.querySelectorAll('.fav-btn').forEach(b => b.classList.remove('is-fav'));
-                filterChannels();
+                updateChannels();
                 toggleConfig();
             }
         }
@@ -358,7 +361,7 @@
                     card.querySelector('.fav-btn').classList.add('is-fav');
                 }
             });
-            updateLiveStatus();
+            updateChannels();
         };
     </script>
 </body>
