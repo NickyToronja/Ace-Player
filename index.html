@@ -15,8 +15,10 @@
             --live-red: #ff0000; --fav-gold: #f1c40f;
         }
 
+        /* Animaciones */
         @keyframes stripe-move { 0% { background-position: 0 0; } 100% { background-position: 100px 100px; } }
         @keyframes live-glow { 0%, 100% { box-shadow: 0 0 10px var(--live-red); border-bottom-color: var(--live-red); } 50% { box-shadow: 0 0 25px var(--live-red); border-bottom-color: #ff4d4d; } }
+        @keyframes pulse-dot { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
         
         body {
             font-family: 'Poppins', sans-serif; background-color: var(--bg-deep); color: var(--text-main);
@@ -30,10 +32,9 @@
             padding: 20px 0; text-align: center; border-bottom: 2px solid var(--accent-neon);
             position: sticky; top: 0; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        header.live-active { animation: live-glow 1.5s infinite ease-in-out; }
+        header.live-active { animation: live-glow 1.5s infinite ease-in-out; border-bottom-width: 4px; }
 
         .logo-sdj { height: 60px; border-radius: 12px; border: 1px solid var(--accent-neon); }
-
         .hero { width: 100%; max-width: 1100px; padding: 30px 20px; text-align: center; box-sizing: border-box; }
         h1 { font-family: 'Oswald'; font-size: 3rem; margin: 0 0 20px 0; letter-spacing: 2px; }
 
@@ -56,13 +57,20 @@
         .btn-fav-filter.active { background: var(--fav-gold); color: #000; }
         .btn-config { background: #444; font-size: 1.2rem; padding: 12px; }
 
+        /* Estilos de Card */
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; width: 100%; }
         .card {
             background: var(--card-bg); border-radius: 24px; overflow: hidden;
             border: 1px solid #222; transition: var(--transition); position: relative;
         }
         .card.hidden { display: none; }
-        .card.live-now { border-color: var(--live-red); }
+        
+        /* Estilo dinámico cuando el canal está LIVE */
+        .card.is-live { border: 2px solid var(--live-red); box-shadow: 0 0 15px rgba(255, 0, 0, 0.2); }
+        .live-dot { 
+            display: inline-block; width: 8px; height: 8px; background: var(--live-red); 
+            border-radius: 50%; margin-right: 5px; animation: pulse-dot 1s infinite;
+        }
 
         .fav-btn {
             position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6);
@@ -73,7 +81,7 @@
 
         .card-img { height: 110px; display: flex; align-items: center; justify-content: center; font-size: 3rem; border-bottom: 1px solid #222; }
         .card-body { padding: 20px; text-align: left; }
-        .card-tag { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: block; }
+        .card-tag { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; }
         .card-title { font-size: 1.1rem; font-weight: 700; margin: 0 0 15px 0; height: 1.2em; overflow: hidden; }
 
         .action-box { display: flex; gap: 8px; }
@@ -134,18 +142,18 @@
                 </div>
             </div>
 
-           <div class="card" data-id="ucl-live">
-    <button class="fav-btn" onclick="toggleFav('ucl-live')">★</button>
-    <div class="card-img" style="background: radial-gradient(circle, var(--champions-blue) 0%, #000 100%);">🏆</div>
-    <div class="card-body">
-        <span class="card-tag" style="color: var(--champions-blue);">UEFA</span>
-        <h3 class="card-title">Liga de Campeones</h3>
-        <div class="action-box">
-            <a href="acestream://e572a5178ff72eed7d1d751a18b4b3419699f370" class="a-btn a-play">Abrir</a>
-            <button class="a-btn a-copy" onclick="copyId('e572a5178ff72eed7d1d751a18b4b3419699f370', 'Champions')">ID</button>
-        </div>
-    </div>
-</div>
+            <div class="card" data-id="ucl-live">
+                <button class="fav-btn" onclick="toggleFav('ucl-live')">★</button>
+                <div class="card-img" style="background: radial-gradient(circle, var(--champions-blue) 0%, #000 100%);">🏆</div>
+                <div class="card-body">
+                    <span class="card-tag" style="color: var(--champions-blue);">UEFA</span>
+                    <h3 class="card-title">Liga de Campeones</h3>
+                    <div class="action-box">
+                        <a href="acestream://e572a5178ff72eed7d1d751a18b4b3419699f370" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copyId('e572a5178ff72eed7d1d751a18b4b3419699f370', 'Champions')">ID</button>
+                    </div>
+                </div>
+            </div>
 
             <div class="card" data-id="laliga-dazn">
                 <button class="fav-btn" onclick="toggleFav('laliga-dazn')">★</button>
@@ -154,7 +162,7 @@
                     <span class="card-tag" style="color: var(--foot-green);">LaLiga</span>
                     <h3 class="card-title">DAZN LaLiga</h3>
                     <div class="action-box">
-                        <a href="acestream://dda5d2cace9bc4cb0918e62bc50d657d4a10496a" class="a-btn a-play">Abrir</a>
+                        <a href="acestream://19f28f60c908f987b1a03da078e63320d7bf29e8" class="a-btn a-play">Abrir</a>
                         <button class="a-btn a-copy" onclick="copyId('19f28f60c908f987b1a03da078e63320d7bf29e8', 'DAZN LaLiga')">ID</button>
                     </div>
                 </div>
@@ -238,8 +246,56 @@
     <div id="toast">Copiado con éxito</div>
 
     <script>
+        // ==========================================
+        // CONFIGURACIÓN DE CANALES EN VIVO
+        // Cambia a true para activar el punto y el brillo
+        // ==========================================
+        const ESTADO_CANALES = {
+            "f1-dazn": false,
+            "ucl-live": true,      // Ejemplo: Champions activa
+            "laliga-dazn": false,
+            "laliga2-m": false,
+            "dazn1": false,
+            "dazn2": false,
+            "nba-pro": false,
+            "laliga1-m": false
+        };
+
         let favorites = JSON.parse(localStorage.getItem('sdj_favs')) || [];
         let showOnlyFavs = false;
+
+        function updateLiveStatus() {
+            let anyLive = false;
+            const cards = document.querySelectorAll('.card');
+            
+            cards.forEach(card => {
+                const id = card.getAttribute('data-id');
+                const tag = card.querySelector('.card-tag');
+                
+                if (ESTADO_CANALES[id]) {
+                    anyLive = true;
+                    card.classList.add('is-live');
+                    // Añadir punto si no existe
+                    if (!tag.querySelector('.live-dot')) {
+                        tag.insertAdjacentHTML('afterbegin', '<span class="live-dot"></span>');
+                        tag.innerHTML += ' <span class="live-text" style="color:var(--live-red); margin-left:5px">- LIVE</span>';
+                    }
+                } else {
+                    card.classList.remove('is-live');
+                    const dot = tag.querySelector('.live-dot');
+                    const txt = tag.querySelector('.live-text');
+                    if (dot) dot.remove();
+                    if (txt) txt.remove();
+                }
+            });
+
+            // Activar brillo en el header si hay algo en vivo
+            if (anyLive) {
+                document.getElementById('main-header').classList.add('live-active');
+            } else {
+                document.getElementById('main-header').classList.remove('live-active');
+            }
+        }
 
         function toggleFav(id) {
             const index = favorites.indexOf(id);
@@ -261,9 +317,8 @@
             const cards = document.querySelectorAll('.card');
             cards.forEach(card => {
                 const title = card.querySelector('.card-title').innerText.toLowerCase();
-                const tag = card.querySelector('.card-tag').innerText.toLowerCase();
                 const isFav = favorites.includes(card.getAttribute('data-id'));
-                if ((title.includes(filter) || tag.includes(filter)) && (showOnlyFavs ? isFav : true)) {
+                if (title.includes(filter) && (showOnlyFavs ? isFav : true)) {
                     card.classList.remove('hidden');
                 } else { card.classList.add('hidden'); }
             });
@@ -303,7 +358,7 @@
                     card.querySelector('.fav-btn').classList.add('is-fav');
                 }
             });
-            if (document.querySelector('.card.live-now')) document.getElementById('main-header').classList.add('live-active');
+            updateLiveStatus();
         };
     </script>
 </body>
