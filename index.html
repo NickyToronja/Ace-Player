@@ -10,7 +10,7 @@
             --bg-deep: #0a0a0c; --bg-stripe: #121216; --card-bg: #1a1a20;
             --accent-neon: #7f5af0; --discord-color: #5865F2; --f1-red: #e10600;
             --dazn-blue: #3498db; --nba-orange: #ff9800; --foot-green: #2ecc71;
-            --movistar-blue: #00bcff; --champions-blue: #001e4e;
+            --movistar-blue: #00bcff; --champions-blue: #001e4e; --fox-blue: #0033ab;
             --text-main: #ffffff; --transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
             --live-red: #ff0000; --fav-gold: #f1c40f;
         }
@@ -125,6 +125,20 @@
         </div>
 
         <div class="grid" id="channelGrid">
+            
+            <div class="card" data-id="fox-sports-us">
+                <button class="fav-btn" onclick="toggleFav('fox-sports-us')">★</button>
+                <div class="card-img" style="background: radial-gradient(circle, var(--fox-blue) 0%, #000 100%);">🏟️</div>
+                <div class="card-body">
+                    <span class="card-tag" style="color: var(--fox-blue);">Deportes</span>
+                    <h3 class="card-title">Fox Sports [US]</h3>
+                    <div class="action-box">
+                        <a href="acestream://c9c062941fbecb16ce29437f346ea7177d720898" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copyId('c9c062941fbecb16ce29437f346ea7177d720898', 'Fox Sports US')">ID</button>
+                    </div>
+                </div>
+            </div>
+
             <div class="card" data-id="f1-dazn">
                 <button class="fav-btn" onclick="toggleFav('f1-dazn')">★</button>
                 <div class="card-img" style="background: radial-gradient(circle, var(--f1-red) 0%, #000 100%);">🏎️</div>
@@ -244,13 +258,12 @@
     <script>
         // ==========================================
         // 🚀 CENTRAL DE MANDOS - GESTIÓN DE CANALES
-        // live: activa el punto rojo y el brillo
-        // active: muestra u oculta el canal de la web
         // ==========================================
         const CONFIG_CANALES = {
+            "fox-sports-us": { live: false, active: true }, // NUEVO
             "f1-dazn":      { live: false, active: true },
             "ucl-live":     { live: false, active: true },
-            "laliga-dazn":  { live: false,  active: true },
+            "laliga-dazn":  { live: true,  active: true },
             "laliga2-m":    { live: false, active: true },
             "dazn1":        { live: false, active: true },
             "dazn2":        { live: false, active: true },
@@ -321,7 +334,7 @@
                 const isFav = favorites.includes(card.getAttribute('data-id'));
                 const config = CONFIG_CANALES[card.getAttribute('data-id')];
                 
-                if (config.active && title.includes(filter) && (showOnlyFavs ? isFav : true)) {
+                if (config && config.active && title.includes(filter) && (showOnlyFavs ? isFav : true)) {
                     card.style.display = "block";
                 } else { card.style.display = "none"; }
             });
