@@ -11,7 +11,7 @@
             --accent-neon: #7f5af0; --discord-color: #5865F2; --f1-red: #e10600;
             --dazn-blue: #3498db; --nba-orange: #ff9800; --foot-green: #2ecc71;
             --movistar-blue: #00bcff; --champions-blue: #001e4e; 
-            --fox-orange: #ff8c00; /* NUEVO COLOR PARA FOX */
+            --fox-gradient: linear-gradient(to bottom right, #ff8c00, #e62210); /* Gradiente Naranja a Rojo */
             --text-main: #ffffff; --transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
             --live-red: #ff0000; --fav-gold: #f1c40f;
         }
@@ -129,17 +129,17 @@
         <div class="grid" id="channelGrid">
             
             <div class="card" data-id="fox-sports-us">
-                <button class="fav-btn" onclick="toggleFav('fox-sports-us')">★</button>
-                <div class="card-img" style="background: radial-gradient(circle, var(--fox-orange) 0%, #000 100%);">🏟️</div>
-                <div class="card-body">
-                    <span class="card-tag" style="color: var(--fox-orange);">Deportes</span>
-                    <h3 class="card-title" style="color: var(--fox-orange);">Fox Sports [US]</h3>
-                    <div class="action-box">
-                        <a href="acestream://c9c062941fbecb16ce29437f346ea7177d720898" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('c9c062941fbecb16ce29437f346ea7177d720898', 'Fox Sports US')">ID</button>
-                    </div>
-                </div>
-            </div>
+    <button class="fav-btn" onclick="toggleFav('fox-sports-us')">★</button>
+    <div class="card-img" style="background: radial-gradient(circle at center, #ff8c00 0%, #e62210 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem;">🏟️</div>
+    <div class="card-body">
+        <span class="card-tag" style="color: var(--f1-red);">Deportes</span>
+        <h3 class="card-title" style="color: var(--text-main);">Fox Sports [US]</h3>
+        <div class="action-box">
+            <a href="acestream://c9c062941fbecb16ce29437f346ea7177d720898" class="a-btn a-play">Abrir</a>
+            <button class="a-btn a-copy" onclick="copyId('c9c062941fbecb16ce29437f346ea7177d720898', 'Fox Sports US')">ID</button>
+        </div>
+    </div>
+</div>
 
             <div class="card" data-id="f1-dazn">
                 <button class="fav-btn" onclick="toggleFav('f1-dazn')">★</button>
