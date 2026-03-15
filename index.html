@@ -7,23 +7,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Oswald:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #0f0a05; /* Fondo negro con un toque cálido */
-            --bg-stripe: #1a140d; /* Rayas sutiles marrón/naranja */
-            --card-bg: #1e1b18; 
-            --accent-neon: #ff8c00; /* EL NARANJA PRO */
-            --discord-color: #5865F2; 
-            --f1-red: #e10600;
-            --dazn-blue: #3498db; 
-            --nba-orange: #ff9800; 
-            --foot-green: #2ecc71;
-            --movistar-blue: #00bcff; 
-            --champions-blue: #001e4e; 
-            --fox-blue: #FA6646;
-            --fox-idk: #F54927;
-            --text-main: #ffffff; 
-            --transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-            --live-red: #ff3d00; /* Un rojo más anaranjado para el Live */
-            --fav-gold: #ffcc00;
+            --bg-deep: #0a0a0c; --bg-stripe: #121216; --card-bg: #1a1a20;
+            --accent-neon: #7f5af0; --discord-color: #5865F2; --f1-red: #e10600;
+            --dazn-blue: #3498db; --nba-orange: #ff9800; --foot-green: #2ecc71;
+            --movistar-blue: #00bcff; --champions-blue: #001e4e; 
+            --fox-orange: #ff8c00; /* NUEVO COLOR PARA FOX */
+            --text-main: #ffffff; --transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --live-red: #ff0000; --fav-gold: #f1c40f;
         }
 
         /* Animaciones */
@@ -73,6 +63,7 @@
             background: var(--card-bg); border-radius: 24px; overflow: hidden;
             border: 1px solid #222; transition: var(--transition); position: relative;
         }
+        .card.hidden { display: none; }
         .card.is-live { border: 2px solid var(--live-red); box-shadow: 0 0 15px rgba(255, 0, 0, 0.2); }
         .live-dot { 
             display: inline-block; width: 8px; height: 8px; background: var(--live-red); 
@@ -139,10 +130,10 @@
             
             <div class="card" data-id="fox-sports-us">
                 <button class="fav-btn" onclick="toggleFav('fox-sports-us')">★</button>
-                <div class="card-img" style="background: radial-gradient(circle, var(--fox-) 0%, #000 100%);">🦊</div>
+                <div class="card-img" style="background: radial-gradient(circle, var(--fox-orange) 0%, #000 100%);">🏟️</div>
                 <div class="card-body">
-                    <span class="card-tag" style="color: var(--fox-idk);">Deportes</span>
-                    <h3 class="card-title">Fox Sports [US]</h3>
+                    <span class="card-tag" style="color: var(--fox-orange);">Deportes</span>
+                    <h3 class="card-title" style="color: var(--fox-orange);">Fox Sports [US]</h3>
                     <div class="action-box">
                         <a href="acestream://c9c062941fbecb16ce29437f346ea7177d720898" class="a-btn a-play">Abrir</a>
                         <button class="a-btn a-copy" onclick="copyId('c9c062941fbecb16ce29437f346ea7177d720898', 'Fox Sports US')">ID</button>
@@ -271,10 +262,10 @@
         // 🚀 CENTRAL DE MANDOS - GESTIÓN DE CANALES
         // ==========================================
         const CONFIG_CANALES = {
-            "fox-sports-us": { live: false, active: true }, // NUEVO
+            "fox-sports-us": { live: false, active: true },
             "f1-dazn":      { live: false, active: true },
             "ucl-live":     { live: false, active: true },
-            "laliga-dazn":  { live: false,  active: true },
+            "laliga-dazn":  { live: true,  active: true },
             "laliga2-m":    { live: false, active: true },
             "dazn1":        { live: false, active: true },
             "dazn2":        { live: false, active: true },
