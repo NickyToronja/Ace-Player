@@ -11,12 +11,11 @@
             --accent-neon: #7f5af0; --discord-color: #5865F2; --f1-red: #e10600;
             --dazn-blue: #3498db; --nba-orange: #ff9800; --foot-green: #2ecc71;
             --movistar-blue: #00bcff; --champions-blue: #001e4e; 
-            --fox-gradient: linear-gradient(to bottom right, #ff8c00, #e62210); /* Gradiente Naranja a Rojo */
+            --fox-gradient: linear-gradient(to bottom right, #ff8c00, #e62210);
             --text-main: #ffffff; --transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
             --live-red: #ff0000; --fav-gold: #f1c40f;
         }
 
-        /* Animaciones */
         @keyframes stripe-move { 0% { background-position: 0 0; } 100% { background-position: 100px 100px; } }
         @keyframes live-glow { 0%, 100% { box-shadow: 0 0 10px var(--live-red); border-bottom-color: var(--live-red); } 50% { box-shadow: 0 0 25px var(--live-red); border-bottom-color: #ff4d4d; } }
         @keyframes pulse-dot { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
@@ -63,7 +62,6 @@
             background: var(--card-bg); border-radius: 24px; overflow: hidden;
             border: 1px solid #222; transition: var(--transition); position: relative;
         }
-        .card.hidden { display: none; }
         .card.is-live { border: 2px solid var(--live-red); box-shadow: 0 0 15px rgba(255, 0, 0, 0.2); }
         .live-dot { 
             display: inline-block; width: 8px; height: 8px; background: var(--live-red); 
@@ -128,28 +126,28 @@
 
         <div class="grid" id="channelGrid">
             
-            <div class="card" data-id="fox-sports-us">
-                <button class="fav-btn" onclick="toggleFav('fox-sports-us')">★</button>
-                <div class="card-img" style="background: radial-gradient(circle at center, #ff8c00 0%, #e62210 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem;">🦊</div>
+            <div class="card" data-id="motogp-dazn">
+                <button class="fav-btn" onclick="toggleFav('motogp-dazn')">★</button>
+                <div class="card-img" style="background: radial-gradient(circle, #333 0%, #000 100%);">🏍️</div>
                 <div class="card-body">
-                    <span class="card-tag" style="color: var(--nba-orange);">Deportes</span>
-                    <h3 class="card-title" style="color: var(--text-main);">Fox Sports [US]</h3>
+                    <span class="card-tag" style="color: var(--f1-red);">Motor</span>
+                    <h3 class="card-title">MotoGP (DAZN)</h3>
                     <div class="action-box">
-                        <a href="acestream://c9c062941fbecb16ce29437f346ea7177d720898" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('c9c062941fbecb16ce29437f346ea7177d720898', 'Fox Sports US')">ID</button>
+                        <a href="acestream://11cbb5346d28af0b972e646832f4be23dd39502d" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copyId('11cbb5346d28af0b972e646832f4be23dd39502d', 'MotoGP')">ID</button>
                     </div>
                 </div>
             </div>
 
-            <div class="card" data-id="fox-comedy">
-                <button class="fav-btn" onclick="toggleFav('fox-comedy')">★</button>
-                <div class="card-img" style="background: radial-gradient(circle at center, #ff8c00 0%, #e62210 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem;">🎭</div>
+            <div class="card" data-id="fox-sports-us">
+                <button class="fav-btn" onclick="toggleFav('fox-sports-us')">★</button>
+                <div class="card-img" style="background: radial-gradient(circle at center, #ff8c00 0%, #e62210 100%);">🦊</div>
                 <div class="card-body">
-                    <span class="card-tag" style="color: var(--nba-orange);">Entretenimiento</span>
-                    <h3 class="card-title" style="color: var(--text-main);">Fox Comedy</h3>
+                    <span class="card-tag" style="color: var(--nba-orange);">Deportes</span>
+                    <h3 class="card-title">Fox Sports [US]</h3>
                     <div class="action-box">
-                        <a href="acestream://8fb7f8107213a9020f298c8d0068ea86d0713d01" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('8fb7f8107213a9020f298c8d0068ea86d0713d01', 'Fox Comedy')">ID</button>
+                        <a href="acestream://c9c062941fbecb16ce29437f346ea7177d720898" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copyId('c9c062941fbecb16ce29437f346ea7177d720898', 'Fox Sports US')">ID</button>
                     </div>
                 </div>
             </div>
@@ -161,8 +159,21 @@
                     <span class="card-tag" style="color: var(--f1-red);">Motor</span>
                     <h3 class="card-title">Fórmula 1 (DAZN)</h3>
                     <div class="action-box">
-                        <a href="acestream://d65257bb934b73647374224fd62d836815804be2 " class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('d65257bb934b73647374224fd62d836815804be2 ', 'F1')">ID</button>
+                        <a href="acestream://d65257bb934b73647374224fd62d836815804be2" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copyId('d65257bb934b73647374224fd62d836815804be2', 'F1')">ID</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" data-id="fox-comedy">
+                <button class="fav-btn" onclick="toggleFav('fox-comedy')">★</button>
+                <div class="card-img" style="background: radial-gradient(circle at center, #ff8c00 0%, #e62210 100%);">🎭</div>
+                <div class="card-body">
+                    <span class="card-tag" style="color: var(--nba-orange);">Entretenimiento</span>
+                    <h3 class="card-title">Fox Comedy</h3>
+                    <div class="action-box">
+                        <a href="acestream://8fb7f8107213a9020f298c8d0068ea86d0713d01" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copyId('8fb7f8107213a9020f298c8d0068ea86d0713d01', 'Fox Comedy')">ID</button>
                     </div>
                 </div>
             </div>
@@ -206,32 +217,6 @@
                 </div>
             </div>
 
-            <div class="card" data-id="dazn1">
-                <button class="fav-btn" onclick="toggleFav('dazn1')">★</button>
-                <div class="card-img" style="background: radial-gradient(circle, var(--dazn-blue) 0%, #000 100%);">📺</div>
-                <div class="card-body">
-                    <span class="card-tag" style="color: var(--dazn-blue);">DAZN</span>
-                    <h3 class="card-title">DAZN 1 (CAIDO)</h3>
-                    <div class="action-box">
-                        <a href="acestream://897e73c9d578848f596585314ecb9ae067c0e229" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('897e73c9d578848f596585314ecb9ae067c0e229', 'DAZN 1')">ID</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card" data-id="dazn2">
-                <button class="fav-btn" onclick="toggleFav('dazn2')">★</button>
-                <div class="card-img" style="background: radial-gradient(circle, var(--dazn-blue) 0%, #000 100%);">📺</div>
-                <div class="card-body">
-                    <span class="card-tag" style="color: var(--dazn-blue);">DAZN</span>
-                    <h3 class="card-title">DAZN 2</h3>
-                    <div class="action-box">
-                        <a href="acestream://b0eabe0fdd02fdd165896236765a9b753a2ff516" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('b0eabe0fdd02fdd165896236765a9b753a2ff516', 'DAZN 2')">ID</button>
-                    </div>
-                </div>
-            </div>
-
             <div class="card" data-id="nba-pro">
                 <button class="fav-btn" onclick="toggleFav('nba-pro')">★</button>
                 <div class="card-img" style="background: radial-gradient(circle, var(--nba-orange) 0%, #000 100%);">🏀</div>
@@ -271,18 +256,14 @@
     <div id="toast">Copiado con éxito</div>
 
     <script>
-        // ==========================================
-        // 🚀 CENTRAL DE MANDOS - GESTIÓN DE CANALES
-        // ==========================================
         const CONFIG_CANALES = {
+            "motogp-dazn":   { live: false, active: true },
             "fox-sports-us": { live: false, active: true },
-            "fox-comedy":    { live: false, active: true }, // Fox Comedy registrado en la configuración
+            "fox-comedy":    { live: false, active: true },
             "f1-dazn":       { live: false, active: true },
             "ucl-live":      { live: false, active: true },
             "laliga-dazn":   { live: false, active: true },
             "laliga2-m":     { live: false, active: true },
-            "dazn1":         { live: false, active: true },
-            "dazn2":         { live: false, active: true },
             "nba-pro":       { live: false, active: true },
             "laliga1-m":     { live: false, active: true }
         };
@@ -300,10 +281,7 @@
                 const tag = card.querySelector('.card-tag');
                 
                 if (config) {
-                    // Control de Visibilidad
                     card.style.display = config.active ? "block" : "none";
-
-                    // Control de Live
                     if (config.live && config.active) {
                         anyLive = true;
                         card.classList.add('is-live');
@@ -321,7 +299,6 @@
                 }
             });
 
-            // Brillo del Header
             const header = document.getElementById('main-header');
             if (anyLive) header.classList.add('live-active');
             else header.classList.remove('live-active');
@@ -369,7 +346,7 @@
                 favorites = [];
                 localStorage.removeItem('sdj_favs');
                 document.querySelectorAll('.fav-btn').forEach(b => b.classList.remove('is-fav'));
-                updateChannels();
+                filterChannels();
                 toggleConfig();
             }
         }
@@ -378,8 +355,8 @@
             navigator.clipboard.writeText(id).then(() => {
                 const t = document.getElementById("toast");
                 t.innerText = "📋 ID de " + name + " copiada";
-                t.className = "show";
-                t.setTimeout(() => { t.className = ""; }, 3000);
+                t.classList.add("show");
+                setTimeout(() => { t.classList.remove("show"); }, 3000);
             });
         }
 
