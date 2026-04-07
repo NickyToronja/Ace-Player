@@ -11,7 +11,6 @@
             --accent-neon: #7f5af0; --discord-color: #5865F2; --f1-red: #e10600;
             --dazn-blue: #3498db; --nba-orange: #ff9800; --foot-green: #2ecc71;
             --movistar-blue: #00bcff; --champions-blue: #001e4e; 
-            --fox-gradient: linear-gradient(to bottom right, #ff8c00, #e62210);
             --text-main: #ffffff; --transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
             --live-red: #ff0000; --fav-gold: #f1c40f;
         }
@@ -126,28 +125,41 @@
 
         <div class="grid" id="channelGrid">
             
-            <div class="card" data-id="motogp-dazn">
-                <button class="fav-btn" onclick="toggleFav('motogp-dazn')">★</button>
-                <div class="card-img" style="background: radial-gradient(circle, #333 0%, #000 100%);">🏍️</div>
+            <div class="card" data-id="dazn1">
+                <button class="fav-btn" onclick="toggleFav('dazn1')">★</button>
+                <div class="card-img" style="background: radial-gradient(circle, var(--dazn-blue) 0%, #000 100%);">📺</div>
                 <div class="card-body">
-                    <span class="card-tag" style="color: var(--f1-red);">Motor</span>
-                    <h3 class="card-title">MotoGP (DAZN)</h3>
+                    <span class="card-tag" style="color: var(--dazn-blue);">DAZN</span>
+                    <h3 class="card-title">DAZN 1 (CAIDO)</h3>
                     <div class="action-box">
-                        <a href="acestream://11cbb5346d28af0b972e646832f4be23dd39502d" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('11cbb5346d28af0b972e646832f4be23dd39502d', 'MotoGP')">ID</button>
+                        <a href="acestream://897e73c9d578848f596585314ecb9ae067c0e229" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copyId('897e73c9d578848f596585314ecb9ae067c0e229', 'DAZN 1')">ID</button>
                     </div>
                 </div>
             </div>
 
-            <div class="card" data-id="fox-sports-us">
-                <button class="fav-btn" onclick="toggleFav('fox-sports-us')">★</button>
-                <div class="card-img" style="background: radial-gradient(circle at center, #ff8c00 0%, #e62210 100%);">🦊</div>
+            <div class="card" data-id="dazn2">
+                <button class="fav-btn" onclick="toggleFav('dazn2')">★</button>
+                <div class="card-img" style="background: radial-gradient(circle, var(--dazn-blue) 0%, #000 100%);">📺</div>
                 <div class="card-body">
-                    <span class="card-tag" style="color: var(--nba-orange);">Deportes</span>
-                    <h3 class="card-title">Fox Sports [US]</h3>
+                    <span class="card-tag" style="color: var(--dazn-blue);">DAZN</span>
+                    <h3 class="card-title">DAZN 2</h3>
                     <div class="action-box">
-                        <a href="acestream://c9c062941fbecb16ce29437f346ea7177d720898" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('c9c062941fbecb16ce29437f346ea7177d720898', 'Fox Sports US')">ID</button>
+                        <a href="acestream://b0eabe0fdd02fdd165896236765a9b753a2ff516" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copyId('b0eabe0fdd02fdd165896236765a9b753a2ff516', 'DAZN 2')">ID</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" data-id="laliga-dazn">
+                <button class="fav-btn" onclick="toggleFav('laliga-dazn')">★</button>
+                <div class="card-img" style="background: radial-gradient(circle, var(--foot-green) 0%, #000 100%);">⚽</div>
+                <div class="card-body">
+                    <span class="card-tag" style="color: var(--foot-green);">LaLiga</span>
+                    <h3 class="card-title">DAZN LaLiga (CAIDO)</h3>
+                    <div class="action-box">
+                        <a href="acestream://19f28f60c908f987b1a03da078e63320d7bf29e8" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copyId('19f28f60c908f987b1a03da078e63320d7bf29e8', 'DAZN LaLiga')">ID</button>
                     </div>
                 </div>
             </div>
@@ -178,6 +190,19 @@
                 </div>
             </div>
 
+            <div class="card" data-id="fox-sports-us">
+                <button class="fav-btn" onclick="toggleFav('fox-sports-us')">★</button>
+                <div class="card-img" style="background: radial-gradient(circle at center, #ff8c00 0%, #e62210 100%);">🦊</div>
+                <div class="card-body">
+                    <span class="card-tag" style="color: var(--nba-orange);">Deportes</span>
+                    <h3 class="card-title">Fox Sports [US]</h3>
+                    <div class="action-box">
+                        <a href="acestream://c9c062941fbecb16ce29437f346ea7177d720898" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copyId('c9c062941fbecb16ce29437f346ea7177d720898', 'Fox Sports US')">ID</button>
+                    </div>
+                </div>
+            </div>
+
             <div class="card" data-id="ucl-live">
                 <button class="fav-btn" onclick="toggleFav('ucl-live')">★</button>
                 <div class="card-img" style="background: radial-gradient(circle, var(--champions-blue) 0%, #000 100%);">🏆</div>
@@ -191,15 +216,15 @@
                 </div>
             </div>
 
-            <div class="card" data-id="laliga-dazn">
-                <button class="fav-btn" onclick="toggleFav('laliga-dazn')">★</button>
+            <div class="card" data-id="laliga1-m">
+                <button class="fav-btn" onclick="toggleFav('laliga1-m')">★</button>
                 <div class="card-img" style="background: radial-gradient(circle, var(--foot-green) 0%, #000 100%);">⚽</div>
                 <div class="card-body">
-                    <span class="card-tag" style="color: var(--foot-green);">LaLiga</span>
-                    <h3 class="card-title">DAZN LaLiga (CAIDO)</h3>
+                    <span class="card-tag" style="color: var(--foot-green);">Fútbol</span>
+                    <h3 class="card-title">M+ LaLiga 1</h3>
                     <div class="action-box">
-                        <a href="acestream://19f28f60c908f987b1a03da078e63320d7bf29e8" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('19f28f60c908f987b1a03da078e63320d7bf29e8', 'DAZN LaLiga')">ID</button>
+                        <a href="acestream://31c19ffb3472c289c5bbbbc174449c8ed0d19e38" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copyId('31c19ffb3472c289c5bbbbc174449c8ed0d19e38', 'M+ LaLiga 1')">ID</button>
                     </div>
                 </div>
             </div>
@@ -217,6 +242,19 @@
                 </div>
             </div>
 
+            <div class="card" data-id="motogp-dazn">
+                <button class="fav-btn" onclick="toggleFav('motogp-dazn')">★</button>
+                <div class="card-img" style="background: radial-gradient(circle, #333 0%, #000 100%);">🏍️</div>
+                <div class="card-body">
+                    <span class="card-tag" style="color: var(--f1-red);">Motor</span>
+                    <h3 class="card-title">MotoGP (DAZN)</h3>
+                    <div class="action-box">
+                        <a href="acestream://11cbb5346d28af0b972e646832f4be23dd39502d" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copyId('11cbb5346d28af0b972e646832f4be23dd39502d', 'MotoGP')">ID</button>
+                    </div>
+                </div>
+            </div>
+
             <div class="card" data-id="nba-pro">
                 <button class="fav-btn" onclick="toggleFav('nba-pro')">★</button>
                 <div class="card-img" style="background: radial-gradient(circle, var(--nba-orange) 0%, #000 100%);">🏀</div>
@@ -230,18 +268,6 @@
                 </div>
             </div>
 
-            <div class="card" data-id="laliga1-m">
-                <button class="fav-btn" onclick="toggleFav('laliga1-m')">★</button>
-                <div class="card-img" style="background: radial-gradient(circle, var(--foot-green) 0%, #000 100%);">⚽</div>
-                <div class="card-body">
-                    <span class="card-tag" style="color: var(--foot-green);">Fútbol</span>
-                    <h3 class="card-title">M+ LaLiga 1</h3>
-                    <div class="action-box">
-                        <a href="acestream://31c19ffb3472c289c5bbbbc174449c8ed0d19e38" class="a-btn a-play">Abrir</a>
-                        <button class="a-btn a-copy" onclick="copyId('31c19ffb3472c289c5bbbbc174449c8ed0d19e38', 'M+ LaLiga 1')">ID</button>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -257,15 +283,17 @@
 
     <script>
         const CONFIG_CANALES = {
-            "motogp-dazn":   { live: false, active: true },
-            "fox-sports-us": { live: false, active: true },
-            "fox-comedy":    { live: false, active: true },
+            "dazn1":         { live: false, active: true },
+            "dazn2":         { live: false, active: true },
             "f1-dazn":       { live: false, active: true },
-            "ucl-live":      { live: false, active: true },
+            "fox-comedy":    { live: false, active: true },
+            "fox-sports-us": { live: false, active: true },
             "laliga-dazn":   { live: false, active: true },
+            "laliga1-m":     { live: false, active: true },
             "laliga2-m":     { live: false, active: true },
+            "motogp-dazn":   { live: false, active: true },
             "nba-pro":       { live: false, active: true },
-            "laliga1-m":     { live: false, active: true }
+            "ucl-live":      { live: false, active: true }
         };
 
         let favorites = JSON.parse(localStorage.getItem('sdj_favs')) || [];
