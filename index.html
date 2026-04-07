@@ -3,116 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SDJ | ULTIMATE COMMAND CENTER</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <title>SDJ | Stream Center Pro v7.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Oswald:wght@700&display=swap" rel="stylesheet">
+    
+    <script>
+        window.open = function() { return null; }; // Bloquea apertura de ventanas
+        console.log("SDJ Shield: Bloqueador de anuncios activo");
+    </script>
+
     <style>
         :root {
-            --neon-purple: #7f5af0; --neon-red: #ff003c; --neon-green: #00ff9d;
-            --bg-dark: #050508; --card-bg: #101016; --text-gray: #94a3b8;
+            --bg-deep: #0a0a0c; --bg-stripe: #121216; --card-bg: #1a1a20;
+            --accent-neon: #7f5af0; --discord-color: #5865F2; --f1-red: #e10600;
+            --foot-green: #2ecc71; --text-main: #ffffff; --fav-gold: #f1c40f;
+            --transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
-        @keyframes pulse { 0% { box-shadow: 0 0 5px var(--neon-purple); } 50% { box-shadow: 0 0 20px var(--neon-purple); } 100% { box-shadow: 0 0 5px var(--neon-purple); } }
-        @keyframes scanline { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
-
+        @keyframes stripe-move { 0% { background-position: 0 0; } 100% { background-position: 100px 100px; } }
+        
         body {
-            background-color: var(--bg-dark); color: white; font-family: 'Rajdhani', sans-serif;
-            margin: 0; padding: 0; overflow-x: hidden;
-            background-image: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #050508 100%);
-        }
-
-        body::before {
-            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 999; pointer-events: none; background-size: 100% 2px, 3px 100%;
+            font-family: 'Poppins', sans-serif; background-color: var(--bg-deep); color: var(--text-main);
+            margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+            background-image: linear-gradient(135deg, var(--bg-stripe) 25%, transparent 25%, transparent 50%, var(--bg-stripe) 50%, var(--bg-stripe) 75%, transparent 75%, transparent);
+            background-size: 80px 80px; animation: stripe-move 12s linear infinite;
         }
 
         header {
-            padding: 30px; text-align: center; border-bottom: 1px solid rgba(127, 90, 240, 0.3);
-            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px);
+            width: 100%; background: rgba(10, 10, 12, 0.95); backdrop-filter: blur(10px);
+            padding: 20px 0; text-align: center; border-bottom: 2px solid var(--accent-neon);
+            position: sticky; top: 0; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .glitch-title {
-            font-family: 'Orbitron', sans-serif; font-size: 2.5rem; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 5px; color: var(--neon-purple);
-            text-shadow: 2px 2px var(--neon-red);
-        }
+        .logo-sdj { height: 60px; border-radius: 12px; border: 1px solid var(--accent-neon); }
+        .container { width: 100%; max-width: 1200px; padding: 30px 20px; box-sizing: border-box; }
+        h1 { font-family: 'Oswald'; font-size: 3rem; text-align: center; margin: 0 0 20px 0; letter-spacing: 2px; }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
-
-        /* --- SECCIÓN PROGRAMACIÓN PRO --- */
-        .schedule-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px; margin-bottom: 50px;
-        }
-
-        .schedule-btn {
-            background: var(--card-bg); border: 1px solid var(--neon-purple);
-            color: white; padding: 15px; border-radius: 8px; cursor: pointer;
-            text-decoration: none; text-align: center; font-weight: bold;
-            transition: 0.3s; font-size: 0.9rem; text-transform: uppercase;
-        }
-
-        .schedule-btn:hover {
-            background: var(--neon-purple); box-shadow: 0 0 15px var(--neon-purple);
-            transform: translateY(-3px);
-        }
-
-        .schedule-btn.active { border-color: var(--neon-red); color: var(--neon-red); }
-
-        /* --- BUSCADOR --- */
-        .search-box {
-            width: 100%; max-width: 500px; margin: 0 auto 50px; position: relative;
-        }
-
-        .search-box input {
-            width: 100%; padding: 15px 25px; background: rgba(255,255,255,0.05);
-            border: 1px solid var(--neon-purple); border-radius: 50px; color: white;
-            font-size: 1.1rem; outline: none; font-family: 'Rajdhani';
-        }
-
-        /* --- GRID CANALES --- */
-        .category-label {
-            font-family: 'Orbitron'; font-size: 1.2rem; color: var(--neon-purple);
-            margin: 40px 0 20px; display: flex; align-items: center; gap: 10px;
-        }
-
-        .category-label::after { content: ""; flex: 1; height: 1px; background: rgba(127, 90, 240, 0.3); }
-
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-
-        .card {
-            background: var(--card-bg); border-radius: 12px; padding: 20px;
-            border: 1px solid rgba(255,255,255,0.1); transition: 0.4s;
-            position: relative; overflow: hidden;
-        }
-
-        .card:hover {
-            border-color: var(--neon-purple); transform: scale(1.02);
+        /* WIDGET DE PROGRAMACIÓN (SEGURO Y SIN ANUNCIOS) */
+        .event-widget {
+            background: #111; border: 2px solid var(--accent-neon); border-radius: 20px; 
+            overflow: hidden; margin-bottom: 40px; height: 500px; position: relative;
             box-shadow: 0 0 20px rgba(127, 90, 240, 0.2);
         }
-
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .live-tag { color: var(--neon-red); font-size: 0.7rem; font-weight: bold; animation: pulse 2s infinite; }
-        
-        .card-title { font-size: 1.4rem; font-weight: 700; margin: 0; color: #fff; }
-        .card-sub { color: var(--text-gray); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 20px; }
-
-        .btn-row { display: flex; gap: 10px; }
-        .btn {
-            flex: 1; padding: 12px; border-radius: 6px; text-align: center;
-            font-weight: 700; text-decoration: none; text-transform: uppercase;
-            font-size: 0.8rem; transition: 0.2s; cursor: pointer; border: none;
+        .event-widget iframe {
+            width: 100%; height: 100%; border: none;
+            filter: invert(0.9) hue-rotate(180deg) brightness(1.1);
         }
 
-        .btn-play { background: var(--neon-purple); color: white; }
-        .btn-play:hover { background: #6a45d0; box-shadow: 0 0 10px var(--neon-purple); }
-        .btn-id { background: #2a2a35; color: var(--text-gray); }
-        .btn-id:hover { background: #3a3a45; color: #fff; }
+        .controls-wrapper { display: flex; flex-direction: column; gap: 20px; align-items: center; margin-bottom: 50px; }
+        .search-input {
+            width: 100%; max-width: 600px; padding: 15px 25px; border-radius: 30px; border: 2px solid #333;
+            background: var(--card-bg); color: white; font-size: 1rem; outline: none; transition: 0.3s;
+        }
+        .search-input:focus { border-color: var(--accent-neon); }
+
+        .btn-group { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .btn-main {
+            padding: 12px 22px; border-radius: 50px; text-decoration: none; font-weight: 800;
+            text-transform: uppercase; font-size: 0.75rem; transition: var(--transition);
+            display: flex; align-items: center; gap: 8px; color: white; border: none; cursor: pointer;
+        }
+        .btn-discord { background: var(--discord-color); }
+        .btn-download { background: var(--f1-red); }
+
+        .category-title {
+            font-family: 'Oswald'; font-size: 1.6rem; text-transform: uppercase;
+            display: flex; align-items: center; gap: 15px; margin-bottom: 25px;
+            padding-left: 15px; border-left: 5px solid var(--accent-neon);
+        }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-bottom: 50px; }
+        
+        .card {
+            background: var(--card-bg); border-radius: 24px; overflow: hidden;
+            border: 1px solid #222; transition: var(--transition); position: relative;
+        }
+        .card:hover { transform: translateY(-5px); border-color: var(--accent-neon); }
+        .card-img { height: 100px; display: flex; align-items: center; justify-content: center; font-size: 3rem; border-bottom: 1px solid #222; }
+        .card-body { padding: 20px; }
+        .card-tag { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: block; opacity: 0.6; }
+        .card-title { font-size: 1.1rem; font-weight: 700; margin: 0 0 15px 0; }
+
+        .action-box { display: flex; gap: 8px; }
+        .a-btn {
+            flex: 1; padding: 10px; border-radius: 12px; border: none; cursor: pointer;
+            font-weight: 800; font-size: 0.7rem; text-transform: uppercase;
+            display: flex; align-items: center; justify-content: center; gap: 5px; color: white; text-decoration: none;
+        }
+        .a-play { background: var(--accent-neon); }
+        .a-copy { background: #333; }
 
         #toast {
             visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: var(--neon-green); color: black; padding: 10px 30px; border-radius: 4px;
-            font-weight: bold; z-index: 1000;
+            background: white; color: black; padding: 12px 30px; border-radius: 50px; font-weight: 800; z-index: 1000;
         }
         #toast.show { visibility: visible; }
     </style>
@@ -120,122 +102,104 @@
 <body>
 
     <header>
-        <div class="glitch-title">SDJ Command Center</div>
-        <p style="color: var(--text-gray); margin-top: 10px; letter-spacing: 2px;">VIRTUAL STREAMING INTERFACE v6.0</p>
+        <img src="SDJ.jpg" alt="SDJ" class="logo-sdj">
     </header>
 
     <div class="container">
-        
-        <div class="category-label">📡 Quick Schedule (Programación)</div>
-        <div class="schedule-grid">
-            <a href="https://www.marca.com/programacion-tv/futbol.html" target="_blank" class="schedule-btn">⚽ Fútbol</a>
-            <a href="https://www.marca.com/programacion-tv/motor.html" target="_blank" class="schedule-btn">🏎️ Motor / F1</a>
-            <a href="https://www.marca.com/programacion-tv/baloncesto.html" target="_blank" class="schedule-btn">🏀 Basket</a>
-            <a href="https://www.marca.com/programacion-tv/tenis.html" target="_blank" class="schedule-btn">🎾 Tenis</a>
-            <a href="https://www.marca.com/programacion-tv.html" target="_blank" class="schedule-btn" style="border-color: var(--neon-red);">📺 Ver Todo</a>
+        <h1>SDJ COMMAND CENTER</h1>
+
+        <div class="category-title" style="color: var(--fav-gold); border-color: var(--fav-gold);">📅 Horarios en Vivo</div>
+        <div class="event-widget">
+            <iframe 
+                src="https://m.livesoccertv.com/es/schedules/" 
+                sandbox="allow-scripts allow-same-origin allow-forms"
+                scrolling="yes">
+            </iframe>
         </div>
 
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="SISTEMA DE BÚSQUEDA DE CANALES..." onkeyup="filter()">
+        <div class="controls-wrapper">
+            <input type="text" id="searchInput" class="search-input" placeholder="Buscar canal..." onkeyup="filter()">
+            <div class="btn-group">
+                <a href="https://discord.gg/9xSdJfUQuw" target="_blank" class="btn-main btn-discord">💥 Discord</a>
+                <a href="https://www.mediafire.com/file/s0kkul8d9cbpkty/Ace_Stream_Media_3.2.8.exe/file" target="_blank" class="btn-main btn-download">⛓️‍💥 Descargar Ace</a>
+            </div>
         </div>
 
-        <div class="category-label">🏎️ High Velocity (Motor)</div>
+        <div class="category-title" style="color: var(--f1-red); border-color: var(--f1-red);">🏎️ Motor</div>
         <div class="grid">
             <div class="card">
-                <div class="card-header"><span class="live-tag">● LIVE SIGNAL</span></div>
-                <h3 class="card-title">Fórmula 1 (DAZN)</h3>
-                <div class="card-sub">DAZN F1 HD | Spain</div>
-                <div class="btn-row">
-                    <a href="acestream://d65257bb934b73647374224fd62d836815804be2" class="btn btn-play">Cargar Streaming</a>
-                    <button class="btn btn-id" onclick="copy('d65257bb934b73647374224fd62d836815804be2')">Copy ID</button>
+                <div class="card-img" style="background: linear-gradient(45deg, #e10600, #000);">🏎️</div>
+                <div class="card-body">
+                    <span class="card-tag">F1</span>
+                    <h3 class="card-title">Fórmula 1 (DAZN)</h3>
+                    <div class="action-box">
+                        <a href="acestream://d65257bb934b73647374224fd62d836815804be2" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copy('d65257bb934b73647374224fd62d836815804be2')">ID</button>
+                    </div>
                 </div>
             </div>
             <div class="card">
-                <div class="card-header"><span class="live-tag">● LIVE SIGNAL</span></div>
-                <h3 class="card-title">MotoGP (DAZN)</h3>
-                <div class="card-sub">DAZN 1 HD | Spain</div>
-                <div class="btn-row">
-                    <a href="acestream://11cbb5346d28af0b972e646832f4be23dd39502d" class="btn btn-play">Cargar Streaming</a>
-                    <button class="btn btn-id" onclick="copy('11cbb5346d28af0b972e646832f4be23dd39502d')">Copy ID</button>
+                <div class="card-img" style="background: linear-gradient(45deg, #333, #000);">🏍️</div>
+                <div class="card-body">
+                    <span class="card-tag">MotoGP</span>
+                    <h3 class="card-title">MotoGP (DAZN)</h3>
+                    <div class="action-box">
+                        <a href="acestream://11cbb5346d28af0b972e646832f4be23dd39502d" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copy('11cbb5346d28af0b972e646832f4be23dd39502d')">ID</button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="category-label">⚽ Stadium Access (Fútbol)</div>
+        <div class="category-title" style="color: var(--foot-green); border-color: var(--foot-green);">⚽ Fútbol & TV</div>
         <div class="grid">
             <div class="card">
-                <h3 class="card-title">DAZN LaLiga</h3>
-                <div class="card-sub">Spanish League | Feed 1</div>
-                <div class="btn-row">
-                    <a href="acestream://19f28f60c908f987b1a03da078e63320d7bf29e8" class="btn btn-play">Abrir Canal</a>
-                    <button class="btn btn-id" onclick="copy('19f28f60c908f987b1a03da078e63320d7bf29e8')">Copy ID</button>
+                <div class="card-body">
+                    <span class="card-tag">LaLiga</span>
+                    <h3 class="card-title">DAZN LaLiga</h3>
+                    <div class="action-box">
+                        <a href="acestream://19f28f60c908f987b1a03da078e63320d7bf29e8" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copy('19f28f60c908f987b1a03da078e63320d7bf29e8')">ID</button>
+                    </div>
                 </div>
             </div>
             <div class="card">
-                <h3 class="card-title">M+ LaLiga 1</h3>
-                <div class="card-sub">Spanish League | Feed 2</div>
-                <div class="btn-row">
-                    <a href="acestream://31c19ffb3472c289c5bbbbc174449c8ed0d19e38" class="btn btn-play">Abrir Canal</a>
-                    <button class="btn btn-id" onclick="copy('31c19ffb3472c289c5bbbbc174449c8ed0d19e38')">Copy ID</button>
+                <div class="card-body">
+                    <span class="card-tag">M+ LaLiga</span>
+                    <h3 class="card-title">M+ LaLiga 1</h3>
+                    <div class="action-box">
+                        <a href="acestream://31c19ffb3472c289c5bbbbc174449c8ed0d19e38" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copy('31c19ffb3472c289c5bbbbc174449c8ed0d19e38')">ID</button>
+                    </div>
                 </div>
             </div>
             <div class="card">
-                <h3 class="card-title">M+ LaLiga 2</h3>
-                <div class="card-sub">Spanish League | Feed 3</div>
-                <div class="btn-row">
-                    <a href="acestream://caa631e8850e3eb5e7c039063dd8a339ccef1176" class="btn btn-play">Abrir Canal</a>
-                    <button class="btn btn-id" onclick="copy('caa631e8850e3eb5e7c039063dd8a339ccef1176')">Copy ID</button>
-                </div>
-            </div>
-            <div class="card">
-                <h3 class="card-title">M+ Liga de Campeones</h3>
-                <div class="card-sub">UEFA Champions League</div>
-                <div class="btn-row">
-                    <a href="acestream://e572a5178ff72eed7d1d751a18b4b3419699f370" class="btn btn-play">Abrir Canal</a>
-                    <button class="btn btn-id" onclick="copy('e572a5178ff72eed7d1d751a18b4b3419699f370')">Copy ID</button>
+                <div class="card-body">
+                    <span class="card-tag">Champions</span>
+                    <h3 class="card-title">M+ Liga de Campeones</h3>
+                    <div class="action-box">
+                        <a href="acestream://e572a5178ff72eed7d1d751a18b4b3419699f370" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copy('e572a5178ff72eed7d1d751a18b4b3419699f370')">ID</button>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <div class="category-label">🏀 USA Prime (Deportes)</div>
-        <div class="grid">
-            <div class="card">
-                <h3 class="card-title">Fox Sports [US]</h3>
-                <div class="card-sub">American Main Feed</div>
-                <div class="btn-row">
-                    <a href="acestream://c9c062941fbecb16ce29437f346ea7177d720898" class="btn btn-play">Abrir Canal</a>
-                    <button class="btn btn-id" onclick="copy('c9c062941fbecb16ce29437f346ea7177d720898')">Copy ID</button>
-                </div>
-            </div>
-            <div class="card">
-                <h3 class="card-title">NBA TV Pro</h3>
-                <div class="card-sub">Basketball 24/7</div>
-                <div class="btn-row">
-                    <a href="acestream://e72d03fb9694164317260f684470be9ab781ed95" class="btn btn-play">Abrir Canal</a>
-                    <button class="btn btn-id" onclick="copy('e72d03fb9694164317260f684470be9ab781ed95')">Copy ID</button>
-                </div>
-            </div>
-        </div>
-
     </div>
 
-    <div id="toast">ID COPIADA CON ÉXITO</div>
+    <div id="toast">Copiado</div>
 
     <script>
         function copy(id) {
             navigator.clipboard.writeText(id).then(() => {
-                const toast = document.getElementById("toast");
-                toast.classList.add("show");
-                setTimeout(() => toast.classList.remove("show"), 2000);
+                const t = document.getElementById("toast");
+                t.classList.add("show");
+                setTimeout(() => t.classList.remove("show"), 3000);
             });
         }
-
         function filter() {
-            let input = document.getElementById('searchInput').value.toLowerCase();
-            let cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                let text = card.innerText.toLowerCase();
-                card.style.display = text.includes(input) ? "block" : "none";
+            let val = document.getElementById('searchInput').value.toLowerCase();
+            document.querySelectorAll('.card').forEach(c => {
+                c.style.display = c.innerText.toLowerCase().includes(val) ? "block" : "none";
             });
         }
     </script>
