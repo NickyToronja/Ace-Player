@@ -3,8 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SDJ | Stream Center Pro v3.5</title>
+    <title>SDJ | Stream Center Pro v3.8 Platinum</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Oswald:wght@700&display=swap" rel="stylesheet">
+    
+    <script>
+        // Bloqueador de popups forzado
+        window.open = function() { console.log("SDJ Shield: Popup bloqueado"); return null; };
+        // Prevenir redirecciones externas
+        window.onbeforeunload = function() { return; };
+    </script>
+
     <style>
         :root {
             --bg-deep: #0a0a0c; --bg-stripe: #121216; --card-bg: #1a1a20;
@@ -34,14 +42,20 @@
         .container { width: 100%; max-width: 1200px; padding: 30px 20px; box-sizing: border-box; }
         h1 { font-family: 'Oswald'; font-size: 3rem; text-align: center; margin: 0 0 20px 0; letter-spacing: 2px; }
 
-        /* Widget de Eventos */
+        /* Widget de Eventos con Bloqueador */
         .event-widget {
-            background: #111; border: 1px solid #333; border-radius: 20px; overflow: hidden;
-            margin-bottom: 40px; position: relative;
+            background: #111; border: 2px solid var(--accent-neon); border-radius: 20px; 
+            overflow: hidden; margin-bottom: 40px; position: relative; height: 450px;
+            box-shadow: 0 0 25px rgba(127, 90, 240, 0.2);
         }
         .event-widget iframe {
-            width: 100%; height: 350px; border: none;
-            filter: invert(0.88) hue-rotate(180deg) brightness(1.1); /* Ajuste para modo oscuro */
+            width: 100%; height: 100%; border: none;
+            filter: invert(0.9) hue-rotate(180deg) brightness(1.1) contrast(1.2);
+        }
+        .shield-badge {
+            position: absolute; top: 10px; right: 10px; background: var(--accent-neon);
+            color: white; padding: 5px 12px; border-radius: 50px; font-size: 0.6rem;
+            font-weight: 800; z-index: 10; letter-spacing: 1px;
         }
 
         /* Controles */
@@ -60,29 +74,21 @@
         }
         .btn-discord { background: var(--discord-color); }
         .btn-download { background: var(--f1-red); }
-        .btn-updates { background: #444; border: 1px solid #666; }
-        .btn-fav-filter { background: #222; border: 1px solid #444; }
-        .btn-fav-filter.active { background: var(--fav-gold); color: #000; }
 
         /* Categorías */
-        .category-section { margin-bottom: 50px; }
         .category-title {
             font-family: 'Oswald'; font-size: 1.6rem; text-transform: uppercase;
             display: flex; align-items: center; gap: 15px; margin-bottom: 25px;
             padding-left: 15px; border-left: 5px solid var(--accent-neon);
         }
-        .cat-motor { border-color: var(--f1-red); color: var(--f1-red); }
-        .cat-futbol { border-color: var(--foot-green); color: var(--foot-green); }
-        .cat-usa { border-color: var(--nba-orange); color: var(--nba-orange); }
-        .cat-fun { border-color: var(--accent-neon); color: var(--accent-neon); }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-bottom: 50px; }
         
         .card {
             background: var(--card-bg); border-radius: 24px; overflow: hidden;
             border: 1px solid #222; transition: var(--transition); position: relative;
         }
-        .card:hover { transform: translateY(-5px); border-color: #444; }
+        .card:hover { transform: translateY(-5px); border-color: var(--accent-neon); }
 
         .fav-btn {
             position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6);
@@ -104,24 +110,12 @@
         }
         .a-play { background: var(--accent-neon); }
         .a-copy { background: #333; }
-        .a-report { background: #442222; color: #ff6b6b; flex: 0.4; }
 
-        /* Modales y Toasts */
-        .modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 200;
-            justify-content: center; align-items: center;
-        }
-        .modal-content {
-            background: #1a1a20; width: 90%; max-width: 500px; border-radius: 25px;
-            border: 2px solid var(--accent-neon); padding: 30px; position: relative;
-        }
         #toast {
             visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
             background: white; color: black; padding: 12px 30px; border-radius: 50px; font-weight: 800; z-index: 1000;
         }
         #toast.show { visibility: visible; animation: slideIn 0.4s; }
-
         @keyframes slideIn { from { bottom: -50px; opacity: 0; } to { bottom: 30px; opacity: 1; } }
     </style>
 </head>
@@ -135,83 +129,89 @@
         <h1>SDJ COMMAND CENTER</h1>
 
         <div class="category-section">
-            <div class="category-title" style="border-color: var(--fav-gold); color: var(--fav-gold);">📅 Eventos del día</div>
+            <div class="category-title" style="color: var(--fav-gold); border-color: var(--fav-gold);">📅 Horarios y Resultados</div>
             <div class="event-widget">
-                <iframe src="https://www.scorespro.com/fw/main.php?g=soccer&s=1&color=1a1a20" scrolling="yes"></iframe>
+                <div class="shield-badge">🛡️ AD-BLOCK ACTIVO</div>
+                <iframe 
+                    src="https://m.livesoccertv.com/es/schedules/" 
+                    sandbox="allow-scripts allow-same-origin allow-forms"
+                    scrolling="yes">
+                </iframe>
             </div>
         </div>
         
         <div class="controls-wrapper">
             <input type="text" id="searchInput" class="search-input" placeholder="Buscar canal o categoría..." onkeyup="filterChannels()">
-            
             <div class="btn-group">
                 <a href="https://discord.gg/9xSdJfUQuw" target="_blank" class="btn-main btn-discord">💥 Discord</a>
                 <a href="https://www.mediafire.com/file/s0kkul8d9cbpkty/Ace_Stream_Media_3.2.8.exe/file" target="_blank" class="btn-main btn-download">⛓️‍💥 Descargar Ace</a>
-                <button onclick="toggleModal()" class="btn-main btn-updates">🆕 Cambios</button>
-                <button onclick="toggleFavFilter()" id="favFilterBtn" class="btn-main btn-fav-filter">⭐ Favoritos</button>
+                <button onclick="toggleFavFilter()" id="favFilterBtn" class="btn-main" style="background: #222;">⭐ Favoritos</button>
             </div>
         </div>
 
-        <div class="category-section" id="sec-motor">
-            <div class="category-title cat-motor">🏎️ Deportes de Motor</div>
-            <div class="grid">
-                <div class="card" data-id="f1-dazn">
-                    <button class="fav-btn" onclick="toggleFav('f1-dazn')">★</button>
-                    <div class="card-img" style="background: linear-gradient(45deg, #e10600, #000);">🏎️</div>
-                    <div class="card-body">
-                        <span class="card-tag">Motor</span>
-                        <h3 class="card-title">Fórmula 1 (DAZN)</h3>
-                        <div class="action-box">
-                            <a href="acestream://d65257bb934b73647374224fd62d836815804be2" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('d65257bb934b73647374224fd62d836815804be2', 'F1')">ID</button>
-                            <button class="a-btn a-report" onclick="reportLink('F1 DAZN')">🚩</button>
-                        </div>
+        <div class="category-title" style="color: var(--f1-red); border-color: var(--f1-red);">🏎️ Deportes de Motor</div>
+        <div class="grid">
+            <div class="card" data-id="f1">
+                <button class="fav-btn" onclick="toggleFav('f1')">★</button>
+                <div class="card-img" style="background: linear-gradient(45deg, #e10600, #000);">🏎️</div>
+                <div class="card-body">
+                    <span class="card-tag">Fórmula 1</span>
+                    <h3 class="card-title">DAZN F1 HD</h3>
+                    <div class="action-box">
+                        <a href="acestream://d65257bb934b73647374224fd62d836815804be2" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copyId('d65257bb934b73647374224fd62d836815804be2')">ID</button>
                     </div>
                 </div>
-                <div class="card" data-id="motogp-dazn">
-                    <button class="fav-btn" onclick="toggleFav('motogp-dazn')">★</button>
-                    <div class="card-img" style="background: linear-gradient(45deg, #333, #000);">激️</div>
-                    <div class="card-body">
-                        <span class="card-tag">Motor</span>
-                        <h3 class="card-title">MotoGP (DAZN)</h3>
-                        <div class="action-box">
-                            <a href="acestream://11cbb5346d28af0b972e646832f4be23dd39502d" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('11cbb5346d28af0b972e646832f4be23dd39502d', 'MotoGP')">ID</button>
-                            <button class="a-btn a-report" onclick="reportLink('MotoGP DAZN')">🚩</button>
-                        </div>
+            </div>
+            <div class="card" data-id="motogp">
+                <button class="fav-btn" onclick="toggleFav('motogp')">★</button>
+                <div class="card-img" style="background: linear-gradient(45deg, #333, #000);">🏍️</div>
+                <div class="card-body">
+                    <span class="card-tag">MotoGP</span>
+                    <h3 class="card-title">DAZN MotoGP</h3>
+                    <div class="action-box">
+                        <a href="acestream://11cbb5346d28af0b972e646832f4be23dd39502d" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copyId('11cbb5346d28af0b972e646832f4be23dd39502d')">ID</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="category-section" id="sec-futbol">
-            <div class="category-title cat-futbol">⚽ Fútbol & TV</div>
-            <div class="grid">
-                <div class="card" data-id="laliga-dazn">
-                    <button class="fav-btn" onclick="toggleFav('laliga-dazn')">★</button>
-                    <div class="card-img" style="background: linear-gradient(45deg, #2ecc71, #000);">⚽</div>
-                    <div class="card-body">
-                        <span class="card-tag">LaLiga</span>
-                        <h3 class="card-title">DAZN LaLiga</h3>
-                        <div class="action-box">
-                            <a href="acestream://19f28f60c908f987b1a03da078e63320d7bf29e8" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('19f28f60c908f987b1a03da078e63320d7bf29e8', 'DAZN LaLiga')">ID</button>
-                            <button class="a-btn a-report" onclick="reportLink('DAZN LaLiga')">🚩</button>
-                        </div>
+        <div class="category-title" style="color: var(--foot-green); border-color: var(--foot-green);">⚽ Fútbol & TV</div>
+        <div class="grid">
+            <div class="card" data-id="laliga-dazn">
+                <button class="fav-btn" onclick="toggleFav('laliga-dazn')">★</button>
+                <div class="card-body">
+                    <span class="card-tag">DAZN</span>
+                    <h3 class="card-title">DAZN LaLiga</h3>
+                    <div class="action-box">
+                        <a href="acestream://19f28f60c908f987b1a03da078e63320d7bf29e8" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copyId('19f28f60c908f987b1a03da078e63320d7bf29e8')">ID</button>
                     </div>
                 </div>
-                </div>
-        </div>
-
-    </div>
-
-    <div class="modal-overlay" id="modalUpdates" onclick="toggleModal()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <h2 style="font-family: 'Oswald'; color: var(--accent-neon); margin-top: 0;">HISTORIAL DE CAMBIOS</h2>
-            <div style="border-left: 2px solid var(--accent-neon); padding-left: 15px;">
-                <p><b>v3.5 - Hoy</b><br>• Widget de eventos automático añadido.<br>• Botón de reporte de canales caídos.<br>• Optimización de carga y favoritos.</p>
             </div>
-            <button onclick="toggleModal()" class="a-btn a-play" style="width:100%; padding:15px; margin-top:20px">CERRAR</button>
+            <div class="card" data-id="laliga-m1">
+                <button class="fav-btn" onclick="toggleFav('laliga-m1')">★</button>
+                <div class="card-body">
+                    <span class="card-tag">Movistar+</span>
+                    <h3 class="card-title">M+ LaLiga HD</h3>
+                    <div class="action-box">
+                        <a href="acestream://31c19ffb3472c289c5bbbbc174449c8ed0d19e38" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copyId('31c19ffb3472c289c5bbbbc174449c8ed0d19e38')">ID</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card" data-id="champions">
+                <button class="fav-btn" onclick="toggleFav('champions')">★</button>
+                <div class="card-body">
+                    <span class="card-tag">UEFA</span>
+                    <h3 class="card-title">M+ Liga de Campeones</h3>
+                    <div class="action-box">
+                        <a href="acestream://e572a5178ff72eed7d1d751a18b4b3419699f370" class="a-btn a-play">Abrir</a>
+                        <button class="a-btn a-copy" onclick="copyId('e572a5178ff72eed7d1d751a18b4b3419699f370')">ID</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -221,23 +221,22 @@
         let favorites = JSON.parse(localStorage.getItem('sdj_favs')) || [];
         let showOnlyFavs = false;
 
-        function toggleModal() {
-            const m = document.getElementById('modalUpdates');
-            m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
-        }
-
         function toggleFav(id) {
             const index = favorites.indexOf(id);
-            const cards = document.querySelectorAll(`[data-id="${id}"] .fav-btn`);
-            if (index > -1) {
-                favorites.splice(index, 1);
-                cards.forEach(b => b.classList.remove('is-fav'));
-            } else {
-                favorites.push(id);
-                cards.forEach(b => b.classList.add('is-fav'));
-            }
+            if (index > -1) { favorites.splice(index, 1); } 
+            else { favorites.push(id); }
             localStorage.setItem('sdj_favs', JSON.stringify(favorites));
+            updateFavIcons();
             if (showOnlyFavs) filterChannels();
+        }
+
+        function updateFavIcons() {
+            document.querySelectorAll('.card').forEach(card => {
+                const id = card.getAttribute('data-id');
+                const btn = card.querySelector('.fav-btn');
+                if(favorites.includes(id)) btn.classList.add('is-fav');
+                else btn.classList.remove('is-fav');
+            });
         }
 
         function toggleFavFilter() {
@@ -248,49 +247,23 @@
 
         function filterChannels() {
             const filter = document.getElementById('searchInput').value.toLowerCase();
-            const cards = document.querySelectorAll('.card');
-            
-            cards.forEach(card => {
-                const title = card.querySelector('.card-title').innerText.toLowerCase();
-                const tag = card.querySelector('.card-tag').innerText.toLowerCase();
+            document.querySelectorAll('.card').forEach(card => {
+                const text = card.innerText.toLowerCase();
                 const isFav = favorites.includes(card.getAttribute('data-id'));
-                const match = (title.includes(filter) || tag.includes(filter)) && (showOnlyFavs ? isFav : true);
+                const match = text.includes(filter) && (showOnlyFavs ? isFav : true);
                 card.style.display = match ? "block" : "none";
             });
-
-            document.querySelectorAll('.category-section').forEach(sec => {
-                const visible = sec.querySelectorAll('.card[style="display: block;"]').length;
-                // No ocultar la sección de eventos si existe
-                if(!sec.querySelector('.event-widget')) {
-                    sec.style.display = visible > 0 ? "block" : "none";
-                }
-            });
         }
 
-        function copyId(id, name) {
+        function copyId(id) {
             navigator.clipboard.writeText(id).then(() => {
-                showToast("📋 ID de " + name + " copiada");
+                const t = document.getElementById("toast");
+                t.classList.add("show");
+                setTimeout(() => { t.classList.remove("show"); }, 3000);
             });
         }
 
-        function reportLink(name) {
-            // Aquí podrías poner un Webhook de Discord real
-            showToast("🚩 Reporte de " + name + " enviado al equipo");
-            console.log("Canal reportado: " + name);
-        }
-
-        function showToast(text) {
-            const t = document.getElementById("toast");
-            t.innerText = text;
-            t.classList.add("show");
-            setTimeout(() => { t.classList.remove("show"); }, 3000);
-        }
-
-        window.onload = () => {
-            favorites.forEach(id => {
-                document.querySelectorAll(`[data-id="${id}"] .fav-btn`).forEach(b => b.classList.add('is-fav'));
-            });
-        };
+        window.onload = updateFavIcons;
     </script>
 </body>
 </html>
