@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SDJ | Stream Center Pro v3.8</title>
+    <title>SDJ | Stream Center Pro v3.9</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Oswald:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -34,17 +34,16 @@
         .container { width: 100%; max-width: 1200px; padding: 30px 20px; box-sizing: border-box; }
         h1 { font-family: 'Oswald'; font-size: 3rem; text-align: center; margin: 0 0 20px 0; letter-spacing: 2px; }
 
-        /* Widget de Eventos Limpio */
+        /* WIDGET DE EVENTOS MEJORADO */
         .event-widget {
             background: #111; border: 1px solid #333; border-radius: 20px; overflow: hidden;
-            margin-bottom: 40px; height: 350px; position: relative;
+            margin-bottom: 40px; height: 450px; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
         .event-widget iframe {
             width: 100%; height: 100%; border: none;
-            filter: invert(0.9) hue-rotate(180deg) brightness(1.2);
+            filter: invert(0.9) hue-rotate(180deg) brightness(1.2) contrast(1.1);
         }
 
-        /* Controles */
         .controls-wrapper { display: flex; flex-direction: column; gap: 20px; align-items: center; margin-bottom: 50px; }
         .search-input {
             width: 100%; max-width: 600px; padding: 15px 25px; border-radius: 30px; border: 2px solid #333;
@@ -64,7 +63,6 @@
         .btn-fav-filter { background: #222; border: 1px solid #444; }
         .btn-fav-filter.active { background: var(--fav-gold); color: #000; }
 
-        /* Categorías */
         .category-section { margin-bottom: 50px; }
         .category-title {
             font-family: 'Oswald'; font-size: 1.6rem; text-transform: uppercase;
@@ -106,7 +104,6 @@
         .a-copy { background: #333; }
         .a-report { background: #442222; color: #ff6b6b; flex: 0.35; }
 
-        /* Modales y Toasts */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 200;
@@ -115,7 +112,6 @@
         .modal-content {
             background: #1a1a20; width: 90%; max-width: 500px; border-radius: 25px;
             border: 2px solid var(--accent-neon); padding: 30px; position: relative;
-            max-height: 80vh; overflow-y: auto;
         }
         #toast {
             visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
@@ -136,10 +132,11 @@
         <h1>SDJ COMMAND CENTER</h1>
 
         <div class="category-section">
-            <div class="category-title" style="border-color: var(--fav-gold); color: var(--fav-gold);">📅 Horarios de Hoy</div>
+            <div class="category-title" style="border-color: var(--fav-gold); color: var(--fav-gold);">📅 Programación Deportiva</div>
             <div class="event-widget">
-                <iframe src="https://calendar.google.com/calendar/embed?height=400&wkst=2&ctz=Europe%2FMadrid&bgcolor=%231a1a20&src=ZTEwN2I4MmI0M2U5MmU4MmU5ZWRmYjFjZDEyYmZlZTRlMGExYzhjYjBlY2U3ZDE1ZGQ1YjA5ZGM2ZGM2YjE5OUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%237f5af0&mode=AGENDA&showNav=0&showTitle=0&showPrint=0&showTabs=0&showCalendars=0"></iframe>
+                <iframe src="https://m.livesoccertv.com/es/schedules/" scrolling="yes"></iframe>
             </div>
+            <p style="font-size: 0.75rem; text-align: center; color: #555; margin-top: 10px;">Desliza dentro del cuadro para ver más horarios oficiales.</p>
         </div>
         
         <div class="controls-wrapper">
@@ -323,15 +320,11 @@
 
     <div class="modal-overlay" id="modalUpdates" onclick="toggleModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
-            <h2 style="font-family: 'Oswald'; color: var(--accent-neon); margin-top: 0;">HISTORIAL DE CAMBIOS</h2>
+            <h2 style="font-family: 'Oswald'; color: var(--accent-neon); margin-top: 0;">SDJ UPDATE v3.9</h2>
             <div style="border-left: 2px solid var(--accent-neon); padding-left: 15px;">
-                <p><b>v3.8 - Edición Final</b><br>
-                • Widget de Agenda oficial (Sin apuestas).<br>
-                • Sistema de reporte de canales caídos.<br>
-                • Categorización mejorada y buscador rápido.<br>
-                • Favoritos persistentes con guardado local.</p>
+                <p>• Widget de programación 100% compatible.<br>• Sistema de favoritos en memoria local.<br>• Reporte de fallos visual.<br>• Motor de búsqueda optimizado.</p>
             </div>
-            <button onclick="toggleModal()" class="a-btn a-play" style="width:100%; padding:15px; margin-top:20px">ENTENDIDO</button>
+            <button onclick="toggleModal()" class="a-btn a-play" style="width:100%; padding:15px; margin-top:20px">LISTO</button>
         </div>
     </div>
 
@@ -380,7 +373,7 @@
 
             document.querySelectorAll('.category-section').forEach(sec => {
                 const visible = sec.querySelectorAll('.card[style="display: block;"]').length;
-                if(!sec.querySelector('iframe')) { // No ocultar la sección del calendario
+                if(!sec.querySelector('iframe')) { 
                     sec.style.display = visible > 0 ? "block" : "none";
                 }
             });
@@ -394,7 +387,6 @@
 
         function reportLink(name) {
             showToast("🚩 Reporte de " + name + " enviado");
-            console.warn("Reporte enviado para: " + name);
         }
 
         function showToast(text) {
