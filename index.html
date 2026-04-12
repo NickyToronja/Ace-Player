@@ -34,7 +34,6 @@
         .container { width: 100%; max-width: 1200px; padding: 30px 20px; box-sizing: border-box; }
         h1 { font-family: 'Oswald'; font-size: 3rem; text-align: center; margin: 0 0 20px 0; letter-spacing: 2px; }
 
-        /* Controles y Botones Principales */
         .controls-wrapper { display: flex; flex-direction: column; gap: 20px; align-items: center; margin-bottom: 50px; }
         .search-input {
             width: 100%; max-width: 600px; padding: 15px 25px; border-radius: 30px; border: 2px solid #333;
@@ -54,7 +53,6 @@
         .btn-fav-filter { background: #222; border: 1px solid #444; }
         .btn-fav-filter.active { background: var(--fav-gold); color: #000; }
 
-        /* Categorías */
         .category-section { margin-bottom: 50px; }
         .category-title {
             font-family: 'Oswald'; font-size: 1.6rem; text-transform: uppercase;
@@ -63,6 +61,7 @@
         }
         .cat-motor { border-color: var(--f1-red); color: var(--f1-red); }
         .cat-futbol { border-color: var(--foot-green); color: var(--foot-green); }
+        .cat-deportes { border-color: var(--movistar-blue); color: var(--movistar-blue); }
         .cat-usa { border-color: var(--nba-orange); color: var(--nba-orange); }
         .cat-fun { border-color: var(--accent-neon); color: var(--accent-neon); }
 
@@ -74,7 +73,6 @@
         }
         .card:hover { transform: translateY(-5px); border-color: #444; }
 
-        /* Iconos de favoritos */
         .fav-btn {
             position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6);
             border: none; color: #fff; width: 35px; height: 35px; border-radius: 50%;
@@ -96,7 +94,6 @@
         .a-play { background: var(--accent-neon); }
         .a-copy { background: #333; }
 
-        /* Modal UI Cambios */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 200;
@@ -172,44 +169,8 @@
         </div>
 
         <div class="category-section" id="sec-futbol">
-            <div class="category-title cat-futbol">⚽ Fútbol & Deportes</div>
+            <div class="category-title cat-futbol">⚽ Fútbol</div>
             <div class="grid">
-                <div class="card" data-id="m-deportes">
-                    <button class="fav-btn" onclick="toggleFav('m-deportes')">★</button>
-                    <div class="card-img" style="background: linear-gradient(45deg, #00bcff, #001e4e);">🏅</div>
-                    <div class="card-body">
-                        <span class="card-tag">Movistar+</span>
-                        <h3 class="card-title">M+ Deportes</h3>
-                        <div class="action-box">
-                            <a href="acestream://acb510858f34c3c6fd5f79395b031abd6885c2b3" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('acb510858f34c3c6fd5f79395b031abd6885c2b3', 'M+ Deportes')">ID</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card" data-id="dazn1">
-                    <button class="fav-btn" onclick="toggleFav('dazn1')">★</button>
-                    <div class="card-img" style="background: linear-gradient(45deg, #3498db, #000);">📺</div>
-                    <div class="card-body">
-                        <span class="card-tag">DAZN</span>
-                        <h3 class="card-title">DAZN 1</h3>
-                        <div class="action-box">
-                            <a href="acestream://d5b2c6b940cf3df5e8f9dc6f000f0ea23a10b151" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('d5b2c6b940cf3df5e8f9dc6f000f0ea23a10b151', 'DAZN 1')">ID</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card" data-id="dazn2">
-                    <button class="fav-btn" onclick="toggleFav('dazn2')">★</button>
-                    <div class="card-img" style="background: linear-gradient(45deg, #3498db, #000);">📺</div>
-                    <div class="card-body">
-                        <span class="card-tag">DAZN</span>
-                        <h3 class="card-title">DAZN 2</h3>
-                        <div class="action-box">
-                            <a href="acestream://b0eabe0fdd02fdd165896236765a9b753a2ff516" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('b0eabe0fdd02fdd165896236765a9b753a2ff516', 'DAZN 2')">ID</button>
-                        </div>
-                    </div>
-                </div>
                 <div class="card" data-id="laliga-dazn">
                     <button class="fav-btn" onclick="toggleFav('laliga-dazn')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #2ecc71, #000);">⚽</div>
@@ -255,6 +216,84 @@
                         <div class="action-box">
                             <a href="acestream://e572a5178ff72eed7d1d751a18b4b3419699f370" class="a-btn a-play">Abrir</a>
                             <button class="a-btn a-copy" onclick="copyId('e572a5178ff72eed7d1d751a18b4b3419699f370', 'Champions')">ID</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-section" id="sec-deportes">
+            <div class="category-title cat-deportes">🏅 Otros Deportes</div>
+            <div class="grid">
+                <div class="card" data-id="m-deportes">
+                    <button class="fav-btn" onclick="toggleFav('m-deportes')">★</button>
+                    <div class="card-img" style="background: linear-gradient(45deg, #00bcff, #001e4e);">🏅</div>
+                    <div class="card-body">
+                        <span class="card-tag">Movistar+</span>
+                        <h3 class="card-title">M+ Deportes</h3>
+                        <div class="action-box">
+                            <a href="acestream://acb510858f34c3c6fd5f79395b031abd6885c2b3" class="a-btn a-play">Abrir</a>
+                            <button class="a-btn a-copy" onclick="copyId('acb510858f34c3c6fd5f79395b031abd6885c2b3', 'M+ Deportes')">ID</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" data-id="dazn-basket">
+                    <button class="fav-btn" onclick="toggleFav('dazn-basket')">★</button>
+                    <div class="card-img" style="background: linear-gradient(45deg, #ff9800, #333);">🏀</div>
+                    <div class="card-body">
+                        <span class="card-tag">DAZN</span>
+                        <h3 class="card-title">DAZN Baloncesto</h3>
+                        <div class="action-box">
+                            <a href="acestream://8faa686a99697b99261346e479ead172b1d9d5d2" class="a-btn a-play">Abrir</a>
+                            <button class="a-btn a-copy" onclick="copyId('8faa686a99697b99261346e479ead172b1d9d5d2', 'DAZN Basket')">ID</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" data-id="euro-1">
+                    <button class="fav-btn" onclick="toggleFav('euro-1')">★</button>
+                    <div class="card-img" style="background: linear-gradient(45deg, #001e4e, #3498db);">🎾</div>
+                    <div class="card-body">
+                        <span class="card-tag">Eurosport 1</span>
+                        <h3 class="card-title">Eurosport 1</h3>
+                        <div class="action-box">
+                            <a href="acestream://48a589dbeab3544662fafd79888aada7d834cfe9" class="a-btn a-play">Abrir</a>
+                            <button class="a-btn a-copy" onclick="copyId('48a589dbeab3544662fafd79888aada7d834cfe9', 'Eurosport 1')">ID</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" data-id="euro-2">
+                    <button class="fav-btn" onclick="toggleFav('euro-2')">★</button>
+                    <div class="card-img" style="background: linear-gradient(45deg, #001e4e, #3498db);">🚴</div>
+                    <div class="card-body">
+                        <span class="card-tag">Eurosport 2</span>
+                        <h3 class="card-title">Eurosport 2</h3>
+                        <div class="action-box">
+                            <a href="acestream://dc4ccb9e72550bc72be9360aa7d77e337ad11ecc" class="a-btn a-play">Abrir</a>
+                            <button class="a-btn a-copy" onclick="copyId('dc4ccb9e72550bc72be9360aa7d77e337ad11ecc', 'Eurosport 2')">ID</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" data-id="dazn1">
+                    <button class="fav-btn" onclick="toggleFav('dazn1')">★</button>
+                    <div class="card-img" style="background: linear-gradient(45deg, #3498db, #000);">📺</div>
+                    <div class="card-body">
+                        <span class="card-tag">DAZN</span>
+                        <h3 class="card-title">DAZN 1</h3>
+                        <div class="action-box">
+                            <a href="acestream://d5b2c6b940cf3df5e8f9dc6f000f0ea23a10b151" class="a-btn a-play">Abrir</a>
+                            <button class="a-btn a-copy" onclick="copyId('d5b2c6b940cf3df5e8f9dc6f000f0ea23a10b151', 'DAZN 1')">ID</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" data-id="dazn2">
+                    <button class="fav-btn" onclick="toggleFav('dazn2')">★</button>
+                    <div class="card-img" style="background: linear-gradient(45deg, #3498db, #000);">📺</div>
+                    <div class="card-body">
+                        <span class="card-tag">DAZN</span>
+                        <h3 class="card-title">DAZN 2</h3>
+                        <div class="action-box">
+                            <a href="acestream://b0eabe0fdd02fdd165896236765a9b753a2ff516" class="a-btn a-play">Abrir</a>
+                            <button class="a-btn a-copy" onclick="copyId('b0eabe0fdd02fdd165896236765a9b753a2ff516', 'DAZN 2')">ID</button>
                         </div>
                     </div>
                 </div>
@@ -326,15 +365,13 @@
         <div class="modal-content" onclick="event.stopPropagation()">
             <h2 style="font-family: 'Oswald'; color: var(--accent-neon); margin-top: 0;">HISTORIAL DE CAMBIOS</h2>
             <hr border="0" style="height:1px; background:#333; margin:20px 0">
-            
             <div class="change-item">
-                <div class="change-date">11/4/26 - VERSIÓN 3.2</div>
+                <div class="change-date">12/4/26 - VERSIÓN 3.3</div>
                 <div class="change-text">
-                    • <b>Nuevos Canales:</b> Añadidos Movistar+ (Entretenimiento) y M+ Deportes.<br>
-                    • <b>Categorización:</b> Canales inactivos arreglados.<br>
+                    • <b>Categorías:</b> Separado Fútbol de Otros Deportes.<br>
+                    • <b>Nuevos Canales:</b> Eurosport 1, Eurosport 2 y DAZN Baloncesto.<br>
                 </div>
             </div>
-
             <button onclick="toggleModal()" class="a-btn a-play" style="width:100%; padding:15px; margin-top:20px">ENTENDIDO</button>
         </div>
     </div>
@@ -374,7 +411,6 @@
         function filterChannels() {
             const filter = document.getElementById('searchInput').value.toLowerCase();
             const cards = document.querySelectorAll('.card');
-            
             cards.forEach(card => {
                 const title = card.querySelector('.card-title').innerText.toLowerCase();
                 const tag = card.querySelector('.card-tag').innerText.toLowerCase();
@@ -382,7 +418,6 @@
                 const match = (title.includes(filter) || tag.includes(filter)) && (showOnlyFavs ? isFav : true);
                 card.style.display = match ? "block" : "none";
             });
-
             document.querySelectorAll('.category-section').forEach(sec => {
                 const visible = sec.querySelectorAll('.card[style="display: block;"]').length;
                 sec.style.display = visible > 0 ? "block" : "none";
