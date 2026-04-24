@@ -52,6 +52,23 @@
         .btn-updates { background: #444; border: 1px solid #666; }
         .btn-fav-filter { background: #222; border: 1px solid #444; }
         .btn-fav-filter.active { background: var(--fav-gold); color: #000; }
+        .btn-ace-search { background: var(--Ace-search); color: #000; }
+
+        /* ESTILO BANNER DE LA IMAGEN */
+        #help-banner {
+            display: none;
+            width: 100%;
+            max-width: 1100px;
+            background: linear-gradient(135deg, rgba(180, 221, 30, 0.15) 25%, transparent 25%, transparent 50%, rgba(180, 221, 30, 0.15) 50%, rgba(180, 221, 30, 0.15) 75%, transparent 75%, transparent);
+            background-size: 40px 40px;
+            border: 2px dashed var(--Ace-search);
+            border-radius: 25px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            animation: fadeIn 0.5s ease forwards;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         .category-section { margin-bottom: 50px; }
         .category-title {
@@ -66,55 +83,24 @@
         .cat-fun { border-color: var(--accent-neon); color: var(--accent-neon); }
 
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
-        
-        .card {
-            background: var(--card-bg); border-radius: 24px; overflow: hidden;
-            border: 1px solid #222; transition: var(--transition); position: relative;
-        }
+        .card { background: var(--card-bg); border-radius: 24px; overflow: hidden; border: 1px solid #222; transition: var(--transition); position: relative; }
         .card:hover { transform: translateY(-5px); border-color: #444; }
-
-        .fav-btn {
-            position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6);
-            border: none; color: #fff; width: 35px; height: 35px; border-radius: 50%;
-            cursor: pointer; z-index: 5; transition: 0.3s;
-        }
+        .fav-btn { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6); border: none; color: #fff; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 5; transition: 0.3s; }
         .fav-btn.is-fav { color: var(--fav-gold); }
-
         .card-img { height: 100px; display: flex; align-items: center; justify-content: center; font-size: 3rem; border-bottom: 1px solid #222; }
         .card-body { padding: 20px; }
         .card-tag { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: block; opacity: 0.6; }
         .card-title { font-size: 1.1rem; font-weight: 700; margin: 0 0 15px 0; }
-
         .action-box { display: flex; gap: 8px; }
-        .a-btn {
-            flex: 1; padding: 10px; border-radius: 12px; border: none; cursor: pointer;
-            font-weight: 800; font-size: 0.7rem; text-transform: uppercase;
-            display: flex; align-items: center; justify-content: center; gap: 5px; color: white; text-decoration: none;
-        }
+        .a-btn { flex: 1; padding: 10px; border-radius: 12px; border: none; cursor: pointer; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 5px; color: white; text-decoration: none; }
         .a-play { background: var(--accent-neon); }
         .a-copy { background: #333; }
 
-        .modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 200;
-            justify-content: center; align-items: center;
-        }
-        .modal-content {
-            background: #1a1a20; width: 90%; max-width: 500px; border-radius: 25px;
-            border: 2px solid var(--accent-neon); padding: 30px; position: relative;
-            max-height: 80vh; overflow-y: auto;
-        }
-        .change-item { border-left: 2px solid #444; padding-left: 20px; margin-bottom: 20px; position: relative; }
-        .change-item::before { content: ''; position: absolute; left: -6px; top: 0; width: 10px; height: 10px; background: var(--accent-neon); border-radius: 50%; }
-        .change-date { font-size: 0.8rem; color: var(--accent-neon); font-weight: 800; }
-        .change-text { margin-top: 5px; font-size: 0.9rem; line-height: 1.5; color: #ccc; }
-
-        #toast {
-            visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: white; color: black; padding: 12px 30px; border-radius: 50px; font-weight: 800; z-index: 1000;
-        }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 200; justify-content: center; align-items: center; }
+        .modal-content { background: #1a1a20; width: 90%; max-width: 500px; border-radius: 25px; border: 2px solid var(--accent-neon); padding: 30px; position: relative; max-height: 80vh; overflow-y: auto; }
+        
+        #toast { visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: white; color: black; padding: 12px 30px; border-radius: 50px; font-weight: 800; z-index: 1000; }
         #toast.show { visibility: visible; animation: slideIn 0.4s; }
-
         @keyframes slideIn { from { bottom: -50px; opacity: 0; } to { bottom: 30px; opacity: 1; } }
     </style>
 </head>
@@ -128,12 +114,21 @@
         <h1>SDJ COMMAND CENTER</h1>
         
         <div class="controls-wrapper">
+            <div id="help-banner">
+                <div style="font-weight: 800; color: white; margin-bottom: 5px; font-size: 1.1rem;">
+                    ⚠️ ¿Problemas con un canal?
+                </div>
+                <div style="color: #ccc; font-size: 0.95rem;">
+                    Usa la web de búsqueda, descarga el archivo <b style="color:white">.m3u</b>, haz <b style="color:white">click derecho</b> sobre él y selecciona <b style="color:var(--Ace-search)">"Abrir con Ace Player"</b>.
+                </div>
+            </div>
+
             <input type="text" id="searchInput" class="search-input" placeholder="Buscar canal o categoría..." onkeyup="filterChannels()">
             
             <div class="btn-group">
                 <a href="https://discord.gg/9xSdJfUQuw" target="_blank" class="btn-main btn-discord">💥 Discord</a>
                 <a href="https://www.mediafire.com/file/s0kkul8d9cbpkty/Ace_Stream_Media_3.2.8.exe/file" target="_blank" class="btn-main btn-download">⛓️‍💥 Descargar Ace</a>
-                 <a href="https://asesearch.vercel.app/" target="_blank" class="btn-main Ace-search">🔑¿Canal no funciona?</a>
+                <button onclick="activarBusqueda()" class="btn-main btn-ace-search">🔑 ¿Canal no funciona?</button>
                 <button onclick="toggleModal()" class="btn-main btn-updates">🆕 Cambios</button>
                 <button onclick="toggleFavFilter()" id="favFilterBtn" class="btn-main btn-fav-filter">⭐ Favoritos</button>
             </div>
@@ -149,8 +144,8 @@
                         <span class="card-tag">Motor</span>
                         <h3 class="card-title">Fórmula 1 (DAZN)</h3>
                         <div class="action-box">
-                            <a href="acestream://6422e8bc34282871634c81947be093c04ad1bb29 " class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('6422e8bc34282871634c81947be093c04ad1bb29 ', 'F1')">ID</button>
+                            <a href="acestream://6422e8bc34282871634c81947be093c04ad1bb29" class="a-btn a-play">Abrir</a>
+                            <button class="a-btn a-copy" onclick="copyId('6422e8bc34282871634c81947be093c04ad1bb29', 'F1')">ID</button>
                         </div>
                     </div>
                 </div>
@@ -187,9 +182,7 @@
                 <div class="card" data-id="laliga-dazn">
                     <button class="fav-btn" onclick="toggleFav('laliga-dazn')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #2ecc71, #000);">⚽</div>
-                    <div class="card-body">
-                        <span class="card-tag">LaLiga</span>
-                        <h3 class="card-title">DAZN LaLiga</h3>
+                    <div class="card-body"><span class="card-tag">LaLiga</span><h3 class="card-title">DAZN LaLiga</h3>
                         <div class="action-box">
                             <a href="acestream://e2b8a4aba2f4ea3dd68992fcdb65c9e62d910b05" class="a-btn a-play">Abrir</a>
                             <button class="a-btn a-copy" onclick="copyId('e2b8a4aba2f4ea3dd68992fcdb65c9e62d910b05', 'DAZN LaLiga')">ID</button>
@@ -199,21 +192,17 @@
                 <div class="card" data-id="laliga1-m">
                     <button class="fav-btn" onclick="toggleFav('laliga1-m')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #00bcff, #000);">⚽</div>
-                    <div class="card-body">
-                        <span class="card-tag">M+ LaLiga</span>
-                        <h3 class="card-title">M+ LaLiga 1</h3>
+                    <div class="card-body"><span class="card-tag">M+ LaLiga</span><h3 class="card-title">M+ LaLiga 1</h3>
                         <div class="action-box">
-                            <a href="acestream://00c9bc9c5d7d87680a5a6bed349edfa775a89947   " class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('00c9bc9c5d7d87680a5a6bed349edfa775a89947   ', 'M+ LaLiga 1')">ID</button>
+                            <a href="acestream://00c9bc9c5d7d87680a5a6bed349edfa775a89947" class="a-btn a-play">Abrir</a>
+                            <button class="a-btn a-copy" onclick="copyId('00c9bc9c5d7d87680a5a6bed349edfa775a89947', 'M+ LaLiga 1')">ID</button>
                         </div>
                     </div>
                 </div>
                 <div class="card" data-id="laliga2-m">
                     <button class="fav-btn" onclick="toggleFav('laliga2-m')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #00bcff, #000);">⚽</div>
-                    <div class="card-body">
-                        <span class="card-tag">M+ LaLiga</span>
-                        <h3 class="card-title">M+ LaLiga 2</h3>
+                    <div class="card-body"><span class="card-tag">M+ LaLiga</span><h3 class="card-title">M+ LaLiga 2</h3>
                         <div class="action-box">
                             <a href="acestream://caa631e8850e3eb5e7c039063dd8a339ccef1176" class="a-btn a-play">Abrir</a>
                             <button class="a-btn a-copy" onclick="copyId('caa631e8850e3eb5e7c039063dd8a339ccef1176', 'M+ LaLiga 2')">ID</button>
@@ -223,9 +212,7 @@
                 <div class="card" data-id="m-hypermotion">
                     <button class="fav-btn" onclick="toggleFav('m-hypermotion')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #2ecc71, #27ae60);">⚽</div>
-                    <div class="card-body">
-                        <span class="card-tag">M+ Liga</span>
-                        <h3 class="card-title">M+ Hypermotion</h3>
+                    <div class="card-body"><span class="card-tag">M+ Liga</span><h3 class="card-title">M+ Hypermotion</h3>
                         <div class="action-box">
                             <a href="acestream://4636ed75106cb00e9c70cc2029edf0a4df7ad73f" class="a-btn a-play">Abrir</a>
                             <button class="a-btn a-copy" onclick="copyId('4636ed75106cb00e9c70cc2029edf0a4df7ad73f', 'M+ Hypermotion')">ID</button>
@@ -235,9 +222,7 @@
                 <div class="card" data-id="ucl-live">
                     <button class="fav-btn" onclick="toggleFav('ucl-live')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #001e4e, #000);">🏆</div>
-                    <div class="card-body">
-                        <span class="card-tag">Champions</span>
-                        <h3 class="card-title">Liga de Campeones</h3>
+                    <div class="card-body"><span class="card-tag">Champions</span><h3 class="card-title">Liga de Campeones</h3>
                         <div class="action-box">
                             <a href="acestream://e572a5178ff72eed7d1d751a18b4b3419699f370" class="a-btn a-play">Abrir</a>
                             <button class="a-btn a-copy" onclick="copyId('e572a5178ff72eed7d1d751a18b4b3419699f370', 'Champions')">ID</button>
@@ -247,9 +232,7 @@
                 <div class="card" data-id="ucl-live-2">
                     <button class="fav-btn" onclick="toggleFav('ucl-live-2')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #001e4e, #333);">🏆</div>
-                    <div class="card-body">
-                        <span class="card-tag">Champions</span>
-                        <h3 class="card-title">Liga de Campeones 2</h3>
+                    <div class="card-body"><span class="card-tag">Champions</span><h3 class="card-title">Liga de Campeones 2</h3>
                         <div class="action-box">
                             <a href="acestream://338b5de78b0b40a6f9ca3cc0cf9be93341b9ceea" class="a-btn a-play">Abrir</a>
                             <button class="a-btn a-copy" onclick="copyId('338b5de78b0b40a6f9ca3cc0cf9be93341b9ceea', 'Champions 2')">ID</button>
@@ -265,85 +248,50 @@
                 <div class="card" data-id="m-vamos">
                     <button class="fav-btn" onclick="toggleFav('m-vamos')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #00bcff, #7f5af0);">🏅</div>
-                    <div class="card-body">
-                        <span class="card-tag">Movistar+</span>
-                        <h3 class="card-title">M+ Vamos</h3>
-                        <div class="action-box">
-                            <a href="acestream://2940120bf034db79a7f5849846ccea0255172eae" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('2940120bf034db79a7f5849846ccea0255172eae', 'M+ Vamos')">ID</button>
-                        </div>
+                    <div class="card-body"><span class="card-tag">Movistar+</span><h3 class="card-title">M+ Vamos</h3>
+                        <div class="action-box"><a href="acestream://2940120bf034db79a7f5849846ccea0255172eae" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('2940120bf034db79a7f5849846ccea0255172eae', 'M+ Vamos')">ID</button></div>
                     </div>
                 </div>
                 <div class="card" data-id="m-deportes">
                     <button class="fav-btn" onclick="toggleFav('m-deportes')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #00bcff, #001e4e);">🏅</div>
-                    <div class="card-body">
-                        <span class="card-tag">Movistar+</span>
-                        <h3 class="card-title">M+ Deportes</h3>
-                        <div class="action-box">
-                            <a href="acestream://acb510858f34c3c6fd5f79395b031abd6885c2b3" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('acb510858f34c3c6fd5f79395b031abd6885c2b3', 'M+ Deportes')">ID</button>
-                        </div>
+                    <div class="card-body"><span class="card-tag">Movistar+</span><h3 class="card-title">M+ Deportes</h3>
+                        <div class="action-box"><a href="acestream://acb510858f34c3c6fd5f79395b031abd6885c2b3" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('acb510858f34c3c6fd5f79395b031abd6885c2b3', 'M+ Deportes')">ID</button></div>
                     </div>
                 </div>
                 <div class="card" data-id="dazn-basket">
                     <button class="fav-btn" onclick="toggleFav('dazn-basket')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #ff9800, #333);">🏀</div>
-                    <div class="card-body">
-                        <span class="card-tag">DAZN</span>
-                        <h3 class="card-title">DAZN Baloncesto</h3>
-                        <div class="action-box">
-                            <a href="acestream://8faa686a99697b99261346e479ead172b1d9d5d2" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('8faa686a99697b99261346e479ead172b1d9d5d2', 'DAZN Basket')">ID</button>
-                        </div>
+                    <div class="card-body"><span class="card-tag">DAZN</span><h3 class="card-title">DAZN Baloncesto</h3>
+                        <div class="action-box"><a href="acestream://8faa686a99697b99261346e479ead172b1d9d5d2" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('8faa686a99697b99261346e479ead172b1d9d5d2', 'DAZN Basket')">ID</button></div>
                     </div>
                 </div>
                 <div class="card" data-id="euro-1">
                     <button class="fav-btn" onclick="toggleFav('euro-1')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #001e4e, #3498db);">🎾</div>
-                    <div class="card-body">
-                        <span class="card-tag">Eurosport 1</span>
-                        <h3 class="card-title">Eurosport 1</h3>
-                        <div class="action-box">
-                            <a href="acestream://a7b42f9d65636d1b1d9316d3e91ebe12b192658c" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('a7b42f9d65636d1b1d9316d3e91ebe12b192658c', 'Eurosport 1')">ID</button>
-                        </div>
+                    <div class="card-body"><span class="card-tag">Eurosport 1</span><h3 class="card-title">Eurosport 1</h3>
+                        <div class="action-box"><a href="acestream://a7b42f9d65636d1b1d9316d3e91ebe12b192658c" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('a7b42f9d65636d1b1d9316d3e91ebe12b192658c', 'Eurosport 1')">ID</button></div>
                     </div>
                 </div>
                 <div class="card" data-id="euro-2">
                     <button class="fav-btn" onclick="toggleFav('euro-2')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #001e4e, #3498db);">🚴</div>
-                    <div class="card-body">
-                        <span class="card-tag">Eurosport 2</span>
-                        <h3 class="card-title">Eurosport 2</h3>
-                        <div class="action-box">
-                            <a href="acestream://dc4ccb9e72550bc72be9360aa7d77e337ad11ecc" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('dc4ccb9e72550bc72be9360aa7d77e337ad11ecc', 'Eurosport 2')">ID</button>
-                        </div>
+                    <div class="card-body"><span class="card-tag">Eurosport 2</span><h3 class="card-title">Eurosport 2</h3>
+                        <div class="action-box"><a href="acestream://dc4ccb9e72550bc72be9360aa7d77e337ad11ecc" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('dc4ccb9e72550bc72be9360aa7d77e337ad11ecc', 'Eurosport 2')">ID</button></div>
                     </div>
                 </div>
                 <div class="card" data-id="dazn1">
                     <button class="fav-btn" onclick="toggleFav('dazn1')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #3498db, #000);">📺</div>
-                    <div class="card-body">
-                        <span class="card-tag">DAZN</span>
-                        <h3 class="card-title">DAZN 1</h3>
-                        <div class="action-box">
-                            <a href="acestream://d5b2c6b940cf3df5e8f9dc6f000f0ea23a10b151" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('d5b2c6b940cf3df5e8f9dc6f000f0ea23a10b151', 'DAZN 1')">ID</button>
-                        </div>
+                    <div class="card-body"><span class="card-tag">DAZN</span><h3 class="card-title">DAZN 1</h3>
+                        <div class="action-box"><a href="acestream://d5b2c6b940cf3df5e8f9dc6f000f0ea23a10b151" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('d5b2c6b940cf3df5e8f9dc6f000f0ea23a10b151', 'DAZN 1')">ID</button></div>
                     </div>
                 </div>
                 <div class="card" data-id="dazn2">
                     <button class="fav-btn" onclick="toggleFav('dazn2')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #3498db, #000);">📺</div>
-                    <div class="card-body">
-                        <span class="card-tag">DAZN</span>
-                        <h3 class="card-title">DAZN 2</h3>
-                        <div class="action-box">
-                            <a href="acestream://b0eabe0fdd02fdd165896236765a9b753a2ff516" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('b0eabe0fdd02fdd165896236765a9b753a2ff516', 'DAZN 2')">ID</button>
-                        </div>
+                    <div class="card-body"><span class="card-tag">DAZN</span><h3 class="card-title">DAZN 2</h3>
+                        <div class="action-box"><a href="acestream://b0eabe0fdd02fdd165896236765a9b753a2ff516" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('b0eabe0fdd02fdd165896236765a9b753a2ff516', 'DAZN 2')">ID</button></div>
                     </div>
                 </div>
             </div>
@@ -355,25 +303,15 @@
                 <div class="card" data-id="fox-sports-us">
                     <button class="fav-btn" onclick="toggleFav('fox-sports-us')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #ff8c00, #e62210);">🦊</div>
-                    <div class="card-body">
-                        <span class="card-tag">Fox Sports</span>
-                        <h3 class="card-title">Fox Sports [US]</h3>
-                        <div class="action-box">
-                            <a href="acestream://c9c062941fbecb16ce29437f346ea7177d720898" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('c9c062941fbecb16ce29437f346ea7177d720898', 'Fox Sports US')">ID</button>
-                        </div>
+                    <div class="card-body"><span class="card-tag">Fox Sports</span><h3 class="card-title">Fox Sports [US]</h3>
+                        <div class="action-box"><a href="acestream://c9c062941fbecb16ce29437f346ea7177d720898" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('c9c062941fbecb16ce29437f346ea7177d720898', 'Fox Sports US')">ID</button></div>
                     </div>
                 </div>
                 <div class="card" data-id="nba-pro">
                     <button class="fav-btn" onclick="toggleFav('nba-pro')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #ff9800, #000);">🏀</div>
-                    <div class="card-body">
-                        <span class="card-tag">NBA</span>
-                        <h3 class="card-title">NBA TV Pro</h3>
-                        <div class="action-box">
-                            <a href="acestream://e72d03fb9694164317260f684470be9ab781ed95" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('e72d03fb9694164317260f684470be9ab781ed95', 'NBA')">ID</button>
-                        </div>
+                    <div class="card-body"><span class="card-tag">NBA</span><h3 class="card-title">NBA TV Pro</h3>
+                        <div class="action-box"><a href="acestream://e72d03fb9694164317260f684470be9ab781ed95" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('e72d03fb9694164317260f684470be9ab781ed95', 'NBA')">ID</button></div>
                     </div>
                 </div>
             </div>
@@ -385,25 +323,15 @@
                 <div class="card" data-id="m-plus">
                     <button class="fav-btn" onclick="toggleFav('m-plus')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #00bcff, #1a1a20);">📺</div>
-                    <div class="card-body">
-                        <span class="card-tag">Movistar+</span>
-                        <h3 class="card-title">Movistar+</h3>
-                        <div class="action-box">
-                            <a href="acestream://b6ffbbc72a5b6b579faf79ebac229af7a25b933b" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('b6ffbbc72a5b6b579faf79ebac229af7a25b933b', 'Movistar+')">ID</button>
-                        </div>
+                    <div class="card-body"><span class="card-tag">Movistar+</span><h3 class="card-title">Movistar+</h3>
+                        <div class="action-box"><a href="acestream://b6ffbbc72a5b6b579faf79ebac229af7a25b933b" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('b6ffbbc72a5b6b579faf79ebac229af7a25b933b', 'Movistar+')">ID</button></div>
                     </div>
                 </div>
                 <div class="card" data-id="fox-comedy">
                     <button class="fav-btn" onclick="toggleFav('fox-comedy')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #7f5af0, #000);">🎭</div>
-                    <div class="card-body">
-                        <span class="card-tag">Series</span>
-                        <h3 class="card-title">Fox Comedy</h3>
-                        <div class="action-box">
-                            <a href="acestream://8fb7f8107213a9020f298c8d0068ea86d0713d01" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('8fb7f8107213a9020f298c8d0068ea86d0713d01', 'Fox Comedy')">ID</button>
-                        </div>
+                    <div class="card-body"><span class="card-tag">Series</span><h3 class="card-title">Fox Comedy</h3>
+                        <div class="action-box"><a href="acestream://8fb7f8107213a9020f298c8d0068ea86d0713d01" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('8fb7f8107213a9020f298c8d0068ea86d0713d01', 'Fox Comedy')">ID</button></div>
                     </div>
                 </div>
             </div>
@@ -413,26 +341,7 @@
     <div class="modal-overlay" id="modalUpdates" onclick="toggleModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <h2 style="font-family: 'Oswald'; color: var(--accent-neon); margin-top: 0;">HISTORIAL DE CAMBIOS</h2>
-            <hr border="0" style="height:1px; background:#333; margin:20px 0">
-            <div class="change-item">
-                <div class="change-date">15/4/26 - VERSIÓN 3.5</div>
-                <div class="change-text">
-                    • <b>Nuevos Canales:</b> Sky Sports F1 (Motor) y Liga de Campeones 2 (Fútbol).<br>
-                </div>
-            </div>
-            <div class="change-item">
-                <div class="change-date">13/4/26 - VERSIÓN 3.4</div>
-                <div class="change-text">
-                    • <b>Nuevos Canales:</b> Añadido M+ Vamos y M+ Hypermotion.<br>
-                </div>
-            </div>
-            <div class="change-item">
-                <div class="change-date">12/4/26 - VERSIÓN 3.3</div>
-                <div class="change-text">
-                    • <b>Categorías:</b> Separado Fútbol de Otros Deportes.<br>
-                    • <b>Nuevos Canales:</b> Eurosport 1, Eurosport 2 y DAZN Baloncesto.<br>
-                </div>
-            </div>
+            <div class="change-item"><div class="change-date">15/4/26 - VERSIÓN 3.5</div><div class="change-text">• Sky Sports F1 y Liga de Campeones 2 añadidos.</div></div>
             <button onclick="toggleModal()" class="a-btn a-play" style="width:100%; padding:15px; margin-top:20px">ENTENDIDO</button>
         </div>
     </div>
@@ -442,6 +351,15 @@
     <script>
         let favorites = JSON.parse(localStorage.getItem('sdj_favs')) || [];
         let showOnlyFavs = false;
+
+        function activarBusqueda() {
+            const banner = document.getElementById('help-banner');
+            banner.style.display = 'block';
+            
+            setTimeout(() => {
+                window.open("https://asesearch.vercel.app/", "_blank");
+            }, 2500);
+        }
 
         function toggleModal() {
             const m = document.getElementById('modalUpdates');
@@ -464,19 +382,16 @@
 
         function toggleFavFilter() {
             showOnlyFavs = !showOnlyFavs;
-            const btn = document.getElementById('favFilterBtn');
-            btn.classList.toggle('active');
+            document.getElementById('favFilterBtn').classList.toggle('active');
             filterChannels();
         }
 
         function filterChannels() {
             const filter = document.getElementById('searchInput').value.toLowerCase();
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
+            document.querySelectorAll('.card').forEach(card => {
                 const title = card.querySelector('.card-title').innerText.toLowerCase();
-                const tag = card.querySelector('.card-tag').innerText.toLowerCase();
                 const isFav = favorites.includes(card.getAttribute('data-id'));
-                const match = (title.includes(filter) || tag.includes(filter)) && (showOnlyFavs ? isFav : true);
+                const match = title.includes(filter) && (showOnlyFavs ? isFav : true);
                 card.style.display = match ? "block" : "none";
             });
             document.querySelectorAll('.category-section').forEach(sec => {
@@ -496,8 +411,7 @@
 
         window.onload = () => {
             favorites.forEach(id => {
-                const btns = document.querySelectorAll(`[data-id="${id}"] .fav-btn`);
-                btns.forEach(b => b.classList.add('is-fav'));
+                document.querySelectorAll(`[data-id="${id}"] .fav-btn`).forEach(b => b.classList.add('is-fav'));
             });
         };
     </script>
