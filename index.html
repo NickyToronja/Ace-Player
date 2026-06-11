@@ -54,19 +54,10 @@
         .btn-fav-filter.active { background: var(--fav-gold); color: #000; }
         .btn-ace-search { background: var(--Ace-search); color: #000; }
 
-        /* ESTILO BANNER DE LA IMAGEN */
         #help-banner {
-            display: none;
-            width: 100%;
-            max-width: 1100px;
+            display: none; width: 100%; max-width: 1100px;
             background: linear-gradient(135deg, rgba(180, 221, 30, 0.15) 25%, transparent 25%, transparent 50%, rgba(180, 221, 30, 0.15) 50%, rgba(180, 221, 30, 0.15) 75%, transparent 75%, transparent);
-            background-size: 40px 40px;
-            border: 2px dashed var(--Ace-search);
-            border-radius: 25px;
-            padding: 20px;
-            margin-bottom: 20px;
-            text-align: center;
-            animation: fadeIn 0.5s ease forwards;
+            background-size: 40px 40px; border: 2px dashed var(--Ace-search); border-radius: 25px; padding: 20px; margin-bottom: 20px; text-align: center; animation: fadeIn 0.5s ease forwards;
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -134,14 +125,13 @@
             </div>
         </div>
 
-        <!-- SECCIÓN MUNDIAL DE FÚTBOL (GRANDE Y ARRIBA DE TODO) -->
         <div class="category-section" id="sec-mundial">
             <div class="category-title" style="border-color: #f1c40f; color: #f1c40f;">🏆 Mundial de Fútbol</div>
             <div style="display: block; width: 100%;">
                 <div class="card" data-id="mundial-futbol" style="max-width: 600px; margin: 0 auto;">
                     <button class="fav-btn" onclick="toggleFav('mundial-futbol')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #001e4e, #f1c40f); height: 180px;">
-                        <img src="world.png" alt="Mundial" style="height: 80%; object-fit: contain;">
+                        <img src="world.png" alt="Mundial" style="height: 85%; width: auto; object-fit: contain; filter: drop-shadow(0px 5px 10px rgba(0,0,0,0.5));">
                     </div>
                     <div class="card-body" style="padding: 25px; text-align: center;">
                         <span class="card-tag" style="color: #f1c40f; font-size: 0.85rem;">FIFA World Cup</span>
@@ -161,37 +151,22 @@
                 <div class="card" data-id="f1-dazn">
                     <button class="fav-btn" onclick="toggleFav('f1-dazn')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #e10600, #000);">🏎️</div>
-                    <div class="card-body">
-                        <span class="card-tag">Motor</span>
-                        <h3 class="card-title">Fórmula 1 (DAZN)</h3>
-                        <div class="action-box">
-                            <a href="acestream://d65257bb934b73647374224fd62d836815804be2 " class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('d65257bb934b73647374224fd62d836815804be2 ', 'F1')">ID</button>
-                        </div>
+                    <div class="card-body"><span class="card-tag">Motor</span><h3 class="card-title">Fórmula 1 (DAZN)</h3>
+                        <div class="action-box"><a href="acestream://d65257bb934b73647374224fd62d836815804be2 " class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('d65257bb934b73647374224fd62d836815804be2 ', 'F1')">ID</button></div>
                     </div>
                 </div>
                 <div class="card" data-id="f1-sky">
                     <button class="fav-btn" onclick="toggleFav('f1-sky')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #00bcff, #000);">🏎️</div>
-                    <div class="card-body">
-                        <span class="card-tag">Motor [EN]</span>
-                        <h3 class="card-title">Sky Sports F1</h3>
-                        <div class="action-box">
-                            <a href="acestream://b04372b9543d763bd2dbd2a1842d9723fd080076" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('b04372b9543d763bd2dbd2a1842d9723fd080076', 'Sky F1')">ID</button>
-                        </div>
+                    <div class="card-body"><span class="card-tag">Motor [EN]</span><h3 class="card-title">Sky Sports F1</h3>
+                        <div class="action-box"><a href="acestream://b04372b9543d763bd2dbd2a1842d9723fd080076" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('b04372b9543d763bd2dbd2a1842d9723fd080076', 'Sky F1')">ID</button></div>
                     </div>
                 </div>
                 <div class="card" data-id="motogp-dazn">
                     <button class="fav-btn" onclick="toggleFav('motogp-dazn')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #333, #000);">🏍️</div>
-                    <div class="card-body">
-                        <span class="card-tag">Motor</span>
-                        <h3 class="card-title">MotoGP (DAZN)</h3>
-                        <div class="action-box">
-                            <a href="acestream://11cbb5346d28af0b972e646832f4be23dd39502d" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('11cbb5346d28af0b972e646832f4be23dd39502d', 'MotoGP')">ID</button>
-                        </div>
+                    <div class="card-body"><span class="card-tag">Motor</span><h3 class="card-title">MotoGP (DAZN)</h3>
+                        <div class="action-box"><a href="acestream://11cbb5346d28af0b972e646832f4be23dd39502d" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('11cbb5346d28af0b972e646832f4be23dd39502d', 'MotoGP')">ID</button></div>
                     </div>
                 </div>
             </div>
@@ -204,60 +179,42 @@
                     <button class="fav-btn" onclick="toggleFav('laliga-dazn')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #2ecc71, #000);">⚽</div>
                     <div class="card-body"><span class="card-tag">LaLiga</span><h3 class="card-title">DAZN LaLiga</h3>
-                        <div class="action-box">
-                            <a href="acestream://9c75f1d190c518cfe0f236415b8dccc1f676ef3b" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('9c75f1d190c518cfe0f236415b8dccc1f676ef3b', 'DAZN LaLiga')">ID</button>
-                        </div>
+                        <div class="action-box"><a href="acestream://9c75f1d190c518cfe0f236415b8dccc1f676ef3b" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('9c75f1d190c518ccc1f676ef3b', 'DAZN LaLiga')">ID</button></div>
                     </div>
                 </div>
                 <div class="card" data-id="laliga1-m">
                     <button class="fav-btn" onclick="toggleFav('laliga1-m')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #00bcff, #000);">⚽</div>
                     <div class="card-body"><span class="card-tag">M+ LaLiga</span><h3 class="card-title">M+ LaLiga</h3>
-                        <div class="action-box">
-                            <a href="acestream://31c19ffb3472c289c5bbbbc174449c8ed0d19e38" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('31c19ffb3472c289c5bbbbc174449c8ed0d19e38', 'M+ LaLiga')">ID</button>
-                        </div>
+                        <div class="action-box"><a href="acestream://31c19ffb3472c289c5bbbbc174449c8ed0d19e38" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('31c19ffb3472c289c5bbbbc174449c8ed0d19e38', 'M+ LaLiga')">ID</button></div>
                     </div>
                 </div>
                 <div class="card" data-id="laliga2-m">
                     <button class="fav-btn" onclick="toggleFav('laliga2-m')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #00bcff, #000);">⚽</div>
                     <div class="card-body"><span class="card-tag">M+ LaLiga</span><h3 class="card-title">M+ LaLiga 2</h3>
-                        <div class="action-box">
-                            <a href="acestream://caa631e8850e3eb5e7c039063dd8a339ccef1176" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('caa631e8850e3eb5e7c039063dd8a339ccef1176', 'M+ LaLiga 2')">ID</button>
-                        </div>
+                        <div class="action-box"><a href="acestream://caa631e8850e3eb5e7c039063dd8a339ccef1176" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('caa631e8850e3eb5e7c039063dd8a339ccef1176', 'M+ LaLiga 2')">ID</button></div>
                     </div>
                 </div>
                 <div class="card" data-id="m-hypermotion">
                     <button class="fav-btn" onclick="toggleFav('m-hypermotion')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #2ecc71, #27ae60);">⚽</div>
                     <div class="card-body"><span class="card-tag">M+ Liga</span><h3 class="card-title">M+ Hypermotion</h3>
-                        <div class="action-box">
-                            <a href="acestream://4636ed75106cb00e9c70cc2029edf0a4df7ad73f" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('4636ed75106cb00e9c70cc2029edf0a4df7ad73f', 'M+ Hypermotion')">ID</button>
-                        </div>
+                        <div class="action-box"><a href="acestream://4636ed75106cb00e9c70cc2029edf0a4df7ad73f" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('4636ed75106cb00e9c70cc2029edf0a4df7ad73f', 'M+ Hypermotion')">ID</button></div>
                     </div>
                 </div>
                 <div class="card" data-id="ucl-live">
                     <button class="fav-btn" onclick="toggleFav('ucl-live')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #001e4e, #000);">🏆</div>
                     <div class="card-body"><span class="card-tag">Champions</span><h3 class="card-title">Liga de Campeones</h3>
-                        <div class="action-box">
-                            <a href="acestream://97df5b7824948972d041d8ca2a4d29c90b641bc9" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('97df5b7824948972d041d8ca2a4d29c90b641bc9', 'Champions')">ID</button>
-                        </div>
+                        <div class="action-box"><a href="acestream://97df5b7824948972d041d8ca2a4d29c90b641bc9" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('97df5b7824948972d041d8ca2a4d29c90b641bc9', 'Champions')">ID</button></div>
                     </div>
                 </div>
                 <div class="card" data-id="ucl-live-2">
                     <button class="fav-btn" onclick="toggleFav('ucl-live-2')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #001e4e, #333);">🏆</div>
                     <div class="card-body"><span class="card-tag">Champions</span><h3 class="card-title">Liga de Campeones 2</h3>
-                        <div class="action-box">
-                            <a href="acestream://338b5de78b0b40a6f9ca3cc0cf9be93341b9ceea" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('338b5de78b0b40a6f9ca3cc0cf9be93341b9ceea', 'Champions 2')">ID</button>
-                        </div>
+                        <div class="action-box"><a href="acestream://338b5de78b0b40a6f9ca3cc0cf9be93341b9ceea" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('338b5de78b0b40a6f9ca3cc0cf9be93341b9ceea', 'Champions 2')">ID</button></div>
                     </div>
                 </div>
             </div>
@@ -376,10 +333,7 @@
         function activarBusqueda() {
             const banner = document.getElementById('help-banner');
             banner.style.display = 'block';
-            
-            setTimeout(() => {
-                window.open("https://asesearch.vercel.app/", "_blank");
-            }, 2500);
+            setTimeout(() => { window.open("https://asesearch.vercel.app/", "_blank"); }, 2500);
         }
 
         function toggleModal() {
