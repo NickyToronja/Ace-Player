@@ -32,7 +32,7 @@
         }
 
         .logo-sdj { height: 60px; border-radius: 12px; border: 1px solid var(--accent-neon); }
-        .container { width: 100%; max-width: 1200px; padding: 30px 20px; box-sizing: border-box; }
+        .container { width: 100%; max-width: 1200px; padding: 30px 20px; box-sizing: border-box; z-index: 10; }
         h1 { font-family: 'Oswald'; font-size: 3rem; text-align: center; margin: 0 0 20px 0; letter-spacing: 2px; }
 
         .controls-wrapper { display: flex; flex-direction: column; gap: 20px; align-items: center; margin-bottom: 50px; }
@@ -95,112 +95,77 @@
         #toast.show { visibility: visible; animation: slideIn 0.4s; }
         @keyframes slideIn { from { bottom: -50px; opacity: 0; } to { bottom: 30px; opacity: 1; } }
 
-        /* ================= INTRO ANIMATION SYSTEM ================= */
-        body.intro-active {
-            overflow: hidden;
-            height: 100vh;
+        /* ================= ELEMENTOS VISUALES DEL LIGHTSHOW RÍTMICO ================= */
+        #theater-bg-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: transparent; z-index: -1; display: none; overflow: hidden; pointer-events: none;
         }
 
-        #theater-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #000000; z-index: 99999; display: flex;
-            justify-content: center; align-items: center; overflow: hidden;
+        .strobe-beat {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 80%);
+            mix-blend-mode: overlay; opacity: 0; transition: opacity 0.1s ease-out;
         }
 
         .camera-shake {
-            animation: shakeScreen 0.8s infinite alternate ease-in-out;
             width: 100%; height: 100%; position: absolute;
-        }
-        @keyframes shakeScreen {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
-            20% { transform: translate(-3px, 0px) rotate(1deg); }
-            30% { transform: translate(0px, 2px) rotate(0deg); }
-            40% { transform: translate(1px, -1px) rotate(1deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); }
-            60% { transform: translate(-3px, 1px) rotate(0deg); }
-            70% { transform: translate(2px, 1px) rotate(-1deg); }
-            80% { transform: translate(-1px, -1px) rotate(1deg); }
-            90% { transform: translate(2px, 2px) rotate(0deg); }
-            100% { transform: translate(1px, -2px) rotate(-1deg); }
+            transition: transform 0.15s ease-out;
         }
 
-        .stadium-light {
-            position: absolute; width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(127,90,240,0.4) 0%, rgba(0,28,78,0.1) 50%, transparent 70%);
-            filter: blur(30px); opacity: 0; animation: flashLights 4s infinite alternate;
+        .moving-light {
+            position: absolute; width: 650px; height: 650px; border-radius: 50%;
+            filter: blur(90px); opacity: 0.25; animation: orbitLights 8s infinite linear alternate;
         }
-        .light-1 { top: -10%; left: -10%; animation-delay: 0.5s; background: radial-gradient(circle, rgba(225,6,0,0.4) 0%, transparent 70%); }
-        .light-2 { bottom: -10%; right: -10%; animation-delay: 1.5s; background: radial-gradient(circle, rgba(0,188,255,0.4) 0%, transparent 70%); }
-        .light-3 { top: 50%; left: 50%; transform: translate(-50%, -50%); animation: flashLights 2s infinite alternate; }
+        .ml-cyan { background: #00f3ff; top: -20%; left: -10%; }
+        .ml-magenta { background: #ff00aa; bottom: -20%; right: -10%; animation-delay: -3s; }
+        .ml-yellow { background: #ffea00; top: 30%; left: 40%; animation-duration: 5s; }
 
-        @keyframes flashLights {
-            0%, 100% { opacity: 0.2; transform: scale(0.8) translate(0px, 0px); }
-            33% { opacity: 0.8; transform: scale(1.2) translate(50px, -30px); }
-            66% { opacity: 0.5; transform: scale(0.9) translate(-40px, 40px); }
-        }
-
-        .intro-title {
-            font-family: 'Oswald'; font-size: 4rem; color: #fff; text-align: center;
-            letter-spacing: 5px; text-shadow: 0 0 20px var(--accent-neon), 0 0 40px #000;
-            z-index: 10; animation: pulseTitle 2s infinite; pointer-events: none;
-        }
-        @keyframes pulseTitle {
-            0%, 100% { transform: scale(1); opacity: 0.9; }
-            50% { transform: scale(1.05); opacity: 1; text-shadow: 0 0 30px var(--fav-gold); }
+        @keyframes orbitLights {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(80px, -40px) scale(1.1); }
+            100% { transform: translate(-40px, 80px) scale(0.9); }
         }
 
-        .falling-ball {
-            position: absolute; font-size: 3.5rem; top: -10%;
-            animation: fallAndSpin 5s linear infinite;
-            user-select: none; pointer-events: none;
-        }
+        .falling-item { position: absolute; top: -10%; animation: fallAndSpin 3.2s linear infinite; }
+        .confetti { width: 9px; height: 20px; border-radius: 2px; }
+
         @keyframes fallAndSpin {
             0% { top: -10%; transform: translateX(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { top: 110%; transform: translateX(150px) rotate(1080deg); opacity: 0; }
+            15% { opacity: 1; }
+            85% { opacity: 1; }
+            100% { top: 110%; transform: translateX(140px) rotate(1080deg); opacity: 0; }
         }
 
-        .epic-blast {
-            position: absolute; width: 100%; height: 100%;
-            background: #fff; opacity: 0; z-index: 15; pointer-events: none;
+        #audio-unlocker {
+            width: 100%; max-width: 1100px; margin: 20px auto 0 auto;
+            background: linear-gradient(90deg, var(--accent-neon), #44337a);
+            border-radius: 20px; padding: 20px; text-align: center;
+            box-shadow: 0 0 20px rgba(127,90,240,0.4); display: flex; 
+            flex-direction: column; align-items: center; justify-content: center; gap: 10px;
         }
-        .trigger-blast {
-            animation: ultimateFlash 1.5s ease-out forwards;
+        .btn-unlock {
+            background: var(--fav-gold); color: #000; font-family: 'Oswald';
+            font-size: 1.2rem; padding: 12px 35px; border: none; border-radius: 50px;
+            cursor: pointer; font-weight: 800; letter-spacing: 1px; transition: 0.2s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        @keyframes ultimateFlash {
-            0% { opacity: 0; }
-            30% { opacity: 1; background: #fff; }
-            60% { opacity: 1; background: var(--accent-neon); filter: saturate(2); }
-            100% { opacity: 0; display: none; }
-        }
-
-        .confetti-piece {
-            position: absolute; width: 12px; height: 12px; z-index: 12;
-            opacity: 0; animation: burstConfetti 4s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
-        }
-        @keyframes burstConfetti {
-            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
-            100% { transform: translate(var(--x), var(--y)) rotate(720deg); opacity: 0; }
-        }
+        .btn-unlock:hover { transform: scale(1.05); background: #fff; }
     </style>
 </head>
-<body class="intro-active">
+<body>
 
-    <audio id="introAudio" loop>
-        <source src="all_of_the_lights.mp3" type="audio/mpeg">
+    <audio id="introAudio" loop preload="auto">
+        <source src="daidai.mp3" type="audio/mpeg">
     </audio>
 
-    <div id="theater-overlay">
-        <div class="camera-shake" id="shakeContainer">
-            <div class="stadium-light light-1"></div>
-            <div class="stadium-light light-2"></div>
-            <div class="stadium-light light-3"></div>
-            <div id="ballPit"></div>
+    <div id="theater-bg-overlay">
+        <div class="strobe-beat" id="beatStrobe"></div>
+        <div class="camera-shake" id="shakeWrapper">
+            <div class="moving-light ml-cyan"></div>
+            <div class="moving-light ml-magenta"></div>
+            <div class="moving-light ml-yellow"></div>
+            <div id="fxContainer"></div>
         </div>
-        <div class="intro-title" id="introText">SDJ STREAM CENTER<br><span style="color: var(--fav-gold); font-size: 2rem;">PREPARANDO EL ESTADIO...</span></div>
-        <div class="epic-blast" id="blastZone"></div>
     </div>
 
     <header>
@@ -208,7 +173,14 @@
     </header>
 
     <div class="container">
-        <h1>SDJ COMMAND CENTER</h1>
+        
+        <div id="audio-unlocker">
+            <div style="font-weight: 800; font-size: 1.2rem; font-family: 'Oswald';">🎵 EXPERIENCIA RÍTMICA SDJ [72s]</div>
+            <div style="font-size: 0.9rem; opacity: 0.9;">Haz clic abajo para arrancar el show adaptado al ritmo de daidai.mp3 (Luces suavizadas y seguras).</div>
+            <button class="btn-unlock" onclick="startShow()">⚡ INICIAR SHOW MUSIC</button>
+        </div>
+
+        <h1 style="margin-top: 30px;">SDJ COMMAND CENTER</h1>
         
         <div class="controls-wrapper">
             <div id="help-banner">
@@ -285,7 +257,7 @@
                     <button class="fav-btn" onclick="toggleFav('laliga-dazn')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #2ecc71, #000);">⚽</div>
                     <div class="card-body"><span class="card-tag">LaLiga</span><h3 class="card-title">DAZN LaLiga</h3>
-                        <div class="action-box"><a href="acestream://9c75f1d190c518cfe0f236415b8dccc1f676ef3b" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('9c75f1d190c518ccc1f676ef3b', 'DAZN LaLiga')">ID</button></div>
+                        <div class="action-box"><a href="acestream://9c75f1d190c518cfe0f236415b8dccc1f676ef3b" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('9c75f1d190c518cfe0f236415b8dccc1f676ef3b', 'DAZN LaLiga')">ID</button></div>
                     </div>
                 </div>
                 <div class="card" data-id="laliga1-m">
@@ -347,21 +319,21 @@
                     <button class="fav-btn" onclick="toggleFav('dazn-basket')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #ff9800, #333);">🏀</div>
                     <div class="card-body"><span class="card-tag">DAZN</span><h3 class="card-title">DAZN Baloncesto</h3>
-                        <div class="action-box"><a href="acestream://9dd9cd78f0b08097a0ad290606dbbee999709fa5" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('9dd9cd78f0b08097a0ad290606dbbee999709fa5', 'DAZN Basket')">ID</button></div>
+                        <div class="action-box"><a href="acestream://8faa686a99697b99261346e479ead172b1d9d5d2" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('8faa686a99697b99261346e479ead172b1d9d5d2', 'DAZN Basket')">ID</button></div>
                     </div>
                 </div>
                 <div class="card" data-id="euro-1">
                     <button class="fav-btn" onclick="toggleFav('euro-1')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #001e4e, #3498db);">🎾</div>
                     <div class="card-body"><span class="card-tag">Eurosport 1</span><h3 class="card-title">Eurosport 1</h3>
-                        <div class="action-box"><a href="acestream://313213b3b99c0f7437f68c8ea5a7b2b6d7b8a153" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('313213b3b99c0f7437f68c8ea5a7b2b6d7b8a153', 'Eurosport 1')">ID</button></div>
+                        <div class="action-box"><a href="acestream://48a589dbeab3544662fafd79888aada7d834cfe9" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('48a589dbeab3544662fafd79888aada7d834cfe9', 'Eurosport 1')">ID</button></div>
                     </div>
                 </div>
                 <div class="card" data-id="euro-2">
                     <button class="fav-btn" onclick="toggleFav('euro-2')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #001e4e, #3498db);">🚴</div>
                     <div class="card-body"><span class="card-tag">Eurosport 2</span><h3 class="card-title">Eurosport 2</h3>
-                        <div class="action-box"><a href="acestream://dc4ccb9e72550bc72be9360aa7d77e337ad11ecc" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('dc4ccb9e72550bc72be9360aa7d77e337ad11ecc', 'Eurosport 2')">ID</button></div>
+                        <div class="action-box"><a href="acestream://d01d255aaaf2fb91c0a8c98a826b4bd4769d81c1" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('d01d255aaaf2fb91c0a8c98a826b4bd4769d81c1', 'Eurosport 2')">ID</button></div>
                     </div>
                 </div>
                 <div class="card" data-id="dazn1">
@@ -425,7 +397,10 @@
     <div class="modal-overlay" id="modalUpdates" onclick="toggleModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <h2 style="font-family: 'Oswald'; color: var(--accent-neon); margin-top: 0;">HISTORIAL DE CAMBIOS</h2>
-            <div class="change-item"><div class="change-date">15/4/26 - VERSIÓN 3.5</div><div class="change-text">• Sky Sports F1 y Liga de Campeones 2 añadidos.</div></div>
+            <div style="border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 10px;">
+                <div style="font-weight: 800; font-size: 0.8rem; color: var(--fav-gold);">15/4/26 - VERSIÓN 3.5</div>
+                <div style="font-size: 0.9rem; opacity: 0.8;">• Sky Sports F1 y Liga de Campeones 2 añadidos.</div>
+            </div>
             <button onclick="toggleModal()" class="a-btn a-play" style="width:100%; padding:15px; margin-top:20px">ENTENDIDO</button>
         </div>
     </div>
@@ -435,71 +410,82 @@
     <script>
         let favorites = JSON.parse(localStorage.getItem('sdj_favs')) || [];
         let showOnlyFavs = false;
+        let mainLoop, beatLoop;
 
-        /* INTRO TEATRO CON AUDIO DESDE EL REPOSITORIO GITHUB */
-        function initIntroTheater() {
-            const ballPit = document.getElementById('ballPit');
-            const totalDuration = 40000; // 40 Segundos EXACTOS
+        function startShow() {
             const audio = document.getElementById('introAudio');
+            const bgOverlay = document.getElementById('theater-bg-overlay');
+            const fxContainer = document.getElementById('fxContainer');
+            const strobe = document.getElementById('beatStrobe');
+            const shake = document.getElementById('shakeWrapper');
             
-            // Forzar reproducción del archivo de audio cargado de GitHub
-            audio.play().catch(error => {
-                console.log("Auto-play bloqueado por el navegador. Esperando interacción o carga completa.");
-            });
-            
-            // Caída de balones
-            const ballInterval = setInterval(() => {
-                const ball = document.createElement('div');
-                ball.className = 'falling-ball';
-                ball.innerText = '⚽';
-                ball.style.left = Math.random() * 100 + 'vw';
-                ball.style.fontSize = (Math.random() * 2 + 2) + 'rem';
-                ball.style.animationDuration = (Math.random() * 3 + 3) + 's';
-                ballPit.appendChild(ball);
-                
-                setTimeout(() => ball.remove(), 6000);
-            }, 450);
+            const colors = ['rgba(0,243,255,0.13)', 'rgba(255,0,170,0.13)', 'rgba(255,234,0,0.13)', 'rgba(0,255,102,0.13)'];
+            const confettiColors = ['#00f3ff', '#ff00aa', '#ffea00', '#00ff66', '#ffffff'];
+            const runTime = 72000; 
 
-            // Explosión de confeti y clímax de luces (2 segundos antes de terminar)
-            setTimeout(() => {
-                document.getElementById('blastZone').classList.add('trigger-blast');
-                document.getElementById('introText').innerHTML = "¡BIENVENIDO AL SHOW!<br><span style='color:var(--foot-green)'>SISTEMA CONFIGURADO</span>";
+            document.getElementById('audio-unlocker').style.display = 'none';
+            bgOverlay.style.display = 'block';
+
+            audio.play().catch(err => console.log("Audio block bypass:", err));
+
+            mainLoop = setInterval(() => {
+                createObject(fxContainer, confettiColors);
+            }, 110);
+
+            let beatCount = 0;
+            beatLoop = setInterval(() => {
+                beatCount++;
                 
-                for (let i = 0; i < 150; i++) {
-                    createConfetti();
+                strobe.style.opacity = "1";
+                strobe.style.backgroundColor = colors[beatCount % colors.length];
+                setTimeout(() => { strobe.style.opacity = "0"; }, 130);
+
+                const sx = (Math.random() - 0.5) * 6;
+                const sy = (Math.random() - 0.5) * 6;
+                shake.style.transform = `translate(${sx}px, ${sy}px)`;
+                setTimeout(() => { shake.style.transform = 'none'; }, 100);
+
+                if (beatCount % 4 === 0) {
+                    for(let i=0; i<6; i++) {
+                        createObject(fxContainer, confettiColors, true);
+                    }
                 }
-            }, totalDuration - 2000);
+            }, 430); 
 
-            // Cierre del teatro y regreso a la interfaz normal
             setTimeout(() => {
-                clearInterval(ballInterval);
-                document.getElementById('theater-overlay').style.display = 'none';
-                document.body.classList.remove('intro-active');
-                // Si deseas que la música continúe de fondo al abrir el panel, borra la línea de abajo:
-                audio.pause(); 
-            }, totalDuration);
+                clearInterval(mainLoop);
+                clearInterval(beatLoop);
+                bgOverlay.style.display = 'none';
+                audio.pause();
+                audio.currentTime = 0;
+            }, runTime);
         }
 
-        function createConfetti() {
-            const overlay = document.getElementById('theater-overlay');
-            const confetti = document.createElement('div');
-            const colors = ['#7f5af0', '#e10600', '#2ecc71', '#ff9800', '#f1c40f', '#00bcff'];
+        function createObject(container, colors, explosion = false) {
+            const item = document.createElement('div');
+            item.className = 'falling-item';
             
-            confetti.className = 'confetti-piece';
-            confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.left = '50vw';
-            confetti.style.top = '50vh';
-            
-            const angle = Math.random() * Math.PI * 2;
-            const velocity = Math.random() * 600 + 200;
-            const x = Math.cos(angle) * velocity + 'px';
-            const y = Math.sin(angle) * velocity + 'px';
-            
-            confetti.style.setProperty('--x', x);
-            confetti.style.setProperty('--y', y);
-            
-            overlay.appendChild(confetti);
-            setTimeout(() => confetti.remove(), 4000);
+            if (explosion) {
+                item.style.left = Math.random() > 0.5 ? '3vw' : '94vw';
+                item.style.top = '65%';
+                item.style.animationDuration = '1.8s';
+            } else {
+                item.style.left = Math.random() * 100 + 'vw';
+                item.style.animationDuration = (Math.random() * 1.2 + 2) + 's';
+            }
+
+            if (Math.random() > 0.45) {
+                item.innerText = '⚽';
+                item.style.fontSize = (Math.random() * 1.2 + 1) + 'rem';
+            } else {
+                item.classList.add('confetti');
+                item.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                item.style.width = (Math.random() * 5 + 6) + 'px';
+                item.style.height = (Math.random() * 12 + 14) + 'px';
+            }
+
+            container.appendChild(item);
+            setTimeout(() => item.remove(), 3200);
         }
 
         function activarBusqueda() {
@@ -548,7 +534,7 @@
         }
 
         function copyId(id, name) {
-            navigator.clipboard.writeText(id).then(() => {
+            navigator.clipboard.writeText(id.trim()).then(() => {
                 const t = document.getElementById("toast");
                 t.innerText = "📋 ID de " + name + " copiada";
                 t.classList.add("show");
@@ -557,7 +543,6 @@
         }
 
         window.onload = () => {
-            initIntroTheater(); 
             favorites.forEach(id => {
                 document.querySelectorAll(`[data-id="${id}"] .fav-btn`).forEach(b => b.classList.add('is-fav'));
             });
