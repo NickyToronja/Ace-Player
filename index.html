@@ -150,10 +150,21 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
         .btn-unlock:hover { transform: scale(1.05); background: #fff; }
+
+        /* Consola de debug interna de audio */
+        #audio-debug-bar {
+            background: #2a1b1b; color: #ff5252; font-size: 0.8rem; font-family: monospace;
+            padding: 8px; width: 100%; text-align: center; border-bottom: 1px solid #ff000033;
+            display: none; box-sizing: border-box;
+        }
     </style>
 </head>
 <body>
 
+    <!-- BARRA INTERNA DE ERRORES AUTOMÁTICOS -->
+    <div id="audio-debug-bar"></div>
+
+    <!-- REPRODUCTOR DE AUDIO CORREGIDO PARA GITHUB PAGES -->
     <audio id="introAudio" loop preload="auto">
         <source src="daidai.mp3" type="audio/mpeg">
     </audio>
@@ -175,9 +186,9 @@
     <div class="container">
         
         <div id="audio-unlocker">
-            <div style="font-weight: 800; font-size: 1.2rem; font-family: 'Oswald';">🎵 EXPERIENCIA RÍTMICA SDJ [72s]</div>
+            <div id="unlocker-title" style="font-weight: 800; font-size: 1.2rem; font-family: 'Oswald';">🎵 EXPERIENCIA RÍTMICA SDJ [72s]</div>
             <div style="font-size: 0.9rem; opacity: 0.9;">Haz clic abajo para arrancar el show adaptado al ritmo de daidai.mp3 (Luces suavizadas y seguras).</div>
-            <button class="btn-unlock" onclick="startShow()">⚡ INICIAR SHOW MUSIC</button>
+            <button class="btn-unlock" id="mainPlayBtn" onclick="startShow()">⚡ INICIAR SHOW MUSIC</button>
         </div>
 
         <h1 style="margin-top: 30px;">SDJ COMMAND CENTER</h1>
@@ -203,6 +214,7 @@
             </div>
         </div>
 
+        <!-- SECCIÓN MUNDIAL -->
         <div class="category-section" id="sec-mundial">
             <div class="category-title" style="border-color: #f1c40f; color: #f1c40f;">🏆 Mundial de Fútbol</div>
             <div style="display: block; width: 100%;">
@@ -223,6 +235,7 @@
             </div>
         </div>
 
+        <!-- SECCIÓN MOTOR -->
         <div class="category-section" id="sec-motor">
             <div class="category-title cat-motor">🏎️ Deportes de Motor</div>
             <div class="grid">
@@ -250,6 +263,7 @@
             </div>
         </div>
 
+        <!-- SECCIÓN FÚTBOL -->
         <div class="category-section" id="sec-futbol">
             <div class="category-title cat-futbol">⚽ Fútbol</div>
             <div class="grid">
@@ -298,6 +312,7 @@
             </div>
         </div>
 
+        <!-- SECCIÓN DEPORTES -->
         <div class="category-section" id="sec-deportes">
             <div class="category-title cat-deportes">🏅 Otros Deportes</div>
             <div class="grid">
@@ -353,6 +368,7 @@
             </div>
         </div>
 
+        <!-- SECCIÓN USA -->
         <div class="category-section" id="sec-usa">
             <div class="category-title cat-usa">🏀 Deportes USA</div>
             <div class="grid">
@@ -373,6 +389,7 @@
             </div>
         </div>
 
+        <!-- SECCIÓN FUN -->
         <div class="category-section" id="sec-fun">
             <div class="category-title cat-fun">🎭 Entretenimiento</div>
             <div class="grid">
@@ -394,12 +411,13 @@
         </div>
     </div>
 
+    <!-- VENTANA MODAL -->
     <div class="modal-overlay" id="modalUpdates" onclick="toggleModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <h2 style="font-family: 'Oswald'; color: var(--accent-neon); margin-top: 0;">HISTORIAL DE CAMBIOS</h2>
             <div style="border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 10px;">
                 <div style="font-weight: 800; font-size: 0.8rem; color: var(--fav-gold);">15/4/26 - VERSIÓN 3.5</div>
-                <div style="font-size: 0.9rem; opacity: 0.8;">• Sky Sports F1 y Liga de Campeones 2 añadidos.</div>
+                <div style="font-size: 0.9rem; opacity: 0.8;">• Corrección de ruteo de audio absoluto para servidores Linux (GitHub Pages) y barra inteligente de debug incorporada.</div>
             </div>
             <button onclick="toggleModal()" class="a-btn a-play" style="width:100%; padding:15px; margin-top:20px">ENTENDIDO</button>
         </div>
@@ -412,53 +430,86 @@
         let showOnlyFavs = false;
         let mainLoop, beatLoop;
 
+        // INYECCIÓN DE RUTA ABSOLUTA AUTOMÁTICA DETECTANDO GITHUB PAGES
+        window.addEventListener('DOMContentLoaded', () => {
+            const audioEl = document.getElementById('introAudio');
+            const debugBar = document.getElementById('audio-debug-bar');
+            
+            // Corrige la ruta calculando la dirección exacta del repositorio de GitHub
+            let currentPath = window.location.pathname;
+            if (!currentPath.endsWith('/')) {
+                currentPath = currentPath.substring(0, currentPath.lastIndexOf('/') + 1);
+            }
+            const correctAudioUrl = window.location.origin + currentPath + "daidai.mp3";
+            
+            // Asignar la ruta limpia sin interferencias del navegador
+            audioEl.src = correctAudioUrl;
+            audioEl.load();
+
+            // Capturador de fallas crítico (Nos avisa si el archivo falta en GitHub)
+            audioEl.addEventListener('error', (e) => {
+                debugBar.style.display = "block";
+                debugBar.innerText = "❌ ERROR GITHUB PAGES: No se encuentra el archivo 'daidai.mp3' en tu repositorio o el nombre tiene mayúsculas diferentes.";
+            });
+        });
+
         function startShow() {
             const audio = document.getElementById('introAudio');
             const bgOverlay = document.getElementById('theater-bg-overlay');
             const fxContainer = document.getElementById('fxContainer');
             const strobe = document.getElementById('beatStrobe');
             const shake = document.getElementById('shakeWrapper');
+            const debugBar = document.getElementById('audio-debug-bar');
             
             const colors = ['rgba(0,243,255,0.13)', 'rgba(255,0,170,0.13)', 'rgba(255,234,0,0.13)', 'rgba(0,255,102,0.13)'];
             const confettiColors = ['#00f3ff', '#ff00aa', '#ffea00', '#00ff66', '#ffffff'];
             const runTime = 72000; 
 
-            document.getElementById('audio-unlocker').style.display = 'none';
-            bgOverlay.style.display = 'block';
+            // Reiniciar barra por si acaso
+            debugBar.style.display = "none";
 
-            audio.play().catch(err => console.log("Audio block bypass:", err));
+            // Forzar play con captura de políticas del navegador
+            audio.play().then(() => {
+                document.getElementById('audio-unlocker').style.display = 'none';
+                bgOverlay.style.display = 'block';
 
-            mainLoop = setInterval(() => {
-                createObject(fxContainer, confettiColors);
-            }, 110);
+                mainLoop = setInterval(() => {
+                    createObject(fxContainer, confettiColors);
+                }, 110);
 
-            let beatCount = 0;
-            beatLoop = setInterval(() => {
-                beatCount++;
-                
-                strobe.style.opacity = "1";
-                strobe.style.backgroundColor = colors[beatCount % colors.length];
-                setTimeout(() => { strobe.style.opacity = "0"; }, 130);
+                let beatCount = 0;
+                beatLoop = setInterval(() => {
+                    beatCount++;
+                    
+                    strobe.style.opacity = "1";
+                    strobe.style.backgroundColor = colors[beatCount % colors.length];
+                    setTimeout(() => { strobe.style.opacity = "0"; }, 130);
 
-                const sx = (Math.random() - 0.5) * 6;
-                const sy = (Math.random() - 0.5) * 6;
-                shake.style.transform = `translate(${sx}px, ${sy}px)`;
-                setTimeout(() => { shake.style.transform = 'none'; }, 100);
+                    const sx = (Math.random() - 0.5) * 6;
+                    const sy = (Math.random() - 0.5) * 6;
+                    shake.style.transform = `translate(${sx}px, ${sy}px)`;
+                    setTimeout(() => { shake.style.transform = 'none'; }, 100);
 
-                if (beatCount % 4 === 0) {
-                    for(let i=0; i<6; i++) {
-                        createObject(fxContainer, confettiColors, true);
+                    if (beatCount % 4 === 0) {
+                        for(let i=0; i<6; i++) {
+                            createObject(fxContainer, confettiColors, true);
+                        }
                     }
-                }
-            }, 430); 
+                }, 430); 
 
-            setTimeout(() => {
-                clearInterval(mainLoop);
-                clearInterval(beatLoop);
-                bgOverlay.style.display = 'none';
-                audio.pause();
-                audio.currentTime = 0;
-            }, runTime);
+                setTimeout(() => {
+                    clearInterval(mainLoop);
+                    clearInterval(beatLoop);
+                    bgOverlay.style.display = 'none';
+                    audio.pause();
+                    audio.currentTime = 0;
+                }, runTime);
+
+            }).catch(err => {
+                debugBar.style.display = "block";
+                debugBar.innerText = "⚠️ EL NAVEGADOR BLOQUEÓ EL AUDIO: Haz click de nuevo o revisa los permisos de sonido en el candado de la URL.";
+                console.error("Audio error details: ", err);
+            });
         }
 
         function createObject(container, colors, explosion = false) {
