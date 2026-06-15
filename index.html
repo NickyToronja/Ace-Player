@@ -35,7 +35,7 @@
         .container { width: 100%; max-width: 1200px; padding: 30px 20px; box-sizing: border-box; z-index: 10; }
         h1 { font-family: 'Oswald'; font-size: 3rem; text-align: center; margin: 0 0 20px 0; letter-spacing: 2px; }
 
-        .controls-wrapper { display: flex; flex-direction: column; gap: 20px; align-items: center; margin-bottom: 50px; }
+        .controls-wrapper { display: flex; flex-direction: column; gap: 20px; align-items: center; margin-bottom: 50px; width: 100%; }
         .search-input {
             width: 100%; max-width: 600px; padding: 15px 25px; border-radius: 30px; border: 2px solid #333;
             background: var(--card-bg); color: white; font-size: 1rem; outline: none; transition: 0.3s;
@@ -56,9 +56,9 @@
         .btn-ace-search { background: var(--Ace-search); color: #000; }
 
         #help-banner {
-            display: none; width: 100%; max-width: 1100px;
+            display: none; width: 100%; max-width: 1100px; box-sizing: border-box;
             background: linear-gradient(135deg, rgba(180, 221, 30, 0.15) 25%, transparent 25%, transparent 50%, rgba(180, 221, 30, 0.15) 50%, rgba(180, 221, 30, 0.15) 75%, transparent 75%, transparent);
-            background-size: 40px 40px; border: 2px dashed var(--Ace-search); border-radius: 25px; padding: 20px; margin-bottom: 20px; text-align: center; animation: fadeIn 0.5s ease forwards;
+            background-size: 40px 40px; border: 2px dashed var(--Ace-search); border-radius: 25px; padding: 20px; text-align: center; animation: fadeIn 0.5s ease forwards;
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -78,7 +78,7 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
         .card { background: var(--card-bg); border-radius: 24px; overflow: hidden; border: 1px solid #222; transition: var(--transition); position: relative; }
         .card:hover { transform: translateY(-5px); border-color: #444; }
-        .fav-btn { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6); border: none; color: #fff; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 5; transition: 0.3s; }
+        .fav-btn { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6); border: none; color: #fff; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 5; transition: 0.3s; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
         .fav-btn.is-fav { color: var(--fav-gold); }
         .card-img { height: 100px; display: flex; align-items: center; justify-content: center; font-size: 3rem; border-bottom: 1px solid #222; }
         .card-body { padding: 20px; }
@@ -90,9 +90,10 @@
         .a-copy { background: #333; }
 
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 200; justify-content: center; align-items: center; }
-        .modal-content { background: #1a1a20; width: 90%; max-width: 500px; border-radius: 25px; border: 2px solid var(--accent-neon); padding: 30px; position: relative; max-height: 80vh; overflow-y: auto; }
+        .modal-content { background: #1a1a20; width: 90%; max-width: 500px; border-radius: 25px; border: 2px solid var(--accent-neon); padding: 30px; position: relative; max-height: 80vh; overflow-y: auto; color: white; }
+        .modal-close { position: absolute; top: 15px; right: 20px; background: transparent; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
         
-        #toast { visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: white; color: black; padding: 12px 30px; border-radius: 50px; font-weight: 800; z-index: 1000; }
+        #toast { visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: white; color: black; padding: 12px 30px; border-radius: 50px; font-weight: 800; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
         #toast.show { visibility: visible; animation: slideIn 0.4s; }
         @keyframes slideIn { from { bottom: -50px; opacity: 0; } to { bottom: 30px; opacity: 1; } }
 
@@ -140,7 +141,7 @@
         #audio-unlocker {
             width: 100%; max-width: 1100px; margin: 20px auto 0 auto;
             background: linear-gradient(90deg, var(--accent-neon), #44337a);
-            border-radius: 20px; padding: 20px; text-align: center;
+            border-radius: 20px; padding: 20px; text-align: center; box-sizing: border-box;
             box-shadow: 0 0 20px rgba(127,90,240,0.4); display: flex; 
             flex-direction: column; align-items: center; justify-content: center; gap: 10px;
         }
@@ -197,7 +198,9 @@
                     ⚠️ ¿Problemas con un canal?
                 </div>
                 <div style="color: #ccc; font-size: 0.95rem;">
-                    Usa la web de búsqueda, descarga el archivo <b style="color:white">.m3u</b>, haz <b style="color:white">click derecho</b> sobre él y selecciona <b style="color:var(--Ace-search)">"Abrir con Ace Player"</b>.
+                    <a href="https://asesearch.vercel.app/" target="_blank" style="color: #00f3ff; font-weight: bold; text-decoration: underline; cursor: pointer;">
+                        Usa la web de búsqueda
+                    </a>, descarga el archivo <b style="color:white">.m3u</b>, haz <b style="color:white">click derecho</b> sobre él y selecciona <b style="color:white">"Abrir con Ace Player"</b>.
                 </div>
             </div>
 
@@ -212,10 +215,10 @@
             </div>
         </div>
 
+        <!-- CATEGORÍAS -->
         <div class="category-section" id="sec-mundial">
             <div class="category-title cat-mundial">🏆 Mundial de Fútbol</div>
             <div class="grid">
-                
                 <div class="card" data-id="mundial-futbol-1">
                     <button class="fav-btn" onclick="toggleFav('mundial-futbol-1')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #001e4e, #f1c40f);">
@@ -260,7 +263,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
 
@@ -271,7 +273,7 @@
                     <button class="fav-btn" onclick="toggleFav('f1-dazn')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #e10600, #000);">🏎️</div>
                     <div class="card-body"><span class="card-tag">Motor</span><h3 class="card-title">Fórmula 1 (DAZN)</h3>
-                        <div class="action-box"><a href="acestream://d65257bb934b73647374224fd62d836815804be2 " class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('d65257bb934b73647374224fd62d836815804be2 ', 'F1')">ID</button></div>
+                        <div class="action-box"><a href="acestream://d65257bb934b73647374224fd62d836815804be2" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('d65257bb934b73647374224fd62d836815804be2', 'F1')">ID</button></div>
                     </div>
                 </div>
                 <div class="card" data-id="f1-sky">
@@ -436,240 +438,203 @@
 
     </div>
 
+    <!-- MODAL DE CAMBIOS -->
+    <div class="modal-overlay" id="updatesModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="toggleModal()">&times;</button>
+            <h2 style="font-family: 'Oswald'; color: var(--accent-neon);">🆕 NOTAS DE ACTUALIZACIÓN</h2>
+            <hr style="border-color: #333; margin-bottom: 15px;">
+            <ul style="padding-left: 20px; line-height: 1.6;">
+                <li>Integración directa con el buscador alternativo <b>Asesearch</b>.</li>
+                <li>Sistema de favoritos dinámico guardado en el navegador de manera local.</li>
+                <li>Show de luces rítmicas optimizado y reactivo.</li>
+                <li>Corrección general de enlaces y accesibilidad.</li>
+            </ul>
+        </div>
+    </div>
+
     <div id="toast">Copiado al portapapeles</div>
 
-<!-- Insertar este bloque de JavaScript justo antes de la etiqueta </body> -->
     <script>
         // Configuración y variables del Show Rítmico
         let audioContext, analyser, dataArray, bufferLength;
         let isPlaying = false;
+        let favFilterActive = false;
+        let favoritos = JSON.parse(localStorage.getItem('sdj_favoritos')) || [];
+        
         const audio = document.getElementById('introAudio');
         const debugBar = document.getElementById('audio-debug-bar');
 
         function startShow() {
             if (isPlaying) return;
 
-            // Intentar reproducir el audio
             audio.play().then(() => {
                 isPlaying = true;
                 document.getElementById('audio-unlocker').style.display = 'none';
                 document.getElementById('theater-bg-overlay').style.display = 'block';
                 
-                // Inicializar Web Audio API para capturar el ritmo
                 initAudioFX();
                 createConfetti();
             }).catch(err => {
                 debugBar.style.display = 'block';
-                debugBar.innerText = "Error al iniciar audio: Asegúrate de que 'daidai.mp3' está en la misma carpeta. " + err;
+                debugBar.innerText = "Error al iniciar audio de forma automática. Código: " + err.message;
             });
         }
 
         function initAudioFX() {
             try {
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const source = audioContext.createMediaElementSource(audio);
+                const src = audioContext.createMediaElementSource(audio);
                 analyser = audioContext.createAnalyser();
                 
-                source.connect(analyser);
+                src.connect(analyser);
                 analyser.connect(audioContext.destination);
                 
                 analyser.fftSize = 64;
                 bufferLength = analyser.frequencyBinCount;
                 dataArray = new Uint8Array(bufferLength);
                 
-                // Lanzar bucle de renderizado visual
-                renderFrame();
-            } catch (e) {
-                console.log("AudioContext no soportado o bloqueado en local.", e);
-                // Modo simulación por si falla la API de audio en navegadores estrictos
-                setInterval(simulateBeat, 120);
+                analizarRitmo();
+            } catch(e) {
+                console.log("Web Audio API no soportada o bloqueada.", e);
             }
         }
 
-        function renderFrame() {
+        function analizarRitmo() {
             if (!isPlaying) return;
-            requestAnimationFrame(renderFrame);
-
+            requestAnimationFrame(analizarRitmo);
+            
             analyser.getByteFrequencyData(dataArray);
             
-            // Calculamos el volumen promedio de las frecuencias bajas (ritmo/bass)
-            let bassSum = 0;
-            for(let i = 0; i < 4; i++) {
-                bassSum += dataArray[i];
-            }
-            let bassLevel = bassSum / 4; // Escala 0 a 255
-
-            // Aplicar efectos visuales basados en la potencia del sonido
+            let bajos = dataArray[1] || 0; 
+            let medios = dataArray[5] || 0; 
+            
             const strobe = document.getElementById('beatStrobe');
-            const shake = document.getElementById('shakeWrapper');
-
-            if (bassLevel > 180) { // Golpe fuerte de batería/ritmo
-                strobe.style.opacity = (bassLevel / 255) * 0.4;
-                shake.style.transform = `translate(${(Math.random()-0.5)*10}px, ${(Math.random()-0.5)*10}px) scale(1.02)`;
+            if (bajos > 190) {
+                strobe.style.opacity = (bajos - 140) / 115;
+                document.getElementById('shakeWrapper').style.transform = `scale(${1 + (bajos/2000)}) translate(${(Math.random()-0.5)*4}px, ${(Math.random()-0.5)*4}px)`;
             } else {
-                strobe.style.opacity = strobe.style.opacity * 0.9; // Desvanecimiento suave
-                shake.style.transform = 'translate(0,0) scale(1)';
+                strobe.style.opacity = strobe.style.opacity * 0.8;
+                document.getElementById('shakeWrapper').style.transform = "scale(1) translate(0,0)";
             }
-        }
-
-        function simulateBeat() {
-            const strobe = document.getElementById('beatStrobe');
-            strobe.style.opacity = 0.3;
-            setTimeout(() => strobe.style.opacity = 0, 80);
         }
 
         function createConfetti() {
             const container = document.getElementById('fxContainer');
+            if (!container) return;
             const colors = ['#00f3ff', '#ff00aa', '#ffea00', '#7f5af0'];
             
             setInterval(() => {
                 if (!isPlaying) return;
                 const conf = document.createElement('div');
-                conf.className = 'falling-item confetti';
+                conf.classList.add('falling-item', 'confetti');
                 conf.style.left = Math.random() * 100 + 'vw';
                 conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
                 conf.style.animationDuration = (Math.random() * 2 + 2) + 's';
                 container.appendChild(conf);
                 
                 setTimeout(() => conf.remove(), 4000);
-            }, 300);
+            }, 250);
         }
 
-        // Funciones del Buscador y Utilidades básicas
-        function filterChannels() {
-            let input = document.getElementById('searchInput').value.toLowerCase();
-            let cards = document.getElementsByClassName('card');
-            let sections = document.getElementsByClassName('category-section');
-
-            for (let card of cards) {
-                let title = card.querySelector('.card-title').innerText.toLowerCase();
-                let tag = card.querySelector('.card-tag').innerText.toLowerCase();
-                if (title.includes(input) || tag.includes(input)) {
-                    card.style.display = "block";
-                } else {
-                    card.style.display = "none";
-                }
-            }
+        // Sistema de Banner Auxiliar
+        function activarBusqueda() {
+            const banner = document.getElementById('help-banner');
+            banner.style.display = (banner.style.display === 'block') ? 'none' : 'block';
         }
 
-        function copyId(id, channelName) {
+        // Copiar IDs al portapapeles
+        function copyId(id, nombre) {
             navigator.clipboard.writeText(id).then(() => {
                 const toast = document.getElementById('toast');
-                toast.innerText = `¡ID de ${channelName} copiado!`;
+                toast.innerText = `ID de ${nombre} copiado`;
                 toast.classList.add('show');
                 setTimeout(() => toast.classList.remove('show'), 2500);
+            }).catch(err => {
+                alert('No se pudo copiar el ID automáticamente.');
             });
         }
 
-        function activarBusqueda() {
-            const banner = document.getElementById('help-banner');
-            banner.style.display = banner.style.display === 'block' ? 'none' : 'block';
+        // Alternar Modal de Cambios
+        function toggleModal() {
+            const modal = document.getElementById('updatesModal');
+            modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
         }
 
-        function toggleModal() {
-            alert("SDJ Center Pro v3.2.8\n\n- Añadida agrupación limpia para los streams del Mundial.\n- Optimización rítmica integrada.");
+        // Filtrado de Canales en directo (Buscador)
+        function filterChannels() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.card');
+            
+            cards.forEach(card => {
+                const title = card.querySelector('.card-title').innerText.toLowerCase();
+                const tag = card.querySelector('.card-tag').innerText.toLowerCase();
+                
+                let matchesSearch = title.includes(query) || tag.includes(query);
+                let matchesFav = !favFilterActive || favoritos.includes(card.getAttribute('data-id'));
+                
+                if (matchesSearch && matchesFav) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            actualizarVisibilidadSecciones();
+        }
+
+        // Gestión del Sistema de Favoritos
+        function toggleFav(id) {
+            const index = favoritos.indexOf(id);
+            if (index > -1) {
+                favoritos.splice(index, 1);
+            } else {
+                favoritos.push(id);
+            }
+            localStorage.setItem('sdj_favoritos', JSON.stringify(favoritos));
+            renderFavs();
+            if (favFilterActive) filterChannels();
+        }
+
+        function renderFavs() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                const id = card.getAttribute('data-id');
+                const btn = card.querySelector('.fav-btn');
+                if (favoritos.includes(id)) {
+                    btn.classList.add('is-fav');
+                } else {
+                    btn.classList.remove('is-fav');
+                }
+            });
         }
 
         function toggleFavFilter() {
-            document.getElementById('favFilterBtn').classList.toggle('active');
-            alert("Filtrado de favoritos en desarrollo.");
-        }
-
-        function toggleFav(id) {
-            event.target.classList.toggle('is-fav');
-        }
-// ================= SISTEMA DE FAVORITOS REAL (localStorage) =================
-
-// Al cargar la página, recuperamos y aplicamos los favoritos guardados
-document.addEventListener("DOMContentLoaded", () => {
-    const savedFavs = JSON.parse(localStorage.getItem('sdj_favorites')) || [];
-    savedFavs.forEach(id => {
-        const card = document.querySelector(`.card[data-id="${id}"]`);
-        if (card) {
-            const btn = card.querySelector('.fav-btn');
-            if (btn) btn.classList.add('is-fav');
-        }
-    });
-});
-
-// Función para añadir/quitar de favoritos al pulsar la estrella de una tarjeta
-function toggleFav(id) {
-    // Evitamos que al pulsar la estrella se ejecuten otras acciones de la tarjeta
-    if (event) event.stopPropagation(); 
-    
-    const btn = event.target;
-    btn.classList.toggle('is-fav');
-    
-    // Leer lo que ya tenemos guardado
-    let savedFavs = JSON.parse(localStorage.getItem('sdj_favorites')) || [];
-    
-    if (btn.classList.contains('is-fav')) {
-        // Si tiene la clase, lo añadimos si no existía ya
-        if (!savedFavs.includes(id)) savedFavs.push(id);
-    } else {
-        // Si no la tiene, lo eliminamos de la lista
-        savedFavs = savedFavs.filter(favId => favId !== id);
-    }
-    
-    // Guardar la lista actualizada en el navegador
-    localStorage.setItem('sdj_favorites', JSON.stringify(savedFavs));
-    
-    // Si el filtro de favoritos está activo en este momento, actualizamos la vista de inmediato
-    if (document.getElementById('favFilterBtn').classList.contains('active')) {
-        aplicarFiltroFavoritos();
-    }
-}
-
-// Función para el botón del menú superior (Activar/Desactivar el filtro)
-function toggleFavFilter() {
-    const filterBtn = document.getElementById('favFilterBtn');
-    filterBtn.classList.toggle('active');
-    aplicarFiltroFavoritos();
-}
-
-// Lógica que oculta o muestra las tarjetas según si son favoritas o no
-function aplicarFiltroFavoritos() {
-    const filterActive = document.getElementById('favFilterBtn').classList.contains('active');
-    const cards = document.getElementsByClassName('card');
-    const sections = document.getElementsByClassName('category-section');
-
-    for (let card of cards) {
-        const isFav = card.querySelector('.fav-btn').classList.contains('is-fav');
-        
-        if (filterActive) {
-            // Si el filtro está activado, solo se muestra lo que sea favorito
-            card.style.display = isFav ? "block" : "none";
-        } else {
-            // Si se desactiva el filtro, volvemos a mostrar todo (o respetamos el buscador si hay texto)
-            const input = document.getElementById('searchInput').value.toLowerCase();
-            const title = card.querySelector('.card-title').innerText.toLowerCase();
-            const tag = card.querySelector('.card-tag').innerText.toLowerCase();
-            
-            if (title.includes(input) || tag.includes(input)) {
-                card.style.display = "block";
+            favFilterActive = !favFilterActive;
+            const btn = document.getElementById('favFilterBtn');
+            if (favFilterActive) {
+                btn.classList.add('active');
             } else {
-                card.style.display = "none";
+                btn.classList.remove('active');
             }
+            filterChannels();
         }
-    }
 
-    // Ocultar secciones enteras si se quedan vacías al filtrar (para que quede más limpio)
-    for (let section of sections) {
-        const visibleCards = section.querySelectorAll('.card[style="display: block;"]').length;
-        const totalCards = section.querySelectorAll('.card').length;
-        
-        // Si el buscador o filtro está vacío, style.display suele estar en blanco ("") lo que significa visible
-        const checkHidden = Array.from(section.querySelectorAll('.card')).every(c => c.style.display === "none");
-        
-        if (checkHidden) {
-            section.style.display = "none";
-        } else {
-            section.style.display = "block";
+        function actualizarVisibilidadSecciones() {
+            const secciones = document.querySelectorAll('.category-section');
+            secciones.forEach(sec => {
+                const cards = sec.querySelectorAll('.card');
+                let tieneVisibles = false;
+                cards.forEach(c => {
+                    if (c.style.display !== 'none') tieneVisibles = true;
+                });
+                sec.style.display = tieneVisibles ? 'block' : 'none';
+            });
         }
-    }
-}
 
+        // Carga Inicial
+        window.addEventListener('DOMContentLoaded', () => {
+            renderFavs();
+        });
     </script>
-
 </body>
 </html>
