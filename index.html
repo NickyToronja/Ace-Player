@@ -578,6 +578,97 @@
         function toggleFav(id) {
             event.target.classList.toggle('is-fav');
         }
+// ================= SISTEMA DE FAVORITOS REAL (localStorage) =================
+
+// Al cargar la página, recuperamos y aplicamos los favoritos guardados
+document.addEventListener("DOMContentLoaded", () => {
+    const savedFavs = JSON.parse(localStorage.getItem('sdj_favorites')) || [];
+    savedFavs.forEach(id => {
+        const card = document.querySelector(`.card[data-id="${id}"]`);
+        if (card) {
+            const btn = card.querySelector('.fav-btn');
+            if (btn) btn.classList.add('is-fav');
+        }
+    });
+});
+
+// Función para añadir/quitar de favoritos al pulsar la estrella de una tarjeta
+function toggleFav(id) {
+    // Evitamos que al pulsar la estrella se ejecuten otras acciones de la tarjeta
+    if (event) event.stopPropagation(); 
+    
+    const btn = event.target;
+    btn.classList.toggle('is-fav');
+    
+    // Leer lo que ya tenemos guardado
+    let savedFavs = JSON.parse(localStorage.getItem('sdj_favorites')) || [];
+    
+    if (btn.classList.contains('is-fav')) {
+        // Si tiene la clase, lo añadimos si no existía ya
+        if (!savedFavs.includes(id)) savedFavs.push(id);
+    } else {
+        // Si no la tiene, lo eliminamos de la lista
+        savedFavs = savedFavs.filter(favId => favId !== id);
+    }
+    
+    // Guardar la lista actualizada en el navegador
+    localStorage.setItem('sdj_favorites', JSON.stringify(savedFavs));
+    
+    // Si el filtro de favoritos está activo en este momento, actualizamos la vista de inmediato
+    if (document.getElementById('favFilterBtn').classList.contains('active')) {
+        aplicarFiltroFavoritos();
+    }
+}
+
+// Función para el botón del menú superior (Activar/Desactivar el filtro)
+function toggleFavFilter() {
+    const filterBtn = document.getElementById('favFilterBtn');
+    filterBtn.classList.toggle('active');
+    aplicarFiltroFavoritos();
+}
+
+// Lógica que oculta o muestra las tarjetas según si son favoritas o no
+function aplicarFiltroFavoritos() {
+    const filterActive = document.getElementById('favFilterBtn').classList.contains('active');
+    const cards = document.getElementsByClassName('card');
+    const sections = document.getElementsByClassName('category-section');
+
+    for (let card of cards) {
+        const isFav = card.querySelector('.fav-btn').classList.contains('is-fav');
+        
+        if (filterActive) {
+            // Si el filtro está activado, solo se muestra lo que sea favorito
+            card.style.display = isFav ? "block" : "none";
+        } else {
+            // Si se desactiva el filtro, volvemos a mostrar todo (o respetamos el buscador si hay texto)
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const title = card.querySelector('.card-title').innerText.toLowerCase();
+            const tag = card.querySelector('.card-tag').innerText.toLowerCase();
+            
+            if (title.includes(input) || tag.includes(input)) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        }
+    }
+
+    // Ocultar secciones enteras si se quedan vacías al filtrar (para que quede más limpio)
+    for (let section of sections) {
+        const visibleCards = section.querySelectorAll('.card[style="display: block;"]').length;
+        const totalCards = section.querySelectorAll('.card').length;
+        
+        // Si el buscador o filtro está vacío, style.display suele estar en blanco ("") lo que significa visible
+        const checkHidden = Array.from(section.querySelectorAll('.card')).every(c => c.style.display === "none");
+        
+        if (checkHidden) {
+            section.style.display = "none";
+        } else {
+            section.style.display = "block";
+        }
+    }
+}
+
     </script>
 
 </body>
