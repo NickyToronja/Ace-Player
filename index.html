@@ -68,6 +68,7 @@
             display: flex; align-items: center; gap: 15px; margin-bottom: 25px;
             padding-left: 15px; border-left: 5px solid var(--accent-neon);
         }
+        .cat-mundial { border-color: #f1c40f; color: #f1c40f; }
         .cat-motor { border-color: var(--f1-red); color: var(--f1-red); }
         .cat-futbol { border-color: var(--foot-green); color: var(--foot-green); }
         .cat-deportes { border-color: var(--movistar-blue); color: var(--movistar-blue); }
@@ -151,7 +152,6 @@
         }
         .btn-unlock:hover { transform: scale(1.05); background: #fff; }
 
-        /* Consola de debug interna de audio */
         #audio-debug-bar {
             background: #2a1b1b; color: #ff5252; font-size: 0.8rem; font-family: monospace;
             padding: 8px; width: 100%; text-align: center; border-bottom: 1px solid #ff000033;
@@ -161,10 +161,8 @@
 </head>
 <body>
 
-    <!-- BARRA INTERNA DE ERRORES AUTOMÁTICOS -->
     <div id="audio-debug-bar"></div>
 
-    <!-- REPRODUCTOR DE AUDIO CORREGIDO PARA GITHUB PAGES -->
     <audio id="introAudio" loop preload="auto">
         <source src="daidai.mp3" type="audio/mpeg">
     </audio>
@@ -214,68 +212,58 @@
             </div>
         </div>
 
-        <!-- SECCIÓN MUNDIAL -->
         <div class="category-section" id="sec-mundial">
-            <div class="category-title" style="border-color: #f1c40f; color: #f1c40f;">🏆 Mundial de Fútbol</div>
-            <div style="display: block; width: 100%;">
-                <div class="card" data-id="mundial-futbol" style="max-width: 600px; margin: 0 auto;">
-                    <button class="fav-btn" onclick="toggleFav('mundial-futbol')">★</button>
-                    <div class="card-img" style="background: linear-gradient(45deg, #001e4e, #f1c40f); height: 180px;">
-                        <img src="world.png" alt="Mundial" style="height: 85%; width: auto; object-fit: contain; filter: drop-shadow(0px 5px 10px rgba(0,0,0,0.5));">
+            <div class="category-title cat-mundial">🏆 Mundial de Fútbol</div>
+            <div class="grid">
+                
+                <div class="card" data-id="mundial-futbol-1">
+                    <button class="fav-btn" onclick="toggleFav('mundial-futbol-1')">★</button>
+                    <div class="card-img" style="background: linear-gradient(45deg, #001e4e, #f1c40f);">
+                        <img src="world.png" alt="Mundial" style="height: 80%; width: auto; object-fit: contain; filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.5));">
                     </div>
-                    <div class="card-body" style="padding: 25px; text-align: center;">
-                        <span class="card-tag" style="color: #f1c40f; font-size: 0.85rem;">FIFA World Cup</span>
-                        <h3 class="card-title" style="font-size: 1.5rem; margin-bottom: 20px;">Copa Mundial de la FIFA</h3>
-                        <div class="action-box" style="gap: 15px;">
-                            <a href="acestream://ccfde4bc75d14c79dd09af72434568a0e732d507" class="a-btn a-play" style="padding: 15px; font-size: 0.9rem;">Abrir Stream</a>
-                            <button class="a-btn a-copy" onclick="copyId('ccfde4bc75d14c79dd09af72434568a0e732d507', 'Mundial de Fútbol')" style="padding: 15px; font-size: 0.9rem; max-width: 100px;">ID</button>
+                    <div class="card-body">
+                        <span class="card-tag" style="color: #f1c40f;">FIFA World Cup</span>
+                        <h3 class="card-title">Copa Mundial de la FIFA 1</h3>
+                        <div class="action-box">
+                            <a href="acestream://ccfde4bc75d14c79dd09af72434568a0e732d507" class="a-btn a-play">Abrir</a>
+                            <button class="a-btn a-copy" onclick="copyId('ccfde4bc75d14c79dd09af72434568a0e732d507', 'Mundial de Fútbol 1')">ID</button>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="category-section" id="sec-mundial">
-            <div class="category-title" style="border-color: #f1c40f; color: #f1c40f;">🏆 Mundial de Fútbol 2</div>
-            <div style="display: block; width: 100%;">
-                <div class="card" data-id="mundial-futbol" style="max-width: 600px; margin: 0 auto;">
-                    <button class="fav-btn" onclick="toggleFav('mundial-futbol')">★</button>
-                    <div class="card-img" style="background: linear-gradient(45deg, #001e4e, #f1c40f); height: 180px;">
-                        <img src="world.png" alt="Mundial" style="height: 85%; width: auto; object-fit: contain; filter: drop-shadow(0px 5px 10px rgba(0,0,0,0.5));">
+                <div class="card" data-id="mundial-futbol-2">
+                    <button class="fav-btn" onclick="toggleFav('mundial-futbol-2')">★</button>
+                    <div class="card-img" style="background: linear-gradient(45deg, #001e4e, #f1c40f);">
+                        <img src="world.png" alt="Mundial" style="height: 80%; width: auto; object-fit: contain; filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.5));">
                     </div>
-                    <div class="card-body" style="padding: 25px; text-align: center;">
-                        <span class="card-tag" style="color: #f1c40f; font-size: 0.85rem;">FIFA World Cup</span>
-                        <h3 class="card-title" style="font-size: 1.5rem; margin-bottom: 20px;">Copa Mundial de la FIFA</h3>
-                        <div class="action-box" style="gap: 15px;">
-                            <a href="acestream://dac18df259f44258d81aa8f31cb343bb837f5ac7" class="a-btn a-play" style="padding: 15px; font-size: 0.9rem;">Abrir Stream</a>
-                            <button class="a-btn a-copy" onclick="copyId('dac18df259f44258d81aa8f31cb343bb837f5ac7', 'Mundial de Fútbol')" style="padding: 15px; font-size: 0.9rem; max-width: 100px;">ID</button>
+                    <div class="card-body">
+                        <span class="card-tag" style="color: #f1c40f;">FIFA World Cup</span>
+                        <h3 class="card-title">Copa Mundial de la FIFA 2</h3>
+                        <div class="action-box">
+                            <a href="acestream://dac18df259f44258d81aa8f31cb343bb837f5ac7" class="a-btn a-play">Abrir</a>
+                            <button class="a-btn a-copy" onclick="copyId('dac18df259f44258d81aa8f31cb343bb837f5ac7', 'Mundial de Fútbol 2')">ID</button>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-          <div class="category-section" id="sec-mundial">
-            <div class="category-title" style="border-color: #f1c40f; color: #f1c40f;">🏆 Mundial de Fútbol 3</div>
-            <div style="display: block; width: 100%;">
-                <div class="card" data-id="mundial-futbol" style="max-width: 600px; margin: 0 auto;">
-                    <button class="fav-btn" onclick="toggleFav('mundial-futbol')">★</button>
-                    <div class="card-img" style="background: linear-gradient(45deg, #001e4e, #f1c40f); height: 180px;">
-                        <img src="world.png" alt="Mundial" style="height: 85%; width: auto; object-fit: contain; filter: drop-shadow(0px 5px 10px rgba(0,0,0,0.5));">
+                <div class="card" data-id="mundial-futbol-3">
+                    <button class="fav-btn" onclick="toggleFav('mundial-futbol-3')">★</button>
+                    <div class="card-img" style="background: linear-gradient(45deg, #001e4e, #f1c40f);">
+                        <img src="world.png" alt="Mundial" style="height: 80%; width: auto; object-fit: contain; filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.5));">
                     </div>
-                    <div class="card-body" style="padding: 25px; text-align: center;">
-                        <span class="card-tag" style="color: #f1c40f; font-size: 0.85rem;">FIFA World Cup</span>
-                        <h3 class="card-title" style="font-size: 1.5rem; margin-bottom: 20px;">Copa Mundial de la FIFA</h3>
-                        <div class="action-box" style="gap: 15px;">
-                            <a href="acestream://f28f558a7699237cb4ec1e0075db4073ffc3a415" class="a-btn a-play" style="padding: 15px; font-size: 0.9rem;">Abrir Stream</a>
-                            <button class="a-btn a-copy" onclick="copyId('f28f558a7699237cb4ec1e0075db4073ffc3a415', 'Mundial de Fútbol')" style="padding: 15px; font-size: 0.9rem; max-width: 100px;">ID</button>
+                    <div class="card-body">
+                        <span class="card-tag" style="color: #f1c40f;">FIFA World Cup</span>
+                        <h3 class="card-title">Copa Mundial de la FIFA 3</h3>
+                        <div class="action-box">
+                            <a href="acestream://f28f558a7699237cb4ec1e0075db4073ffc3a415" class="a-btn a-play">Abrir</a>
+                            <button class="a-btn a-copy" onclick="copyId('f28f558a7699237cb4ec1e0075db4073ffc3a415', 'Mundial de Fútbol 3')">ID</button>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
 
-        <!-- SECCIÓN MOTOR -->
         <div class="category-section" id="sec-motor">
             <div class="category-title cat-motor">🏎️ Deportes de Motor</div>
             <div class="grid">
@@ -303,7 +291,6 @@
             </div>
         </div>
 
-        <!-- SECCIÓN FÚTBOL -->
         <div class="category-section" id="sec-futbol">
             <div class="category-title cat-futbol">⚽ Fútbol</div>
             <div class="grid">
@@ -352,7 +339,6 @@
             </div>
         </div>
 
-        <!-- SECCIÓN DEPORTES -->
         <div class="category-section" id="sec-deportes">
             <div class="category-title cat-deportes">🏅 Otros Deportes</div>
             <div class="grid">
@@ -408,7 +394,6 @@
             </div>
         </div>
 
-        <!-- SECCIÓN USA -->
         <div class="category-section" id="sec-usa">
             <div class="category-title cat-usa">🏀 Deportes USA</div>
             <div class="grid">
@@ -429,7 +414,6 @@
             </div>
         </div>
 
-        <!-- SECCIÓN FUN -->
         <div class="category-section" id="sec-fun">
             <div class="category-title cat-fun">🎭 Entretenimiento</div>
             <div class="grid">
@@ -442,202 +426,17 @@
                 </div>
                 <div class="card" data-id="fox-comedy">
                     <button class="fav-btn" onclick="toggleFav('fox-comedy')">★</button>
-                    <div class="card-img" style="background: linear-gradient(45deg, #7f5af0, #000);">🎭</div>
-                    <div class="card-body"><span class="card-tag">Series</span><h3 class="card-title">Fox Comedy</h3>
-                        <div class="action-box"><a href="acestream://8fb7f8107213a9020f298c8d0068ea86d0713d01" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('8fb7f8107213a9020f298c8d0068ea86d0713d01', 'Fox Comedy')">ID</button></div>
+                    <div class="card-img" style="background: linear-gradient(45deg, #ff3366, #1a1a20);">🎭</div>
+                    <div class="card-body"><span class="card-tag">Fox</span><h3 class="card-title">Fox Comedy</h3>
+                        <div class="action-box"><a href="acestream://default_id_placeholder" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('default_id_placeholder', 'Fox Comedy')">ID</button></div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 
-    <!-- VENTANA MODAL -->
-    <div class="modal-overlay" id="modalUpdates" onclick="toggleModal()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <h2 style="font-family: 'Oswald'; color: var(--accent-neon); margin-top: 0;">HISTORIAL DE CAMBIOS</h2>
-            <div style="border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 10px;">
-                <div style="font-weight: 800; font-size: 0.8rem; color: var(--fav-gold);">15/4/26 - VERSIÓN 3.5</div>
-                <div style="font-size: 0.9rem; opacity: 0.8;">• Corrección de ruteo de audio absoluto para servidores Linux (GitHub Pages) y barra inteligente de debug incorporada.</div>
-            </div>
-            <button onclick="toggleModal()" class="a-btn a-play" style="width:100%; padding:15px; margin-top:20px">ENTENDIDO</button>
-        </div>
-    </div>
+    <div id="toast">Copiado al portapapeles</div>
 
-    <div id="toast">Copiado</div>
-
-    <script>
-        let favorites = JSON.parse(localStorage.getItem('sdj_favs')) || [];
-        let showOnlyFavs = false;
-        let mainLoop, beatLoop;
-
-        // INYECCIÓN DE RUTA ABSOLUTA AUTOMÁTICA DETECTANDO GITHUB PAGES
-        window.addEventListener('DOMContentLoaded', () => {
-            const audioEl = document.getElementById('introAudio');
-            const debugBar = document.getElementById('audio-debug-bar');
-            
-            // Corrige la ruta calculando la dirección exacta del repositorio de GitHub
-            let currentPath = window.location.pathname;
-            if (!currentPath.endsWith('/')) {
-                currentPath = currentPath.substring(0, currentPath.lastIndexOf('/') + 1);
-            }
-            const correctAudioUrl = window.location.origin + currentPath + "daidai.mp3";
-            
-            // Asignar la ruta limpia sin interferencias del navegador
-            audioEl.src = correctAudioUrl;
-            audioEl.load();
-
-            // Capturador de fallas crítico (Nos avisa si el archivo falta en GitHub)
-            audioEl.addEventListener('error', (e) => {
-                debugBar.style.display = "block";
-                debugBar.innerText = "❌ ERROR GITHUB PAGES: No se encuentra el archivo 'daidai.mp3' en tu repositorio o el nombre tiene mayúsculas diferentes.";
-            });
-        });
-
-        function startShow() {
-            const audio = document.getElementById('introAudio');
-            const bgOverlay = document.getElementById('theater-bg-overlay');
-            const fxContainer = document.getElementById('fxContainer');
-            const strobe = document.getElementById('beatStrobe');
-            const shake = document.getElementById('shakeWrapper');
-            const debugBar = document.getElementById('audio-debug-bar');
-            
-            const colors = ['rgba(0,243,255,0.13)', 'rgba(255,0,170,0.13)', 'rgba(255,234,0,0.13)', 'rgba(0,255,102,0.13)'];
-            const confettiColors = ['#00f3ff', '#ff00aa', '#ffea00', '#00ff66', '#ffffff'];
-            const runTime = 72000; 
-
-            // Reiniciar barra por si acaso
-            debugBar.style.display = "none";
-
-            // Forzar play con captura de políticas del navegador
-            audio.play().then(() => {
-                document.getElementById('audio-unlocker').style.display = 'none';
-                bgOverlay.style.display = 'block';
-
-                mainLoop = setInterval(() => {
-                    createObject(fxContainer, confettiColors);
-                }, 110);
-
-                let beatCount = 0;
-                beatLoop = setInterval(() => {
-                    beatCount++;
-                    
-                    strobe.style.opacity = "1";
-                    strobe.style.backgroundColor = colors[beatCount % colors.length];
-                    setTimeout(() => { strobe.style.opacity = "0"; }, 130);
-
-                    const sx = (Math.random() - 0.5) * 6;
-                    const sy = (Math.random() - 0.5) * 6;
-                    shake.style.transform = `translate(${sx}px, ${sy}px)`;
-                    setTimeout(() => { shake.style.transform = 'none'; }, 100);
-
-                    if (beatCount % 4 === 0) {
-                        for(let i=0; i<6; i++) {
-                            createObject(fxContainer, confettiColors, true);
-                        }
-                    }
-                }, 430); 
-
-                setTimeout(() => {
-                    clearInterval(mainLoop);
-                    clearInterval(beatLoop);
-                    bgOverlay.style.display = 'none';
-                    audio.pause();
-                    audio.currentTime = 0;
-                }, runTime);
-
-            }).catch(err => {
-                debugBar.style.display = "block";
-                debugBar.innerText = "⚠️ EL NAVEGADOR BLOQUEÓ EL AUDIO: Haz click de nuevo o revisa los permisos de sonido en el candado de la URL.";
-                console.error("Audio error details: ", err);
-            });
-        }
-
-        function createObject(container, colors, explosion = false) {
-            const item = document.createElement('div');
-            item.className = 'falling-item';
-            
-            if (explosion) {
-                item.style.left = Math.random() > 0.5 ? '3vw' : '94vw';
-                item.style.top = '65%';
-                item.style.animationDuration = '1.8s';
-            } else {
-                item.style.left = Math.random() * 100 + 'vw';
-                item.style.animationDuration = (Math.random() * 1.2 + 2) + 's';
-            }
-
-            if (Math.random() > 0.45) {
-                item.innerText = '⚽';
-                item.style.fontSize = (Math.random() * 1.2 + 1) + 'rem';
-            } else {
-                item.classList.add('confetti');
-                item.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                item.style.width = (Math.random() * 5 + 6) + 'px';
-                item.style.height = (Math.random() * 12 + 14) + 'px';
-            }
-
-            container.appendChild(item);
-            setTimeout(() => item.remove(), 3200);
-        }
-
-        function activarBusqueda() {
-            const banner = document.getElementById('help-banner');
-            banner.style.display = 'block';
-            setTimeout(() => { window.open("https://asesearch.vercel.app/", "_blank"); }, 2500);
-        }
-
-        function toggleModal() {
-            const m = document.getElementById('modalUpdates');
-            m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
-        }
-
-        function toggleFav(id) {
-            const index = favorites.indexOf(id);
-            const cards = document.querySelectorAll(`[data-id="${id}"] .fav-btn`);
-            if (index > -1) {
-                favorites.splice(index, 1);
-                cards.forEach(b => b.classList.remove('is-fav'));
-            } else {
-                favorites.push(id);
-                cards.forEach(b => b.classList.add('is-fav'));
-            }
-            localStorage.setItem('sdj_favs', JSON.stringify(favorites));
-            if (showOnlyFavs) filterChannels();
-        }
-
-        function toggleFavFilter() {
-            showOnlyFavs = !showOnlyFavs;
-            document.getElementById('favFilterBtn').classList.toggle('active');
-            filterChannels();
-        }
-
-        function filterChannels() {
-            const filter = document.getElementById('searchInput').value.toLowerCase();
-            document.querySelectorAll('.card').forEach(card => {
-                const title = card.querySelector('.card-title').innerText.toLowerCase();
-                const isFav = favorites.includes(card.getAttribute('data-id'));
-                const match = title.includes(filter) && (showOnlyFavs ? isFav : true);
-                card.style.display = match ? "block" : "none";
-            });
-            document.querySelectorAll('.category-section').forEach(sec => {
-                const visible = sec.querySelectorAll('.card[style="display: block;"]').length;
-                sec.style.display = visible > 0 ? "block" : "none";
-            });
-        }
-
-        function copyId(id, name) {
-            navigator.clipboard.writeText(id.trim()).then(() => {
-                const t = document.getElementById("toast");
-                t.innerText = "📋 ID de " + name + " copiada";
-                t.classList.add("show");
-                setTimeout(() => { t.classList.remove("show"); }, 3000);
-            });
-        }
-
-        window.onload = () => {
-            favorites.forEach(id => {
-                document.querySelectorAll(`[data-id="${id}"] .fav-btn`).forEach(b => b.classList.add('is-fav'));
-            });
-        };
-    </script>
 </body>
 </html>
