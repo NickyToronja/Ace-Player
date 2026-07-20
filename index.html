@@ -97,98 +97,15 @@
         #toast.show { visibility: visible; animation: slideIn 0.4s; }
         @keyframes slideIn { from { bottom: -50px; opacity: 0; } to { bottom: 30px; opacity: 1; } }
 
-        /* ================= ELEMENTOS VISUALES DEL LIGHTSHOW RÍTMICO ================= */
-        #theater-bg-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: transparent; z-index: -1; display: none; overflow: hidden; pointer-events: none;
-        }
-
-        .strobe-beat {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 80%);
-            mix-blend-mode: overlay; opacity: 0; transition: opacity 0.1s ease-out;
-        }
-
-        .camera-shake {
-            width: 100%; height: 100%; position: absolute;
-            transition: transform 0.15s ease-out;
-        }
-
-        .moving-light {
-            position: absolute; width: 650px; height: 650px; border-radius: 50%;
-            filter: blur(90px); opacity: 0.25; animation: orbitLights 8s infinite linear alternate;
-        }
-        .ml-cyan { background: #00f3ff; top: -20%; left: -10%; }
-        .ml-magenta { background: #ff00aa; bottom: -20%; right: -10%; animation-delay: -3s; }
-        .ml-yellow { background: #ffea00; top: 30%; left: 40%; animation-duration: 5s; }
-
-        @keyframes orbitLights {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(80px, -40px) scale(1.1); }
-            100% { transform: translate(-40px, 80px) scale(0.9); }
-        }
-
-        .falling-item { position: absolute; top: -10%; animation: fallAndSpin 3.2s linear infinite; }
-        .confetti { width: 9px; height: 20px; border-radius: 2px; }
-
-        @keyframes fallAndSpin {
-            0% { top: -10%; transform: translateX(0) rotate(0deg); opacity: 0; }
-            15% { opacity: 1; }
-            85% { opacity: 1; }
-            100% { top: 110%; transform: translateX(140px) rotate(1080deg); opacity: 0; }
-        }
-
-        #audio-unlocker {
-            width: 100%; max-width: 1100px; margin: 20px auto 0 auto;
-            background: linear-gradient(90deg, var(--accent-neon), #44337a);
-            border-radius: 20px; padding: 20px; text-align: center; box-sizing: border-box;
-            box-shadow: 0 0 20px rgba(127,90,240,0.4); display: flex; 
-            flex-direction: column; align-items: center; justify-content: center; gap: 10px;
-        }
-        .btn-unlock {
-            background: var(--fav-gold); color: #000; font-family: 'Oswald';
-            font-size: 1.2rem; padding: 12px 35px; border: none; border-radius: 50px;
-            cursor: pointer; font-weight: 800; letter-spacing: 1px; transition: 0.2s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        .btn-unlock:hover { transform: scale(1.05); background: #fff; }
-
-        #audio-debug-bar {
-            background: #2a1b1b; color: #ff5252; font-size: 0.8rem; font-family: monospace;
-            padding: 8px; width: 100%; text-align: center; border-bottom: 1px solid #ff000033;
-            display: none; box-sizing: border-box;
-        }
     </style>
 </head>
 <body>
-
-    <div id="audio-debug-bar"></div>
-
-    <audio id="introAudio" loop preload="auto">
-        <source src="daidai.mp3" type="audio/mpeg">
-    </audio>
-
-    <div id="theater-bg-overlay">
-        <div class="strobe-beat" id="beatStrobe"></div>
-        <div class="camera-shake" id="shakeWrapper">
-            <div class="moving-light ml-cyan"></div>
-            <div class="moving-light ml-magenta"></div>
-            <div class="moving-light ml-yellow"></div>
-            <div id="fxContainer"></div>
-        </div>
-    </div>
 
     <header>
         <img src="SDJ.jpg" alt="SDJ" class="logo-sdj">
     </header>
 
     <div class="container">
-        
-        <div id="audio-unlocker">
-            <div id="unlocker-title" style="font-weight: 800; font-size: 1.2rem; font-family: 'Oswald';">🎵 EXPERIENCIA RÍTMICA SDJ [72s]</div>
-            <div style="font-size: 0.9rem; opacity: 0.9;">Haz click abajo para arrancar el show adaptado al ritmo de daidai.mp3 (Luces suavizadas y seguras).</div>
-            <button class="btn-unlock" id="mainPlayBtn" onclick="startShow()">⚡ INICIAR SHOW MUSIC</button>
-        </div>
 
         <h1 style="margin-top: 30px;">SDJ COMMAND CENTER</h1>
         
@@ -216,55 +133,6 @@
         </div>
 
         <!-- CATEGORÍAS -->
-        <div class="category-section" id="sec-mundial">
-            <div class="category-title cat-mundial">🏆 Mundial de Fútbol</div>
-            <div class="grid">
-                <div class="card" data-id="mundial-futbol-1">
-                    <button class="fav-btn" onclick="toggleFav('mundial-futbol-1')">★</button>
-                    <div class="card-img" style="background: linear-gradient(45deg, #001e4e, #f1c40f);">
-                        <img src="world.png" alt="Mundial" style="height: 80%; width: auto; object-fit: contain; filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.5));">
-                    </div>
-                    <div class="card-body">
-                        <span class="card-tag" style="color: #f1c40f;">FIFA World Cup</span>
-                        <h3 class="card-title">Copa Mundial de la FIFA 1</h3>
-                        <div class="action-box">
-                            <a href="acestream://ccfde4bc75d14c79dd09af72434568a0e732d507" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('ccfde4bc75d14c79dd09af72434568a0e732d507', 'Mundial de Fútbol 1')">ID</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card" data-id="mundial-futbol-2">
-                    <button class="fav-btn" onclick="toggleFav('mundial-futbol-2')">★</button>
-                    <div class="card-img" style="background: linear-gradient(45deg, #001e4e, #f1c40f);">
-                        <img src="world.png" alt="Mundial" style="height: 80%; width: auto; object-fit: contain; filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.5));">
-                    </div>
-                    <div class="card-body">
-                        <span class="card-tag" style="color: #f1c40f;">FIFA World Cup</span>
-                        <h3 class="card-title">Copa Mundial de la FIFA 2</h3>
-                        <div class="action-box">
-                            <a href="acestream://dac18df259f44258d81aa8f31cb343bb837f5ac7" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('dac18df259f44258d81aa8f31cb343bb837f5ac7', 'Mundial de Fútbol 2')">ID</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card" data-id="mundial-futbol-3">
-                    <button class="fav-btn" onclick="toggleFav('mundial-futbol-3')">★</button>
-                    <div class="card-img" style="background: linear-gradient(45deg, #001e4e, #f1c40f);">
-                        <img src="world.png" alt="Mundial" style="height: 80%; width: auto; object-fit: contain; filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.5));">
-                    </div>
-                    <div class="card-body">
-                        <span class="card-tag" style="color: #f1c40f;">FIFA World Cup</span>
-                        <h3 class="card-title">Copa Mundial de la FIFA 3</h3>
-                        <div class="action-box">
-                            <a href="acestream://f28f558a7699237cb4ec1e0075db4073ffc3a415" class="a-btn a-play">Abrir</a>
-                            <button class="a-btn a-copy" onclick="copyId('f28f558a7699237cb4ec1e0075db4073ffc3a415', 'Mundial de Fútbol 3')">ID</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="category-section" id="sec-motor">
             <div class="category-title cat-motor">🏎️ Deportes de Motor</div>
@@ -455,86 +323,8 @@
     <div id="toast">Copiado al portapapeles</div>
 
     <script>
-        // Configuración y variables del Show Rítmico
-        let audioContext, analyser, dataArray, bufferLength;
-        let isPlaying = false;
         let favFilterActive = false;
         let favoritos = JSON.parse(localStorage.getItem('sdj_favoritos')) || [];
-        
-        const audio = document.getElementById('introAudio');
-        const debugBar = document.getElementById('audio-debug-bar');
-
-        function startShow() {
-            if (isPlaying) return;
-
-            audio.play().then(() => {
-                isPlaying = true;
-                document.getElementById('audio-unlocker').style.display = 'none';
-                document.getElementById('theater-bg-overlay').style.display = 'block';
-                
-                initAudioFX();
-                createConfetti();
-            }).catch(err => {
-                debugBar.style.display = 'block';
-                debugBar.innerText = "Error al iniciar audio de forma automática. Código: " + err.message;
-            });
-        }
-
-        function initAudioFX() {
-            try {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const src = audioContext.createMediaElementSource(audio);
-                analyser = audioContext.createAnalyser();
-                
-                src.connect(analyser);
-                analyser.connect(audioContext.destination);
-                
-                analyser.fftSize = 64;
-                bufferLength = analyser.frequencyBinCount;
-                dataArray = new Uint8Array(bufferLength);
-                
-                analizarRitmo();
-            } catch(e) {
-                console.log("Web Audio API no soportada o bloqueada.", e);
-            }
-        }
-
-        function analizarRitmo() {
-            if (!isPlaying) return;
-            requestAnimationFrame(analizarRitmo);
-            
-            analyser.getByteFrequencyData(dataArray);
-            
-            let bajos = dataArray[1] || 0; 
-            let medios = dataArray[5] || 0; 
-            
-            const strobe = document.getElementById('beatStrobe');
-            if (bajos > 190) {
-                strobe.style.opacity = (bajos - 140) / 115;
-                document.getElementById('shakeWrapper').style.transform = `scale(${1 + (bajos/2000)}) translate(${(Math.random()-0.5)*4}px, ${(Math.random()-0.5)*4}px)`;
-            } else {
-                strobe.style.opacity = strobe.style.opacity * 0.8;
-                document.getElementById('shakeWrapper').style.transform = "scale(1) translate(0,0)";
-            }
-        }
-
-        function createConfetti() {
-            const container = document.getElementById('fxContainer');
-            if (!container) return;
-            const colors = ['#00f3ff', '#ff00aa', '#ffea00', '#7f5af0'];
-            
-            setInterval(() => {
-                if (!isPlaying) return;
-                const conf = document.createElement('div');
-                conf.classList.add('falling-item', 'confetti');
-                conf.style.left = Math.random() * 100 + 'vw';
-                conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                conf.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                container.appendChild(conf);
-                
-                setTimeout(() => conf.remove(), 4000);
-            }, 250);
-        }
 
         // Sistema de Banner Auxiliar
         function activarBusqueda() {
@@ -543,15 +333,42 @@
         }
 
         // Copiar IDs al portapapeles
+        function mostrarToastCopiado(nombre) {
+            const toast = document.getElementById('toast');
+            toast.innerText = `ID de ${nombre} copiado`;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function copyIdFallback(id, nombre) {
+            // Método alternativo para cuando navigator.clipboard no está disponible
+            // (por ejemplo, al abrir el archivo directamente con file:// en vez de https)
+            const textArea = document.createElement('textarea');
+            textArea.value = id;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-9999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                mostrarToastCopiado(nombre);
+            } catch (err) {
+                alert('No se pudo copiar el ID automáticamente. ID: ' + id);
+            }
+            document.body.removeChild(textArea);
+        }
+
         function copyId(id, nombre) {
-            navigator.clipboard.writeText(id).then(() => {
-                const toast = document.getElementById('toast');
-                toast.innerText = `ID de ${nombre} copiado`;
-                toast.classList.add('show');
-                setTimeout(() => toast.classList.remove('show'), 2500);
-            }).catch(err => {
-                alert('No se pudo copiar el ID automáticamente.');
-            });
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(id).then(() => {
+                    mostrarToastCopiado(nombre);
+                }).catch(() => {
+                    copyIdFallback(id, nombre);
+                });
+            } else {
+                copyIdFallback(id, nombre);
+            }
         }
 
         // Alternar Modal de Cambios
