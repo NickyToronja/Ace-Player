@@ -301,6 +301,18 @@
                         <div class="action-box"><a href="acestream://default_id_placeholder" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('default_id_placeholder', 'Fox Comedy')">ID</button></div>
                     </div>
                 </div>
+                <!-- NUEVA TARJETA DE PELÍCULAS Y SERIES -->
+                <div class="card" data-id="peliculas-series">
+                    <button class="fav-btn" onclick="toggleFav('peliculas-series')">★</button>
+                    <div class="card-img" style="background: linear-gradient(45deg, #9b59b6, #1a1a20);">🎬</div>
+                    <div class="card-body">
+                        <span class="card-tag">Streaming Web</span>
+                        <h3 class="card-title">Películas y Series</h3>
+                        <div class="action-box">
+                            <button class="a-btn a-play" onclick="toggleHdFullModal()">Abrir</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -313,10 +325,29 @@
             <h2 style="font-family: 'Oswald'; color: var(--accent-neon);">🆕 NOTAS DE ACTUALIZACIÓN</h2>
             <hr style="border-color: #333; margin-bottom: 15px;">
             <ul style="padding-left: 20px; line-height: 1.6;">
-                <li>Canales inactivos actualizados</b>.</li>
-                <li>Comprobación de bugs</b>.</li>
-                <li>Próximamente nuevos canales, únete al discord para pedir un canal de pago para verlo gratis</b>.</li>
+                <li>Canales inactivos actualizados.</li>
+                <li>Comprobación de bugs.</li>
+                <li>Próximamente nuevos canales, únete al discord para pedir un canal de pago para verlo gratis.</li>
             </ul>
+        </div>
+    </div>
+
+    <!-- MODAL DE HDFULL (PELÍCULAS Y SERIES) -->
+    <div class="modal-overlay" id="hdFullModal">
+        <div class="modal-content" style="text-align: center;">
+            <button class="modal-close" onclick="toggleHdFullModal()">&times;</button>
+            <h2 style="font-family: 'Oswald'; color: var(--accent-neon); margin-bottom: 10px;">🎬 PELÍCULAS Y SERIES</h2>
+            <hr style="border-color: #333; margin-bottom: 15px;">
+            <p style="color: #ccc; font-size: 0.95rem; line-height: 1.5;">
+                Este apartado <b>no utiliza Ace Player</b>. Funciona mediante la plataforma web externa <b>hdfull.cv</b>.
+            </p>
+            <div style="background: #25252e; border: 1px solid #333; border-radius: 12px; padding: 15px; margin: 20px 0; text-align: left;">
+                <div style="margin-bottom: 8px;"><b>Usuario:</b> <span style="color: #00f3ff;">ManoloElPobre</span></div>
+                <div><b>Contraseña:</b> <span style="color: #00f3ff;">soyPobre</span></div>
+            </div>
+            <a href="https://hdfull.cv" target="_blank" class="btn-main a-play" style="display: inline-flex; width: 100%; box-sizing: border-box; justify-content: center; padding: 12px; font-size: 0.9rem;">
+                Ir a hdfull.cv 🚀
+            </a>
         </div>
     </div>
 
@@ -341,8 +372,6 @@
         }
 
         function copyIdFallback(id, nombre) {
-            // Método alternativo para cuando navigator.clipboard no está disponible
-            // (por ejemplo, al abrir el archivo directamente con file:// en vez de https)
             const textArea = document.createElement('textarea');
             textArea.value = id;
             textArea.style.position = 'fixed';
@@ -371,9 +400,14 @@
             }
         }
 
-        // Alternar Modal de Cambios
+        // Alternar Modales
         function toggleModal() {
             const modal = document.getElementById('updatesModal');
+            modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        function toggleHdFullModal() {
+            const modal = document.getElementById('hdFullModal');
             modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
         }
 
