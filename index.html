@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SDJ | Stream Center Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Oswald:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- LIBRERÍA DE SUPABASE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
         :root {
             --bg-deep: #0a0a0c; --bg-stripe: #121216; --card-bg: #1a1a20;
@@ -29,9 +33,16 @@
             width: 100%; background: rgba(10, 10, 12, 0.95); backdrop-filter: blur(10px);
             padding: 20px 0; text-align: center; border-bottom: 2px solid var(--accent-neon);
             position: sticky; top: 0; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; padding-left: 40px; padding-right: 40px;
         }
 
         .logo-sdj { height: 60px; border-radius: 12px; border: 1px solid var(--accent-neon); }
+        
+        .header-auth { display: flex; align-items: center; gap: 15px; }
+        .user-pill { background: var(--card-bg); border: 1px solid var(--accent-neon); padding: 6px 14px; border-radius: 30px; display: flex; align-items: center; gap: 10px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .user-pill:hover { background: #25252e; }
+        .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--accent-neon); object-fit: cover; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: bold; }
+
         .container { width: 100%; max-width: 1200px; padding: 30px 20px; box-sizing: border-box; z-index: 10; }
         h1 { font-family: 'Oswald'; font-size: 3rem; text-align: center; margin: 0 0 20px 0; letter-spacing: 2px; }
 
@@ -54,13 +65,13 @@
         .btn-fav-filter { background: #222; border: 1px solid #444; }
         .btn-fav-filter.active { background: var(--fav-gold); color: #000; }
         .btn-ace-search { background: var(--Ace-search); color: #000; }
+        .btn-login-open { background: var(--accent-neon); }
 
         #help-banner {
             display: none; width: 100%; max-width: 1100px; box-sizing: border-box;
             background: linear-gradient(135deg, rgba(180, 221, 30, 0.15) 25%, transparent 25%, transparent 50%, rgba(180, 221, 30, 0.15) 50%, rgba(180, 221, 30, 0.15) 75%, transparent 75%, transparent);
-            background-size: 40px 40px; border: 2px dashed var(--Ace-search); border-radius: 25px; padding: 20px; text-align: center; animation: fadeIn 0.5s ease forwards;
+            background-size: 40px 40px; border: 2px dashed var(--Ace-search); border-radius: 25px; padding: 20px; text-align: center;
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         .category-section { margin-bottom: 50px; }
         .category-title {
@@ -68,7 +79,6 @@
             display: flex; align-items: center; gap: 15px; margin-bottom: 25px;
             padding-left: 15px; border-left: 5px solid var(--accent-neon);
         }
-        .cat-mundial { border-color: #f1c40f; color: #f1c40f; }
         .cat-motor { border-color: var(--f1-red); color: var(--f1-red); }
         .cat-futbol { border-color: var(--foot-green); color: var(--foot-green); }
         .cat-deportes { border-color: var(--movistar-blue); color: var(--movistar-blue); }
@@ -78,7 +88,7 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
         .card { background: var(--card-bg); border-radius: 24px; overflow: hidden; border: 1px solid #222; transition: var(--transition); position: relative; }
         .card:hover { transform: translateY(-5px); border-color: #444; }
-        .fav-btn { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6); border: none; color: #fff; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 5; transition: 0.3s; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
+        .fav-btn { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6); border: none; color: #fff; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 5; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
         .fav-btn.is-fav { color: var(--fav-gold); }
         .card-img { height: 100px; display: flex; align-items: center; justify-content: center; font-size: 3rem; border-bottom: 1px solid #222; }
         .card-body { padding: 20px; }
@@ -90,34 +100,53 @@
         .a-copy { background: #333; }
 
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 200; justify-content: center; align-items: center; }
-        .modal-content { background: #1a1a20; width: 90%; max-width: 500px; border-radius: 25px; border: 2px solid var(--accent-neon); padding: 30px; position: relative; max-height: 80vh; overflow-y: auto; color: white; }
+        .modal-content { background: #1a1a20; width: 90%; max-width: 480px; border-radius: 25px; border: 2px solid var(--accent-neon); padding: 30px; position: relative; color: white; max-height: 85vh; overflow-y: auto; box-sizing: border-box; }
         .modal-close { position: absolute; top: 15px; right: 20px; background: transparent; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
         
-        #toast { visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: white; color: black; padding: 12px 30px; border-radius: 50px; font-weight: 800; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        #toast.show { visibility: visible; animation: slideIn 0.4s; }
-        @keyframes slideIn { from { bottom: -50px; opacity: 0; } to { bottom: 30px; opacity: 1; } }
+        #cookie-banner {
+            position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(16, 16, 22, 0.98);
+            border-top: 2px solid var(--accent-neon); padding: 20px; box-sizing: border-box;
+            z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; text-align: center;
+        }
+        .cookie-content { max-width: 800px; font-size: 0.9rem; color: #ccc; line-height: 1.5; }
+        .cookie-buttons { display: flex; gap: 10px; }
+        .btn-cookie { padding: 10px 20px; border-radius: 30px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; border: none; cursor: pointer; }
+        .btn-accept-cookie { background: var(--accent-neon); color: white; }
+        .btn-reject-cookie { background: #333; color: white; }
 
+        .login-input { width: 100%; padding: 12px 15px; border-radius: 12px; border: 1px solid #333; background: #121216; color: white; margin-bottom: 15px; box-sizing: border-box; outline: none; }
+        .login-input:focus { border-color: var(--accent-neon); }
+        .form-link { color: var(--accent-neon); font-size: 0.8rem; cursor: pointer; text-decoration: underline; margin-bottom: 15px; display: inline-block; }
+
+        #toast { visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: white; color: black; padding: 12px 30px; border-radius: 50px; font-weight: 800; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        #toast.show { visibility: visible; }
     </style>
 </head>
 <body>
 
+    <div id="cookie-banner" style="display: none;">
+        <div class="cookie-content">Utilizamos cookies para mejorar tu experiencia de navegación. Al hacer clic en "Aceptar", das tu consentimiento.</div>
+        <div class="cookie-buttons">
+            <button class="btn-cookie btn-accept-cookie" onclick="aceptarCookies()">Aceptar todas</button>
+            <button class="btn-cookie btn-reject-cookie" onclick="rechazarCookies()">Rechazar</button>
+        </div>
+    </div>
+
     <header>
         <img src="SDJ.jpg" alt="SDJ" class="logo-sdj">
+        <div class="header-auth" id="headerAuthContainer">
+            <button class="btn-main btn-login-open" onclick="toggleLoginModal()">🔑 Iniciar Sesión</button>
+        </div>
     </header>
 
     <div class="container">
-
         <h1 style="margin-top: 30px;">SDJ COMMAND CENTER</h1>
         
         <div class="controls-wrapper">
             <div id="help-banner">
-                <div style="font-weight: 800; color: white; margin-bottom: 5px; font-size: 1.1rem;">
-                    ⚠️ ¿Problemas con un canal?
-                </div>
+                <div style="font-weight: 800; color: white; margin-bottom: 5px;">⚠️ ¿Problemas con un canal?</div>
                 <div style="color: #ccc; font-size: 0.95rem;">
-                    <a href="https://asesearch.vercel.app/" target="_blank" style="color: #00f3ff; font-weight: bold; text-decoration: underline; cursor: pointer;">
-                        Usa la web de búsqueda
-                    </a>, descarga el archivo <b style="color:white">.m3u</b>, haz <b style="color:white">click derecho</b> sobre él y selecciona <b style="color:white">"Abrir con Ace Player"</b>.
+                    <a href="https://asesearch.vercel.app/" target="_blank" style="color: #00f3ff; font-weight: bold; text-decoration: underline;">Usa la web de búsqueda</a>, descarga el archivo .m3u y ábrelo con Ace Player.
                 </div>
             </div>
 
@@ -132,8 +161,7 @@
             </div>
         </div>
 
-        <!-- CATEGORÍAS -->
-
+        <!-- MOTOR -->
         <div class="category-section" id="sec-motor">
             <div class="category-title cat-motor">🏎️ Deportes de Motor</div>
             <div class="grid">
@@ -161,6 +189,7 @@
             </div>
         </div>
 
+        <!-- FÚTBOL -->
         <div class="category-section" id="sec-futbol">
             <div class="category-title cat-futbol">⚽ Fútbol</div>
             <div class="grid">
@@ -209,6 +238,7 @@
             </div>
         </div>
 
+        <!-- OTROS DEPORTES -->
         <div class="category-section" id="sec-deportes">
             <div class="category-title cat-deportes">🏅 Otros Deportes</div>
             <div class="grid">
@@ -264,6 +294,7 @@
             </div>
         </div>
 
+        <!-- DEPORTES USA -->
         <div class="category-section" id="sec-usa">
             <div class="category-title cat-usa">🏀 Deportes USA</div>
             <div class="grid">
@@ -284,6 +315,7 @@
             </div>
         </div>
 
+        <!-- ENTRETENIMIENTO -->
         <div class="category-section" id="sec-fun">
             <div class="category-title cat-fun">🎭 Entretenimiento</div>
             <div class="grid">
@@ -301,7 +333,6 @@
                         <div class="action-box"><a href="acestream://default_id_placeholder" class="a-btn a-play">Abrir</a><button class="a-btn a-copy" onclick="copyId('default_id_placeholder', 'Fox Comedy')">ID</button></div>
                     </div>
                 </div>
-                <!-- NUEVA TARJETA DE PELÍCULAS Y SERIES -->
                 <div class="card" data-id="peliculas-series">
                     <button class="fav-btn" onclick="toggleFav('peliculas-series')">★</button>
                     <div class="card-img" style="background: linear-gradient(45deg, #9b59b6, #1a1a20);">🎬</div>
@@ -325,22 +356,20 @@
             <h2 style="font-family: 'Oswald'; color: var(--accent-neon);">🆕 NOTAS DE ACTUALIZACIÓN</h2>
             <hr style="border-color: #333; margin-bottom: 15px;">
             <ul style="padding-left: 20px; line-height: 1.6;">
-                <li>Canales inactivos actualizados.</li>
-                <li>Comprobación de bugs.</li>
-                <li>Próximamente nuevos canales, únete al discord para pedir un canal de pago para verlo gratis.</li>
+                <li>Sistema de usuarios avanzado con perfil personalizado.</li>
+                <li>Inicio de sesión con Discord y Código de Verificación OTP.</li>
+                <li>Recuperación de contraseña por email integrada.</li>
             </ul>
         </div>
     </div>
 
-    <!-- MODAL DE HDFULL (PELÍCULAS Y SERIES) -->
+    <!-- MODAL DE HDFULL -->
     <div class="modal-overlay" id="hdFullModal">
         <div class="modal-content" style="text-align: center;">
             <button class="modal-close" onclick="toggleHdFullModal()">&times;</button>
             <h2 style="font-family: 'Oswald'; color: var(--accent-neon); margin-bottom: 10px;">🎬 PELÍCULAS Y SERIES</h2>
             <hr style="border-color: #333; margin-bottom: 15px;">
-            <p style="color: #ccc; font-size: 0.95rem; line-height: 1.5;">
-                Este apartado <b>no utiliza Ace Player</b>. Funciona mediante la plataforma web externa <b>hdfull.cv</b>.
-            </p>
+            <p style="color: #ccc; font-size: 0.95rem; line-height: 1.5;">Plataforma web externa <b>hdfull.cv</b>.</p>
             <div style="background: #25252e; border: 1px solid #333; border-radius: 12px; padding: 15px; margin: 20px 0; text-align: left;">
                 <div style="margin-bottom: 8px;"><b>Usuario:</b> <span style="color: #00f3ff;">ManoloElPobre</span></div>
                 <div><b>Contraseña:</b> <span style="color: #00f3ff;">soyPobre</span></div>
@@ -351,56 +380,340 @@
         </div>
     </div>
 
+    <!-- MODAL DE INICIO DE SESIÓN -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="toggleLoginModal()">&times;</button>
+            <h2 style="font-family: 'Oswald'; color: var(--accent-neon); text-align: center; margin-bottom: 5px;">🔑 CUENTA SDJ</h2>
+            <p style="text-align: center; color: #aaa; font-size: 0.85rem; margin-bottom: 20px;">Accede con tu cuenta o Discord</p>
+            
+            <button type="button" class="btn-main btn-discord" onclick="loginDiscord()" style="width: 100%; justify-content: center; margin-bottom: 15px; padding: 12px;">
+                💬 Continuar con Discord
+            </button>
+
+            <div style="text-align: center; color: #555; margin-bottom: 15px; font-size: 0.8rem;">O por correo electrónico</div>
+
+            <form onsubmit="handleAuthForm(event)" id="authFormElement">
+                <input type="email" id="loginEmailInput" class="login-input" placeholder="Correo electrónico" required>
+                <input type="password" id="loginPassInput" class="login-input" placeholder="Contraseña" required>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span class="form-link" onclick="mostrarRecuperacion()">¿Olvidaste tu contraseña?</span>
+                    <span class="form-link" onclick="toggleAuthMode()" id="switchModeText">¿No tienes cuenta? Regístrate</span>
+                </div>
+
+                <button type="submit" id="authSubmitBtn" class="btn-main btn-login-open" style="width: 100%; justify-content: center; padding: 12px; margin-top: 10px;">
+                    Iniciar Sesión
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL DE CÓDIGO DE VERIFICACIÓN (OTP) -->
+    <div class="modal-overlay" id="verifyModal">
+        <div class="modal-content" style="text-align: center;">
+            <h2 style="font-family: 'Oswald'; color: var(--accent-neon);">🛡️ VERIFICACIÓN DE CUENTA</h2>
+            <p style="color: #ccc; font-size: 0.85rem; margin-bottom: 20px;">Hemos enviado un código de 6 dígitos a tu correo electrónico. Introdúcelo abajo:</p>
+            
+            <form onsubmit="verificarCodigoOTP(event)">
+                <input type="text" id="otpCodeInput" class="login-input" placeholder="Ej: 489201" maxlength="6" style="text-align: center; font-size: 1.5rem; letter-spacing: 5px;" required>
+                <button type="submit" class="btn-main btn-login-open" style="width: 100%; justify-content: center; padding: 12px;">
+                    Verificar Código
+                </button>
+            </form>
+            <span class="form-link" onclick="cerrarModalVerify()" style="margin-top: 15px; display: inline-block;">Cancelar</span>
+        </div>
+    </div>
+
+    <!-- MODAL DE RECUPERACIÓN DE CONTRASEÑA -->
+    <div class="modal-overlay" id="forgotModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="cerrarRecuperacion()">&times;</button>
+            <h2 style="font-family: 'Oswald'; color: var(--accent-neon); text-align: center; margin-bottom: 5px;">🔄 RECUPERAR CUENTA</h2>
+            <p style="text-align: center; color: #aaa; font-size: 0.85rem; margin-bottom: 20px;">Introduce tu email y te enviaremos instrucciones</p>
+            
+            <form onsubmit="enviarRecuperacion(event)">
+                <input type="email" id="forgotEmailInput" class="login-input" placeholder="Tu correo electrónico" required>
+                <button type="submit" class="btn-main btn-login-open" style="width: 100%; justify-content: center; padding: 12px;">
+                    Enviar Enlace de Recuperación
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL DE PERFIL Y PERSONALIZACIÓN -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="toggleProfileModal()">&times;</button>
+            <h2 style="font-family: 'Oswald'; color: var(--accent-neon); text-align: center; margin-bottom: 5px;">⚙️ MI PERFIL</h2>
+            <p style="text-align: center; color: #aaa; font-size: 0.85rem; margin-bottom: 20px;">Personaliza tu nombre y foto de perfil</p>
+            
+            <form onsubmit="guardarPerfil(event)">
+                <label style="font-size: 0.75rem; color: #aaa; display: block; margin-bottom: 5px;">Nombre de usuario:</label>
+                <input type="text" id="profileNameInput" class="login-input" placeholder="Tu nombre" required>
+                
+                <label style="font-size: 0.75rem; color: #aaa; display: block; margin-bottom: 5px;">URL de tu foto de perfil (Imagen):</label>
+                <input type="url" id="profileAvatarInput" class="login-input" placeholder="https://ejemplo.com/foto.jpg">
+                
+                <button type="submit" class="btn-main btn-login-open" style="width: 100%; justify-content: center; padding: 12px; margin-top: 10px;">
+                    Guardar Cambios
+                </button>
+            </form>
+
+            <button class="btn-main btn-updates" onclick="cerrarSesion()" style="width: 100%; justify-content: center; padding: 12px; margin-top: 15px; background: #e10600;">
+                Cerrar Sesión
+            </button>
+        </div>
+    </div>
+
     <div id="toast">Copiado al portapapeles</div>
 
     <script>
+        // CONFIGURACIÓN DE SUPABASE
+        const SUPABASE_URL = 'https://vzcsgteonmomcfvqkbsx.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_dIqVef-rsoRykz06VPuYwA_cqPG7ezP';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
         let favFilterActive = false;
         let favoritos = JSON.parse(localStorage.getItem('sdj_favoritos')) || [];
+        let isSignUpMode = false;
+        let pendingEmail = '';
 
-        // Sistema de Banner Auxiliar
+        window.addEventListener('DOMContentLoaded', async () => {
+            if (!localStorage.getItem('sdj_cookies_aceptadas')) {
+                document.getElementById('cookie-banner').style.display = 'flex';
+            }
+            renderFavs();
+
+            try {
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                if (session) {
+                    actualizarUIUsuario(session.user);
+                }
+            } catch (err) {
+                console.error("Error al obtener sesión:", err);
+            }
+
+            // Escuchar cambios de autenticación
+            supabaseClient.auth.onAuthStateChange((event, session) => {
+                if (session) {
+                    actualizarUIUsuario(session.user);
+                } else {
+                    actualizarUIUsuario(null);
+                }
+            });
+        });
+
+        function aceptarCookies() {
+            localStorage.setItem('sdj_cookies_aceptadas', 'true');
+            document.getElementById('cookie-banner').style.display = 'none';
+        }
+
+        function rechazarCookies() {
+            localStorage.setItem('sdj_cookies_aceptadas', 'false');
+            document.getElementById('cookie-banner').style.display = 'none';
+        }
+
+        function toggleLoginModal() {
+            const modal = document.getElementById('loginModal');
+            modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        function toggleProfileModal() {
+            const modal = document.getElementById('profileModal');
+            if (modal.style.display === 'flex') {
+                modal.style.display = 'none';
+            } else {
+                modal.style.display = 'flex';
+                cargarDatosPerfilEnModal();
+            }
+        }
+
+        function toggleAuthMode() {
+            isSignUpMode = !isSignUpMode;
+            const btn = document.getElementById('authSubmitBtn');
+            const text = document.getElementById('switchModeText');
+            if (isSignUpMode) {
+                btn.innerText = "Registrarse y Enviar Código";
+                text.innerText = "¿Ya tienes cuenta? Inicia sesión";
+            } else {
+                btn.innerText = "Iniciar Sesión";
+                text.innerText = "¿No tienes cuenta? Regístrate";
+            }
+        }
+
+        async function handleAuthForm(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmailInput').value;
+            const password = document.getElementById('loginPassInput').value;
+
+            if (isSignUpMode) {
+                // Registro (Envía código de verificación OTP por correo)
+                const { data, error } = await supabaseClient.auth.signUp({
+                    email,
+                    password,
+                    options: {
+                        data: { full_name: email.split('@')[0] }
+                    }
+                });
+
+                if (error) {
+                    alert("Error en registro: " + error.message);
+                    return;
+                }
+
+                pendingEmail = email;
+                toggleLoginModal();
+                document.getElementById('verifyModal').style.display = 'flex';
+            } else {
+                // Inicio de sesión normal
+                const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+                if (error) {
+                    alert("Error: " + error.message);
+                    return;
+                }
+                toggleLoginModal();
+                mostrarToastPersonalizado("¡Bienvenido de nuevo!");
+            }
+        }
+
+        async function verificarCodigoOTP(e) {
+            e.preventDefault();
+            const token = document.getElementById('otpCodeInput').value;
+
+            const { data, error } = await supabaseClient.auth.verifyOtp({
+                email: pendingEmail,
+                token: token,
+                type: 'signup'
+            });
+
+            if (error) {
+                alert("Código incorrecto o caducado: " + error.message);
+                return;
+            }
+
+            document.getElementById('verifyModal').style.display = 'none';
+            mostrarToastPersonalizado("¡Cuenta verificada con éxito!");
+        }
+
+async function loginDiscord() {
+    const { data, error } = await supabaseClient.auth.signInWithOAuth({
+        provider: 'discord',
+        options: {
+            redirectTo: 'https://nickytoronja.github.io/marketdrop.hub-en/'
+        }
+    });
+    if (error) {
+        alert("Error al iniciar sesión con Discord: " + error.message);
+    }
+}
+
+        function mostrarRecuperacion() {
+            document.getElementById('loginModal').style.display = 'none';
+            document.getElementById('forgotModal').style.display = 'flex';
+        }
+
+        function cerrarRecuperacion() {
+            document.getElementById('forgotModal').style.display = 'none';
+        }
+
+        async function enviarRecuperacion(e) {
+            e.preventDefault();
+            const email = document.getElementById('forgotEmailInput').value;
+
+            const { data, error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+                redirectTo: window.location.origin,
+            });
+
+            if (error) {
+                alert("Error: " + error.message);
+                return;
+            }
+
+            cerrarRecuperacion();
+            mostrarToastPersonalizado("Correo de recuperación enviado");
+        }
+
+        function cerrarModalVerify() {
+            document.getElementById('verifyModal').style.display = 'none';
+        }
+
+        async function cerrarSesion() {
+            await supabaseClient.auth.signOut();
+            document.getElementById('profileModal').style.display = 'none';
+            actualizarUIUsuario(null);
+            mostrarToastPersonalizado("Sesión cerrada");
+        }
+
+        function cargarDatosPerfilEnModal() {
+            supabaseClient.auth.getUser().then(({ data: { user } }) => {
+                if (user) {
+                    const meta = user.user_metadata || {};
+                    document.getElementById('profileNameInput').value = meta.full_name || user.email.split('@')[0];
+                    document.getElementById('profileAvatarInput').value = meta.avatar_url || '';
+                }
+            });
+        }
+
+        async function guardarPerfil(e) {
+            e.preventDefault();
+            const fullName = document.getElementById('profileNameInput').value;
+            const avatarUrl = document.getElementById('profileAvatarInput').value;
+
+            const { data, error } = await supabaseClient.auth.updateUser({
+                data: {
+                    full_name: fullName,
+                    avatar_url: avatarUrl
+                }
+            });
+
+            if (error) {
+                alert("Error al actualizar perfil: " + error.message);
+                return;
+            }
+
+            toggleProfileModal();
+            actualizarUIUsuario(data.user);
+            mostrarToastPersonalizado("¡Perfil actualizado con éxito!");
+        }
+
+        function actualizarUIUsuario(user) {
+            const container = document.getElementById('headerAuthContainer');
+            if (user) {
+                const meta = user.user_metadata || {};
+                const nombre = meta.full_name || user.email.split('@')[0];
+                const avatar = meta.avatar_url;
+
+                let avatarHtml = `<div class="user-avatar">${nombre.charAt(0).toUpperCase()}</div>`;
+                if (avatar) {
+                    avatarHtml = `<img src="${avatar}" class="user-avatar" alt="Avatar">`;
+                }
+
+                container.innerHTML = `
+                    <div class="user-pill" onclick="toggleProfileModal()">
+                        ${avatarHtml}
+                        <span>${nombre}</span>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <button class="btn-main btn-login-open" onclick="toggleLoginModal()">🔑 Iniciar Sesión</button>
+                `;
+            }
+        }
+
+        function mostrarToastPersonalizado(texto) {
+            const toast = document.getElementById('toast');
+            toast.innerText = texto;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
         function activarBusqueda() {
             const banner = document.getElementById('help-banner');
             banner.style.display = (banner.style.display === 'block') ? 'none' : 'block';
         }
 
-        // Copiar IDs al portapapeles
-        function mostrarToastCopiado(nombre) {
-            const toast = document.getElementById('toast');
-            toast.innerText = `ID de ${nombre} copiado`;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
-        }
-
-        function copyIdFallback(id, nombre) {
-            const textArea = document.createElement('textarea');
-            textArea.value = id;
-            textArea.style.position = 'fixed';
-            textArea.style.left = '-9999px';
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            try {
-                document.execCommand('copy');
-                mostrarToastCopiado(nombre);
-            } catch (err) {
-                alert('No se pudo copiar el ID automáticamente. ID: ' + id);
-            }
-            document.body.removeChild(textArea);
-        }
-
-        function copyId(id, nombre) {
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(id).then(() => {
-                    mostrarToastCopiado(nombre);
-                }).catch(() => {
-                    copyIdFallback(id, nombre);
-                });
-            } else {
-                copyIdFallback(id, nombre);
-            }
-        }
-
-        // Alternar Modales
         function toggleModal() {
             const modal = document.getElementById('updatesModal');
             modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
@@ -411,80 +724,60 @@
             modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
         }
 
-        // Filtrado de Canales en directo (Buscador)
+        function copyId(id, nombre) {
+            navigator.clipboard.writeText(id).then(() => {
+                mostrarToastPersonalizado(`ID de ${nombre} copiado`);
+            }).catch(() => {
+                alert("ID: " + id);
+            });
+        }
+
         function filterChannels() {
             const query = document.getElementById('searchInput').value.toLowerCase();
-            const cards = document.querySelectorAll('.card');
-            
-            cards.forEach(card => {
+            document.querySelectorAll('.card').forEach(card => {
                 const title = card.querySelector('.card-title').innerText.toLowerCase();
                 const tag = card.querySelector('.card-tag').innerText.toLowerCase();
-                
                 let matchesSearch = title.includes(query) || tag.includes(query);
                 let matchesFav = !favFilterActive || favoritos.includes(card.getAttribute('data-id'));
-                
-                if (matchesSearch && matchesFav) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
+                card.style.display = (matchesSearch && matchesFav) ? 'block' : 'none';
             });
             actualizarVisibilidadSecciones();
         }
 
-        // Gestión del Sistema de Favoritos
         function toggleFav(id) {
             const index = favoritos.indexOf(id);
-            if (index > -1) {
-                favoritos.splice(index, 1);
-            } else {
-                favoritos.push(id);
-            }
+            if (index > -1) favoritos.splice(index, 1);
+            else favoritos.push(id);
             localStorage.setItem('sdj_favoritos', JSON.stringify(favoritos));
             renderFavs();
             if (favFilterActive) filterChannels();
         }
 
         function renderFavs() {
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
+            document.querySelectorAll('.card').forEach(card => {
                 const id = card.getAttribute('data-id');
                 const btn = card.querySelector('.fav-btn');
-                if (favoritos.includes(id)) {
-                    btn.classList.add('is-fav');
-                } else {
-                    btn.classList.remove('is-fav');
-                }
+                if (favoritos.includes(id)) btn.classList.add('is-fav');
+                else btn.classList.remove('is-fav');
             });
         }
 
         function toggleFavFilter() {
             favFilterActive = !favFilterActive;
             const btn = document.getElementById('favFilterBtn');
-            if (favFilterActive) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
+            if (favFilterActive) btn.classList.add('active');
+            else btn.classList.remove('active');
             filterChannels();
         }
 
         function actualizarVisibilidadSecciones() {
-            const secciones = document.querySelectorAll('.category-section');
-            secciones.forEach(sec => {
+            document.querySelectorAll('.category-section').forEach(sec => {
                 const cards = sec.querySelectorAll('.card');
                 let tieneVisibles = false;
-                cards.forEach(c => {
-                    if (c.style.display !== 'none') tieneVisibles = true;
-                });
+                cards.forEach(c => { if (c.style.display !== 'none') tieneVisibles = true; });
                 sec.style.display = tieneVisibles ? 'block' : 'none';
             });
         }
-
-        // Carga Inicial
-        window.addEventListener('DOMContentLoaded', () => {
-            renderFavs();
-        });
     </script>
 </body>
 </html>
