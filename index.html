@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SDJ | Stream Center Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Oswald:wght@700&display=swap" rel="stylesheet">
-    
-    <!-- LIBRERÍA DE SUPABASE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
@@ -72,100 +70,6 @@
             background: linear-gradient(135deg, rgba(180, 221, 30, 0.15) 25%, transparent 25%, transparent 50%, rgba(180, 221, 30, 0.15) 50%, rgba(180, 221, 30, 0.15) 75%, transparent 75%, transparent);
             background-size: 40px 40px; border: 2px dashed var(--Ace-search); border-radius: 25px; padding: 20px; text-align: center;
         }
-
-        /* SECCIÓN DE CANALES */
-        .channels-container {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 40px;
-        }
-        .channel-btn {
-            background-color: #2b2d31;
-            color: #dbdee1;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 600;
-            font-family: 'Poppins', sans-serif;
-            transition: 0.2s;
-        }
-        .channel-btn.active {
-            background-color: var(--accent-neon);
-            color: white;
-            box-shadow: 0 0 15px rgba(127, 90, 240, 0.4);
-        }
-
-        /* SECCIÓN DE COMENTARIOS COLAPSIBLE */
-        .comments-section {
-            background-color: var(--card-bg);
-            border-radius: 20px;
-            border: 1px solid #333;
-            padding: 20px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        .comments-header {
-            cursor: pointer;
-            font-weight: 700;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1.1rem;
-            color: var(--accent-neon);
-        }
-        .comments-body {
-            margin-top: 15px;
-            display: block;
-        }
-        .comment-list {
-            max-height: 250px;
-            overflow-y: auto;
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            padding-right: 5px;
-        }
-        .comment-item {
-            background: #121216;
-            padding: 10px 15px;
-            border-radius: 12px;
-            font-size: 0.9rem;
-            border: 1px solid #222;
-        }
-        .comment-item span {
-            font-weight: 700;
-            color: var(--accent-neon);
-            margin-right: 8px;
-        }
-        .comment-input-area {
-            display: flex;
-            gap: 10px;
-        }
-        .comment-input-area input {
-            flex: 1;
-            padding: 12px 18px;
-            border-radius: 30px;
-            border: 1px solid #333;
-            background: #121216;
-            color: white;
-            outline: none;
-            font-family: 'Poppins', sans-serif;
-        }
-        .comment-input-area input:focus { border-color: var(--accent-neon); }
-        .comment-input-area button {
-            background-color: var(--accent-neon);
-            color: white;
-            border: none;
-            padding: 0 20px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 700;
-            transition: 0.2s;
-        }
-        .comment-input-area button:hover { opacity: 0.9; }
 
         .category-section { margin-bottom: 50px; }
         .category-title {
@@ -255,33 +159,6 @@
             </div>
         </div>
 
-        <!-- CANALES PARA COMENTARIOS -->
-        <div class="channels-container">
-            <button class="channel-btn active" onclick="switchChannel('general')"># general</button>
-            <button class="channel-btn" onclick="switchChannel('stream-chat')"># stream-chat</button>
-        </div>
-
-        <!-- SECCIÓN DE COMENTARIOS COLAPSIBLE -->
-        <div class="comments-section">
-            <div class="comments-header" onclick="toggleComments()">
-                <span>💬 Comentarios en vivo (<span id="comment-count">0</span>)</span>
-                <span id="toggle-icon">▲</span>
-            </div>
-            <div class="comments-body" id="comments-body">
-                <div class="comment-list" id="comment-list">
-                    <!-- Los comentarios se cargarán aquí dinámicamente -->
-                </div>
-                <div class="comment-input-area" id="comment-input-container" style="display: none;">
-                    <input type="text" id="comment-input" placeholder="Escribe un comentario..." onkeypress="handleKeyPress(event)">
-                    <button onclick="enviarComentario()">Enviar</button>
-                </div>
-                <div id="login-required-msg" style="font-size: 0.85rem; color: #888; margin-top: 10px; text-align: center;">
-                    Inicia sesión para dejar un comentario en este canal.
-                </div>
-            </div>
-        </div>
-
-        <!-- MOTOR -->
         <div class="category-section" id="sec-motor">
             <div class="category-title cat-motor">🏎️ Deportes de Motor</div>
             <div class="grid">
@@ -309,7 +186,6 @@
             </div>
         </div>
 
-        <!-- FÚTBOL -->
         <div class="category-section" id="sec-futbol">
             <div class="category-title cat-futbol">⚽ Fútbol</div>
             <div class="grid">
@@ -358,7 +234,6 @@
             </div>
         </div>
 
-        <!-- OTROS DEPORTES -->
         <div class="category-section" id="sec-deportes">
             <div class="category-title cat-deportes">🏅 Otros Deportes</div>
             <div class="grid">
@@ -414,7 +289,6 @@
             </div>
         </div>
 
-        <!-- DEPORTES USA -->
         <div class="category-section" id="sec-usa">
             <div class="category-title cat-usa">🏀 Deportes USA</div>
             <div class="grid">
@@ -435,7 +309,6 @@
             </div>
         </div>
 
-        <!-- ENTRETENIMIENTO -->
         <div class="category-section" id="sec-fun">
             <div class="category-title cat-fun">🎭 Entretenimiento</div>
             <div class="grid">
@@ -469,7 +342,6 @@
 
     </div>
 
-    <!-- MODAL DE CAMBIOS -->
     <div class="modal-overlay" id="updatesModal">
         <div class="modal-content">
             <button class="modal-close" onclick="toggleModal()">&times;</button>
@@ -478,12 +350,11 @@
             <ul style="padding-left: 20px; line-height: 1.6;">
                 <li>Sistema de usuarios avanzado con perfil personalizado.</li>
                 <li>Inicio de sesión con Discord y Código de Verificación OTP.</li>
-                <li>Sección de comentarios en vivo por canales integrada con Supabase.</li>
+                <li>Sección de comentarios eliminada por completo.</li>
             </ul>
         </div>
     </div>
 
-    <!-- MODAL DE HDFULL -->
     <div class="modal-overlay" id="hdFullModal">
         <div class="modal-content" style="text-align: center;">
             <button class="modal-close" onclick="toggleHdFullModal()">&times;</button>
@@ -500,7 +371,6 @@
         </div>
     </div>
 
-    <!-- MODAL DE INICIO DE SESIÓN -->
     <div class="modal-overlay" id="loginModal">
         <div class="modal-content">
             <button class="modal-close" onclick="toggleLoginModal()">&times;</button>
@@ -529,7 +399,6 @@
         </div>
     </div>
 
-    <!-- MODAL DE CÓDIGO DE VERIFICACIÓN (OTP) -->
     <div class="modal-overlay" id="verifyModal">
         <div class="modal-content" style="text-align: center;">
             <h2 style="font-family: 'Oswald'; color: var(--accent-neon);">🛡️ VERIFICACIÓN DE CUENTA</h2>
@@ -545,7 +414,6 @@
         </div>
     </div>
 
-    <!-- MODAL DE RECUPERACIÓN DE CONTRASEÑA -->
     <div class="modal-overlay" id="forgotModal">
         <div class="modal-content">
             <button class="modal-close" onclick="cerrarRecuperacion()">&times;</button>
@@ -561,7 +429,6 @@
         </div>
     </div>
 
-    <!-- MODAL DE PERFIL Y PERSONALIZACIÓN -->
     <div class="modal-overlay" id="profileModal">
         <div class="modal-content">
             <button class="modal-close" onclick="toggleProfileModal()">&times;</button>
@@ -589,7 +456,6 @@
     <div id="toast">Copiado al portapapeles</div>
 
     <script>
-        // CONFIGURACIÓN DE SUPABASE CON EL NUEVO PROYECTO
         const SUPABASE_URL = 'https://bdhamewagdxdodtaneib.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_oFcFbu2cbIUmkcSv8rit0w_VRPGzckv';
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -598,8 +464,6 @@
         let favoritos = JSON.parse(localStorage.getItem('sdj_favoritos')) || [];
         let isSignUpMode = false;
         let pendingEmail = '';
-        
-        let currentChannel = 'general';
         let currentUser = null;
 
         window.addEventListener('DOMContentLoaded', async () => {
@@ -618,7 +482,6 @@
                 console.error("Error al obtener sesión:", err);
             }
 
-            // Escuchar cambios de autenticación
             supabaseClient.auth.onAuthStateChange((event, session) => {
                 if (session) {
                     currentUser = session.user;
@@ -628,9 +491,6 @@
                     actualizarUIUsuario(null);
                 }
             });
-
-            // Cargar comentarios iniciales
-            loadComments();
         });
 
         function aceptarCookies() {
@@ -806,8 +666,6 @@
 
         function actualizarUIUsuario(user) {
             const container = document.getElementById('headerAuthContainer');
-            const commentInputContainer = document.getElementById('comment-input-container');
-            const loginMsg = document.getElementById('login-required-msg');
 
             if (user) {
                 const meta = user.user_metadata || {};
@@ -825,120 +683,11 @@
                         <span>${nombre}</span>
                     </div>
                 `;
-                
-                if (commentInputContainer) commentInputContainer.style.display = 'flex';
-                if (loginMsg) loginMsg.style.display = 'none';
             } else {
                 container.innerHTML = `
                     <button class="btn-main btn-login-open" onclick="toggleLoginModal()">🔑 Iniciar Sesión</button>
                 `;
-                
-                if (commentInputContainer) commentInputContainer.style.display = 'none';
-                if (loginMsg) loginMsg.style.display = 'block';
             }
-        }
-
-        // --- SISTEMA DE CANALES Y COMENTARIOS ---
-        function switchChannel(channel) {
-            currentChannel = channel;
-            document.querySelectorAll('.channel-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            loadComments();
-        }
-
-        function toggleComments() {
-            const body = document.getElementById('comments-body');
-            const icon = document.getElementById('toggle-icon');
-            if (body.style.display === 'none') {
-                body.style.display = 'block';
-                icon.textContent = '▲';
-            } else {
-                body.style.display = 'none';
-                icon.textContent = '▼';
-            }
-        }
-
-        async function loadComments() {
-            const commentList = document.getElementById('comment-list');
-            if (!commentList) return;
-            
-            commentList.innerHTML = '<div style="color: #888; text-align: center;">Cargando comentarios...</div>';
-
-            const { data, error } = await supabaseClient
-                .from('comentarios')
-                .select('*')
-                .eq('channel', currentChannel)
-                .order('created_at', { ascending: true });
-
-            if (error) {
-                console.error('Error al cargar comentarios:', error);
-                commentList.innerHTML = '<div style="color: #e10600; text-align: center;">Error al cargar comentarios</div>';
-                return;
-            }
-
-            commentList.innerHTML = '';
-            document.getElementById('comment-count').textContent = data.length;
-
-            if (data.length === 0) {
-                commentList.innerHTML = '<div style="color: #888; text-align: center; font-size: 0.85rem;">No hay comentarios aún en este canal. ¡Sé el primero en escribir!</div>';
-                return;
-            }
-
-            data.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'comment-item';
-                div.innerHTML = `<span>${escapeHtml(item.username)}:</span> ${escapeHtml(item.content)}`;
-                commentList.appendChild(div);
-            });
-
-            commentList.scrollTop = commentList.scrollHeight;
-        }
-
-        async function enviarComentario() {
-            const input = document.getElementById('comment-input');
-            const content = input.value.trim();
-
-            if (!content || !currentUser) return;
-
-            const meta = currentUser.user_metadata || {};
-            const username = meta.full_name || currentUser.email?.split('@')[0] || 'Usuario';
-
-            const { error } = await supabaseClient
-                .from('comentarios')
-                .insert([
-                    { 
-                        content: content, 
-                        username: username, 
-                        channel: currentChannel,
-                        user_id: currentUser.id
-                    }
-                ]);
-
-            if (error) {
-                alert('Error al enviar el comentario: ' + error.message);
-                return;
-            }
-
-            input.value = '';
-            loadComments();
-        }
-
-        function handleKeyPress(e) {
-            if (e.key === 'Enter') {
-                enviarComentario();
-            }
-        }
-
-        function escapeHtml(text) {
-            if (!text) return '';
-            const map = {
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#039;'
-            };
-            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
         }
 
         function mostrarToastPersonalizado(texto) {
