@@ -349,7 +349,7 @@
             <hr style="border-color: #333; margin-bottom: 15px;">
             <ul style="padding-left: 20px; line-height: 1.6;">
                 <li>Sistema de usuarios avanzado con perfil personalizado.</li>
-                <li>Inicio de sesión con Discord y correo electrónico.</li>
+                <li>Inicio de sesión directo con correo y contraseña.</li>
                 <li>Sección de comentarios eliminada por completo.</li>
             </ul>
         </div>
@@ -535,7 +535,7 @@
                 }
 
                 toggleLoginModal();
-                mostrarToastPersonalizado("¡Registro exitoso! Sesión iniciada.");
+                mostrarToastPersonalizado("¡Cuenta creada e iniciada con éxito!");
             } else {
                 const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
                 if (error) {
@@ -551,7 +551,7 @@
             const { data, error } = await supabaseClient.auth.signInWithOAuth({
                 provider: 'discord',
                 options: {
-                    redirectTo: 'https://nickytoronja.github.io/Ace-Player/'
+                    redirectTo: window.location.origin
                 }
             });
             if (error) {
