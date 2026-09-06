@@ -116,7 +116,6 @@
         .login-input:focus { border-color: var(--accent-neon); }
         .form-link { color: var(--accent-neon); font-size: 0.8rem; cursor: pointer; text-decoration: underline; margin-bottom: 15px; display: inline-block; }
 
-        /* Estilos específicos para inputs de código de 6 dígitos */
         .code-input-container { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
         .code-digit { width: 45px; height: 50px; font-size: 1.5rem; text-align: center; background: #121216; border: 1px solid #333; color: white; border-radius: 10px; outline: none; }
         .code-digit:focus { border-color: var(--accent-neon); box-shadow: 0 0 10px rgba(127, 90, 240, 0.4); }
@@ -124,7 +123,6 @@
         #toast { visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: white; color: black; padding: 12px 30px; border-radius: 50px; font-weight: 800; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
         #toast.show { visibility: visible; }
 
-        /* Estilos del Chat Flotante Desplegable */
         .chat-toggle-btn {
             position: fixed; bottom: 25px; right: 25px; background: var(--accent-neon);
             color: white; border: none; border-radius: 50px; padding: 12px 22px;
@@ -175,6 +173,18 @@
             background: var(--card-bg); color: white; font-size: 0.85rem; outline: none; transition: 0.3s;
         }
         .chat-input:focus { border-color: var(--accent-neon); }
+
+        .version-watermark {
+            position: fixed;
+            bottom: 10px;
+            left: 15px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.75rem;
+            font-family: 'Poppins', sans-serif;
+            z-index: 99;
+            pointer-events: none;
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
@@ -399,6 +409,7 @@
 
     </div>
 
+    <!-- BOTÓN FLOTANTE Y CHAT DESPLEGABLE -->
     <button class="chat-toggle-btn" onclick="toggleChatDropdown()">
         💬 Chat en Directo
     </button>
@@ -409,7 +420,8 @@
             <button class="chat-close-btn" onclick="toggleChatDropdown()">&times;</button>
         </div>
         <div class="chat-messages" id="chatMessagesBox">
-            </div>
+            <!-- Mensajes dinámicos -->
+        </div>
         <form class="chat-input-box" id="chatForm" onsubmit="enviarMensajeChat(event)">
             <input type="text" id="chatInputText" class="chat-input" placeholder="Inicia sesión para hablar..." disabled required>
             <button type="submit" id="chatSendBtn" class="btn-main btn-login-open" style="padding: 8px 15px; font-size: 0.7rem;" disabled>Enviar</button>
@@ -445,6 +457,7 @@
         </div>
     </div>
 
+    <!-- MODAL DE LOGIN / REGISTRO -->
     <div class="modal-overlay" id="loginModal">
         <div class="modal-content">
             <button class="modal-close" onclick="toggleLoginModal()">&times;</button>
@@ -470,6 +483,7 @@
                 </form>
             </div>
 
+            <!-- SECCIÓN DE VERIFICACIÓN DE CÓDIGO DE 6 DÍGITOS -->
             <div id="authOtpSection" style="display: none;">
                 <p style="text-align: center; color: #ccc; font-size: 0.85rem; margin-bottom: 15px;">Introduce el código de 6 dígitos enviado a <b id="otpEmailTarget" style="color: var(--accent-neon)"></b></p>
                 
@@ -491,6 +505,7 @@
         </div>
     </div>
 
+    <!-- MODAL DE RECUPERACIÓN CON CÓDIGO -->
     <div class="modal-overlay" id="forgotModal">
         <div class="modal-content">
             <button class="modal-close" onclick="cerrarRecuperacion()">&times;</button>
@@ -550,6 +565,9 @@
     </div>
 
     <div id="toast">Copiado al portapapeles</div>
+
+    <!-- Marca de agua de la versión -->
+    <div class="version-watermark">v26.9.6</div>
 
     <script>
         const SUPABASE_URL = 'https://bdhamewagdxdodtaneib.supabase.co';
@@ -639,7 +657,6 @@
             }
         }
 
-        // Lógica de salto automático entre inputs de PIN de 6 dígitos (Login)
         function moveToNext(element, index) {
             if (element.value.length >= 1) {
                 const inputs = document.querySelectorAll('#authOtpSection .code-digit');
@@ -663,31 +680,16 @@
             tempEmail = document.getElementById('loginEmailInput').value;
             tempPassword = document.getElementById('loginPasswordInput').value;
 
-            if (isSignUpMode) {
-                // Registro inicial con contraseña y solicitud de OTP
-                const { error } = await supabaseClient.auth.signUp({
-                    email: tempEmail,
-                    password: tempPassword,
-                    options: {
-                        data: { full_name: tempEmail.split('@')[0] }
-                    }
-                });
-                if (error) {
-                    alert("Error en el registro: " + error.message);
-                    return;
+            const { error } = await supabaseClient.auth.signInWithOtp({
+                email: tempEmail,
+                options: {
+                    shouldCreateUser: true
                 }
-            } else {
-                // Inicio de sesión: solicitamos OTP por correo combinando credenciales
-                const { error } = await supabaseClient.auth.signInWithOtp({
-                    email: tempEmail,
-                    options: {
-                        shouldCreateUser: false
-                    }
-                });
-                if (error) {
-                    alert("Error al enviar código: " + error.message);
-                    return;
-                }
+            });
+
+            if (error) {
+                alert("Error al enviar código: " + error.message);
+                return;
             }
 
             document.getElementById('authEmailSection').style.display = 'none';
@@ -710,7 +712,7 @@
             const { data, error } = await supabaseClient.auth.verifyOtp({
                 email: tempEmail,
                 token: token,
-                type: isSignUpMode ? 'signup' : 'email'
+                type: 'email'
             });
 
             if (error) {
@@ -718,8 +720,7 @@
                 return;
             }
 
-            // Si es login y se requiere asegurar la contraseña ingresada de manera local o actualizarla
-            if (!isSignUpMode && tempPassword) {
+            if (tempPassword) {
                 await supabaseClient.auth.updateUser({ password: tempPassword });
             }
 
@@ -953,8 +954,6 @@
                 sec.style.display = tieneVisibles ? 'block' : 'none';
             });
         }
-
-        // --- LÓGICA DEL CHAT DESPLEGABLE (12h y máx 45 mensajes) ---
 
         function toggleChatDropdown() {
             const dropdown = document.getElementById('chatDropdown');
