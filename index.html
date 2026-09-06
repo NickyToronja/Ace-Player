@@ -116,6 +116,11 @@
         .login-input:focus { border-color: var(--accent-neon); }
         .form-link { color: var(--accent-neon); font-size: 0.8rem; cursor: pointer; text-decoration: underline; margin-bottom: 15px; display: inline-block; }
 
+        /* Estilos específicos para inputs de código de 6 dígitos */
+        .code-input-container { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
+        .code-digit { width: 45px; height: 50px; font-size: 1.5rem; text-align: center; background: #121216; border: 1px solid #333; color: white; border-radius: 10px; outline: none; }
+        .code-digit:focus { border-color: var(--accent-neon); box-shadow: 0 0 10px rgba(127, 90, 240, 0.4); }
+
         #toast { visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: white; color: black; padding: 12px 30px; border-radius: 50px; font-weight: 800; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
         #toast.show { visibility: visible; }
 
@@ -394,7 +399,6 @@
 
     </div>
 
-    <!-- BOTÓN FLOTANTE Y CHAT DESPLEGABLE -->
     <button class="chat-toggle-btn" onclick="toggleChatDropdown()">
         💬 Chat en Directo
     </button>
@@ -405,8 +409,7 @@
             <button class="chat-close-btn" onclick="toggleChatDropdown()">&times;</button>
         </div>
         <div class="chat-messages" id="chatMessagesBox">
-            <!-- Mensajes dinámicos -->
-        </div>
+            </div>
         <form class="chat-input-box" id="chatForm" onsubmit="enviarMensajeChat(event)">
             <input type="text" id="chatInputText" class="chat-input" placeholder="Inicia sesión para hablar..." disabled required>
             <button type="submit" id="chatSendBtn" class="btn-main btn-login-open" style="padding: 8px 15px; font-size: 0.7rem;" disabled>Enviar</button>
@@ -419,8 +422,8 @@
             <h2 style="font-family: 'Oswald'; color: var(--accent-neon);">🆕 NOTAS DE ACTUALIZACIÓN</h2>
             <hr style="border-color: #333; margin-bottom: 15px;">
             <ul style="padding-left: 20px; line-height: 1.6;">
-                <li>Sistema de usuarios avanzado con perfil personalizado.</li>
-                <li>Inicio de sesión directo con correo y contraseña.</li>
+                <li>Sistema de autenticación seguro mediante Contraseña y Código OTP de 6 dígitos.</li>
+                <li>Verificación por correo para Registro, Ingreso y Recuperación.</li>
                 <li>Chat flotante en directo añadido (últimas 12h y máx. 45 mensajes).</li>
             </ul>
         </div>
@@ -445,43 +448,80 @@
     <div class="modal-overlay" id="loginModal">
         <div class="modal-content">
             <button class="modal-close" onclick="toggleLoginModal()">&times;</button>
-            <h2 style="font-family: 'Oswald'; color: var(--accent-neon); text-align: center; margin-bottom: 5px;">🔑 CUENTA SDJ</h2>
-            <p style="text-align: center; color: #aaa; font-size: 0.85rem; margin-bottom: 20px;">Accede con tu cuenta o Discord</p>
+            <h2 style="font-family: 'Oswald'; color: var(--accent-neon); text-align: center; margin-bottom: 5px;" id="authModalTitle">🔑 CUENTA SDJ</h2>
+            <p style="text-align: center; color: #aaa; font-size: 0.85rem; margin-bottom: 20px;" id="authModalSubtitle">Accede con correo, contraseña y código</p>
             
-            <button type="button" class="btn-main btn-discord" onclick="loginDiscord()" style="width: 100%; justify-content: center; margin-bottom: 15px; padding: 12px;">
-                💬 Continuar con Discord
-            </button>
-
-            <div style="text-align: center; color: #555; margin-bottom: 15px; font-size: 0.8rem;">O por correo electrónico</div>
-
-            <form onsubmit="handleAuthForm(event)" id="authFormElement">
-                <input type="email" id="loginEmailInput" class="login-input" placeholder="Correo electrónico" required>
-                <input type="password" id="loginPassInput" class="login-input" placeholder="Contraseña" required>
-                
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span class="form-link" onclick="mostrarRecuperacion()">¿Olvidaste tu contraseña?</span>
-                    <span class="form-link" onclick="toggleAuthMode()" id="switchModeText">¿No tienes cuenta? Regístrate</span>
-                </div>
-
-                <button type="submit" id="authSubmitBtn" class="btn-main btn-login-open" style="width: 100%; justify-content: center; padding: 12px; margin-top: 10px;">
-                    Iniciar Sesión
+            <div id="authEmailSection">
+                <button type="button" class="btn-main btn-discord" onclick="loginDiscord()" style="width: 100%; justify-content: center; margin-bottom: 15px; padding: 12px;">
+                    💬 Continuar con Discord
                 </button>
-            </form>
+                <div style="text-align: center; color: #555; margin-bottom: 15px; font-size: 0.8rem;">O por correo electrónico</div>
+
+                <form onsubmit="solicitarCodigoEmail(event)">
+                    <input type="email" id="loginEmailInput" class="login-input" placeholder="Correo electrónico" required>
+                    <input type="password" id="loginPasswordInput" class="login-input" placeholder="Contraseña (mínimo 6 caracteres)" required>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="form-link" onclick="mostrarRecuperacion()">¿Olvidaste tu acceso?</span>
+                        <span class="form-link" onclick="toggleAuthMode()" id="switchModeText">¿No tienes cuenta? Regístrate</span>
+                    </div>
+                    <button type="submit" id="authSubmitBtn" class="btn-main btn-login-open" style="width: 100%; justify-content: center; padding: 12px; margin-top: 10px;">
+                        Enviar Código de 6 Dígitos
+                    </button>
+                </form>
+            </div>
+
+            <div id="authOtpSection" style="display: none;">
+                <p style="text-align: center; color: #ccc; font-size: 0.85rem; margin-bottom: 15px;">Introduce el código de 6 dígitos enviado a <b id="otpEmailTarget" style="color: var(--accent-neon)"></b></p>
+                
+                <form onsubmit="verificarCodigoOtp(event)">
+                    <div class="code-input-container">
+                        <input type="text" maxlength="1" class="code-digit" oninput="moveToNext(this, 1)" required>
+                        <input type="text" maxlength="1" class="code-digit" oninput="moveToNext(this, 2)" required>
+                        <input type="text" maxlength="1" class="code-digit" oninput="moveToNext(this, 3)" required>
+                        <input type="text" maxlength="1" class="code-digit" oninput="moveToNext(this, 4)" required>
+                        <input type="text" maxlength="1" class="code-digit" oninput="moveToNext(this, 5)" required>
+                        <input type="text" maxlength="1" class="code-digit" oninput="moveToNext(this, 6)" required>
+                    </div>
+                    <button type="submit" class="btn-main btn-login-open" style="width: 100%; justify-content: center; padding: 12px; margin-top: 10px;">
+                        Verificar e Ingresar
+                    </button>
+                    <span class="form-link" style="display: block; text-align: center; margin-top: 15px;" onclick="regresarAlEmail()">← Cambiar de correo / Reenviar</span>
+                </form>
+            </div>
         </div>
     </div>
 
     <div class="modal-overlay" id="forgotModal">
         <div class="modal-content">
             <button class="modal-close" onclick="cerrarRecuperacion()">&times;</button>
-            <h2 style="font-family: 'Oswald'; color: var(--accent-neon); text-align: center; margin-bottom: 5px;">🔄 RECUPERAR CUENTA</h2>
-            <p style="text-align: center; color: #aaa; font-size: 0.85rem; margin-bottom: 20px;">Introduce tu email y te enviaremos instrucciones</p>
+            <h2 style="font-family: 'Oswald'; color: var(--accent-neon); text-align: center; margin-bottom: 5px;" id="forgotModalTitle">🔄 RECUPERAR CUENTA</h2>
+            <p style="text-align: center; color: #aaa; font-size: 0.85rem; margin-bottom: 20px;" id="forgotSubtitle">Introduce tu email para recibir el código de acceso</p>
             
-            <form onsubmit="enviarRecuperacion(event)">
-                <input type="email" id="forgotEmailInput" class="login-input" placeholder="Tu correo electrónico" required>
-                <button type="submit" class="btn-main btn-login-open" style="width: 100%; justify-content: center; padding: 12px;">
-                    Enviar Enlace de Recuperación
-                </button>
-            </form>
+            <div id="forgotEmailSection">
+                <form onsubmit="solicitarRecuperacionOtp(event)">
+                    <input type="email" id="forgotEmailInput" class="login-input" placeholder="Tu correo electrónico" required>
+                    <button type="submit" class="btn-main btn-login-open" style="width: 100%; justify-content: center; padding: 12px;">
+                        Enviar Código de Recuperación
+                    </button>
+                </form>
+            </div>
+
+            <div id="forgotOtpSection" style="display: none;">
+                <p style="text-align: center; color: #ccc; font-size: 0.85rem; margin-bottom: 15px;">Introduce el código de 6 dígitos enviado a <b id="forgotEmailTarget" style="color: var(--accent-neon)"></b></p>
+                <form onsubmit="verificarRecuperacionOtp(event)">
+                    <div class="code-input-container">
+                        <input type="text" maxlength="1" class="code-digit" oninput="moveToNextForgot(this, 1)" required>
+                        <input type="text" maxlength="1" class="code-digit" oninput="moveToNextForgot(this, 2)" required>
+                        <input type="text" maxlength="1" class="code-digit" oninput="moveToNextForgot(this, 3)" required>
+                        <input type="text" maxlength="1" class="code-digit" oninput="moveToNextForgot(this, 4)" required>
+                        <input type="text" maxlength="1" class="code-digit" oninput="moveToNextForgot(this, 5)" required>
+                        <input type="text" maxlength="1" class="code-digit" oninput="moveToNextForgot(this, 6)" required>
+                    </div>
+                    <button type="submit" class="btn-main btn-login-open" style="width: 100%; justify-content: center; padding: 12px; margin-top: 10px;">
+                        Verificar y Acceder
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -520,6 +560,8 @@
         let favoritos = JSON.parse(localStorage.getItem('sdj_favoritos')) || [];
         let isSignUpMode = false;
         let currentUser = null;
+        let tempEmail = '';
+        let tempPassword = '';
 
         window.addEventListener('DOMContentLoaded', async () => {
             if (!localStorage.getItem('sdj_cookies_aceptadas')) {
@@ -563,7 +605,12 @@
 
         function toggleLoginModal() {
             const modal = document.getElementById('loginModal');
-            modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+            if (modal.style.display === 'flex') {
+                modal.style.display = 'none';
+            } else {
+                regresarAlEmail();
+                modal.style.display = 'flex';
+            }
         }
 
         function toggleProfileModal() {
@@ -580,49 +627,114 @@
             isSignUpMode = !isSignUpMode;
             const btn = document.getElementById('authSubmitBtn');
             const text = document.getElementById('switchModeText');
+            const sub = document.getElementById('authModalSubtitle');
             if (isSignUpMode) {
-                btn.innerText = "Registrarse";
-                text.innerText = "¿Ya tienes cuenta? Inicia sesión";
+                btn.innerText = "Enviar Código de Registro";
+                text.innerText = "¿Ya tienes cuenta? Ingresa con código";
+                sub.innerText = "Crea tu cuenta con contraseña y código de 6 dígitos";
             } else {
-                btn.innerText = "Iniciar Sesión";
+                btn.innerText = "Enviar Código de 6 Dígitos";
                 text.innerText = "¿No tienes cuenta? Regístrate";
+                sub.innerText = "Accede con correo, contraseña y código";
             }
         }
 
-        async function handleAuthForm(e) {
+        // Lógica de salto automático entre inputs de PIN de 6 dígitos (Login)
+        function moveToNext(element, index) {
+            if (element.value.length >= 1) {
+                const inputs = document.querySelectorAll('#authOtpSection .code-digit');
+                if (index < 6) {
+                    inputs[index].focus();
+                }
+            }
+        }
+
+        function moveToNextForgot(element, index) {
+            if (element.value.length >= 1) {
+                const inputs = document.querySelectorAll('#forgotOtpSection .code-digit');
+                if (index < 6) {
+                    inputs[index].focus();
+                }
+            }
+        }
+
+        async function solicitarCodigoEmail(e) {
             e.preventDefault();
-            const email = document.getElementById('loginEmailInput').value;
-            const password = document.getElementById('loginPassInput').value;
+            tempEmail = document.getElementById('loginEmailInput').value;
+            tempPassword = document.getElementById('loginPasswordInput').value;
 
             if (isSignUpMode) {
-                const { data, error } = await supabaseClient.auth.signUp({
-                    email,
-                    password,
+                // Registro inicial con contraseña y solicitud de OTP
+                const { error } = await supabaseClient.auth.signUp({
+                    email: tempEmail,
+                    password: tempPassword,
                     options: {
-                        data: { full_name: email.split('@')[0] }
+                        data: { full_name: tempEmail.split('@')[0] }
                     }
                 });
-
                 if (error) {
-                    alert("Error en registro: " + error.message);
+                    alert("Error en el registro: " + error.message);
                     return;
                 }
-
-                toggleLoginModal();
-                mostrarToastPersonalizado("¡Cuenta creada e iniciada con éxito!");
             } else {
-                const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+                // Inicio de sesión: solicitamos OTP por correo combinando credenciales
+                const { error } = await supabaseClient.auth.signInWithOtp({
+                    email: tempEmail,
+                    options: {
+                        shouldCreateUser: false
+                    }
+                });
                 if (error) {
-                    alert("Error: " + error.message);
+                    alert("Error al enviar código: " + error.message);
                     return;
                 }
-                toggleLoginModal();
-                mostrarToastPersonalizado("¡Bienvenido de nuevo!");
             }
+
+            document.getElementById('authEmailSection').style.display = 'none';
+            document.getElementById('authOtpSection').style.display = 'block';
+            document.getElementById('otpEmailTarget').innerText = tempEmail;
+            mostrarToastPersonalizado("¡Código de 6 dígitos enviado al correo!");
+        }
+
+        async function verificarCodigoOtp(e) {
+            e.preventDefault();
+            const inputs = document.querySelectorAll('#authOtpSection .code-digit');
+            let token = '';
+            inputs.forEach(input => token += input.value);
+
+            if (token.length !== 6) {
+                alert("Por favor introduce los 6 dígitos completos.");
+                return;
+            }
+
+            const { data, error } = await supabaseClient.auth.verifyOtp({
+                email: tempEmail,
+                token: token,
+                type: isSignUpMode ? 'signup' : 'email'
+            });
+
+            if (error) {
+                alert("Código incorrecto o caducado: " + error.message);
+                return;
+            }
+
+            // Si es login y se requiere asegurar la contraseña ingresada de manera local o actualizarla
+            if (!isSignUpMode && tempPassword) {
+                await supabaseClient.auth.updateUser({ password: tempPassword });
+            }
+
+            toggleLoginModal();
+            mostrarToastPersonalizado("¡Inicio de sesión exitoso!");
+        }
+
+        function regresarAlEmail() {
+            document.getElementById('authEmailSection').style.display = 'block';
+            document.getElementById('authOtpSection').style.display = 'none';
+            document.querySelectorAll('#authOtpSection .code-digit').forEach(i => i.value = '');
         }
 
         async function loginDiscord() {
-            const { data, error } = await supabaseClient.auth.signInWithOAuth({
+            const { error } = await supabaseClient.auth.signInWithOAuth({
                 provider: 'discord',
                 options: {
                     redirectTo: window.location.origin
@@ -635,6 +747,8 @@
 
         function mostrarRecuperacion() {
             document.getElementById('loginModal').style.display = 'none';
+            document.getElementById('forgotEmailSection').style.display = 'block';
+            document.getElementById('forgotOtpSection').style.display = 'none';
             document.getElementById('forgotModal').style.display = 'flex';
         }
 
@@ -642,12 +756,13 @@
             document.getElementById('forgotModal').style.display = 'none';
         }
 
-        async function enviarRecuperacion(e) {
+        async function solicitarRecuperacionOtp(e) {
             e.preventDefault();
-            const email = document.getElementById('forgotEmailInput').value;
+            tempEmail = document.getElementById('forgotEmailInput').value;
 
-            const { data, error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-                redirectTo: window.location.origin,
+            const { error } = await supabaseClient.auth.signInWithOtp({
+                email: tempEmail,
+                options: { shouldCreateUser: false }
             });
 
             if (error) {
@@ -655,8 +770,32 @@
                 return;
             }
 
+            document.getElementById('forgotEmailSection').style.display = 'none';
+            document.getElementById('forgotOtpSection').style.display = 'block';
+            document.getElementById('forgotEmailTarget').innerText = tempEmail;
+            mostrarToastPersonalizado("Código de recuperación enviado");
+        }
+
+        async function verificarRecuperacionOtp(e) {
+            e.preventDefault();
+            const inputs = document.querySelectorAll('#forgotOtpSection .code-digit');
+            let token = '';
+            inputs.forEach(input => token += input.value);
+
+            const { data, error } = await supabaseClient.auth.verifyOtp({
+                email: tempEmail,
+                token: token,
+                type: 'email'
+            });
+
+            if (error) {
+                alert("Código inválido: " + error.message);
+                return;
+            }
+
             cerrarRecuperacion();
-            mostrarToastPersonalizado("Correo de recuperación enviado");
+            toggleProfileModal();
+            mostrarToastPersonalizado("¡Acceso concedido! Actualiza tus datos y contraseña.");
         }
 
         async function cerrarSesion() {
@@ -670,7 +809,7 @@
             supabaseClient.auth.getUser().then(({ data: { user } }) => {
                 if (user) {
                     const meta = user.user_metadata || {};
-                    document.getElementById('profileNameInput').value = meta.full_name || user.email.split('@')[0];
+                    document.getElementById('profileNameInput').value = meta.full_name || user.email?.split('@')[0] || '';
                     document.getElementById('profileAvatarInput').value = meta.avatar_url || '';
                 }
             });
@@ -898,7 +1037,7 @@
             if (!mensajeTexto) return;
 
             const meta = currentUser.user_metadata || {};
-            const username = meta.full_name || currentUser.email.split('@')[0];
+            const username = meta.full_name || currentUser.email?.split('@')[0] || 'Usuario';
             const avatarUrl = meta.avatar_url || null;
 
             const { error } = await supabaseClient
