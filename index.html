@@ -158,6 +158,10 @@
         .chat-msg-content { background: #121216; padding: 8px 12px; border-radius: 12px; max-width: 78%; border: 1px solid #222; }
         .chat-msg-info { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 3px; }
         .chat-msg-user { font-weight: 700; color: var(--accent-neon); }
+        .chat-msg-user.gold-user {
+            color: var(--fav-gold) !important;
+            text-shadow: 0 0 8px rgba(241, 196, 15, 0.4);
+        }
         .chat-msg-time { font-size: 0.65rem; color: #777; }
         .chat-msg-text { color: #ddd; word-break: break-word; line-height: 1.35; }
         
@@ -430,7 +434,8 @@
             <h2 style="font-family: 'Oswald'; color: var(--accent-neon);">🆕 NOTAS DE ACTUALIZACIÓN</h2>
             <hr style="border-color: #333; margin-bottom: 15px;">
             <ul style="padding-left: 20px; line-height: 1.6;">
-                <li>Sistema de autenticación seguro mediante Correo y Contraseña.</li>
+                <li>Autenticación por contraseña e inicio directo sin códigos OTP.</li>
+                <li>Nombres de usuario únicos y estilo exclusivo dorado para nickytoronja.</li>
                 <li>Chat flotante en directo añadido (últimas 12h y máx. 45 mensajes).</li>
             </ul>
         </div>
@@ -701,8 +706,24 @@
 
         async function guardarPerfil(e) {
             e.preventDefault();
-            const fullName = document.getElementById('profileNameInput').value;
+            const fullName = document.getElementById('profileNameInput').value.trim();
             const avatarUrl = document.getElementById('profileAvatarInput').value;
+
+            // Evitar nombres repetidos comprobando los registros anteriores en el chat
+            const { data: usuariosExistentes, error: errorCheck } = await supabaseClient
+                .from('chat_messages')
+                .select('user_id, username');
+
+            if (!errorCheck && usuariosExistentes) {
+                const nombreOcupado = usuariosExistentes.some(row => 
+                    row.username.toLowerCase() === fullName.toLowerCase() && row.user_id !== currentUser.id
+                );
+
+                if (nombreOcupado) {
+                    alert("Este nombre de usuario ya está en uso. Por favor, elige otro.");
+                    return;
+                }
+            }
 
             const { data, error } = await supabaseClient.auth.updateUser({
                 data: {
@@ -895,13 +916,16 @@
                 avatarHtml = `<img src="${msg.avatar_url}" class="chat-msg-avatar" alt="Avatar">`;
             }
 
+            const esDorado = msg.username.toLowerCase() === 'nickytoronja';
+            const claseUser = esDorado ? 'chat-msg-user gold-user' : 'chat-msg-user';
+
             const div = document.createElement('div');
             div.className = 'chat-msg-item';
             div.innerHTML = `
                 ${avatarHtml}
                 <div class="chat-msg-content">
                     <div class="chat-msg-info">
-                        <span class="chat-msg-user">${escapeHtml(msg.username)}</span>
+                        <span class="${claseUser}">${escapeHtml(msg.username)}</span>
                         <span class="chat-msg-time">${horaFormateada}</span>
                     </div>
                     <div class="chat-msg-text">${escapeHtml(msg.message)}</div>
