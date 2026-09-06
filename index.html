@@ -349,7 +349,7 @@
             <hr style="border-color: #333; margin-bottom: 15px;">
             <ul style="padding-left: 20px; line-height: 1.6;">
                 <li>Sistema de usuarios avanzado con perfil personalizado.</li>
-                <li>Inicio de sesión con Discord y Código de Verificación OTP.</li>
+                <li>Inicio de sesión con Discord y correo electrónico.</li>
                 <li>Sección de comentarios eliminada por completo.</li>
             </ul>
         </div>
@@ -396,21 +396,6 @@
                     Iniciar Sesión
                 </button>
             </form>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="verifyModal">
-        <div class="modal-content" style="text-align: center;">
-            <h2 style="font-family: 'Oswald'; color: var(--accent-neon);">🛡️ VERIFICACIÓN DE CUENTA</h2>
-            <p style="color: #ccc; font-size: 0.85rem; margin-bottom: 20px;">Hemos enviado un código de 6 dígitos a tu correo electrónico. Introdúcelo abajo:</p>
-            
-            <form onsubmit="verificarCodigoOTP(event)">
-                <input type="text" id="otpCodeInput" class="login-input" placeholder="Ej: 489201" maxlength="6" style="text-align: center; font-size: 1.5rem; letter-spacing: 5px;" required>
-                <button type="submit" class="btn-main btn-login-open" style="width: 100%; justify-content: center; padding: 12px;">
-                    Verificar Código
-                </button>
-            </form>
-            <span class="form-link" onclick="cerrarModalVerify()" style="margin-top: 15px; display: inline-block;">Cancelar</span>
         </div>
     </div>
 
@@ -463,7 +448,6 @@
         let favFilterActive = false;
         let favoritos = JSON.parse(localStorage.getItem('sdj_favoritos')) || [];
         let isSignUpMode = false;
-        let pendingEmail = '';
         let currentUser = null;
 
         window.addEventListener('DOMContentLoaded', async () => {
@@ -523,7 +507,7 @@
             const btn = document.getElementById('authSubmitBtn');
             const text = document.getElementById('switchModeText');
             if (isSignUpMode) {
-                btn.innerText = "Registrarse y Enviar Código";
+                btn.innerText = "Registrarse";
                 text.innerText = "¿Ya tienes cuenta? Inicia sesión";
             } else {
                 btn.innerText = "Iniciar Sesión";
@@ -550,9 +534,8 @@
                     return;
                 }
 
-                pendingEmail = email;
                 toggleLoginModal();
-                document.getElementById('verifyModal').style.display = 'flex';
+                mostrarToastPersonalizado("¡Registro exitoso! Sesión iniciada.");
             } else {
                 const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
                 if (error) {
@@ -562,25 +545,6 @@
                 toggleLoginModal();
                 mostrarToastPersonalizado("¡Bienvenido de nuevo!");
             }
-        }
-
-        async function verificarCodigoOTP(e) {
-            e.preventDefault();
-            const token = document.getElementById('otpCodeInput').value;
-
-            const { data, error } = await supabaseClient.auth.verifyOtp({
-                email: pendingEmail,
-                token: token,
-                type: 'signup'
-            });
-
-            if (error) {
-                alert("Código incorrecto o caducado: " + error.message);
-                return;
-            }
-
-            document.getElementById('verifyModal').style.display = 'none';
-            mostrarToastPersonalizado("¡Cuenta verificada con éxito!");
         }
 
         async function loginDiscord() {
@@ -619,10 +583,6 @@
 
             cerrarRecuperacion();
             mostrarToastPersonalizado("Correo de recuperación enviado");
-        }
-
-        function cerrarModalVerify() {
-            document.getElementById('verifyModal').style.display = 'none';
         }
 
         async function cerrarSesion() {
